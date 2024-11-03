@@ -1,10 +1,10 @@
 from kivy.app import App
 
-from gui import ChessBoard
+from gui import interface
 
 class Chess(App):
     def build(self):
-        return ChessBoard()
+        return interface
     
 
 if __name__ == '__main__':

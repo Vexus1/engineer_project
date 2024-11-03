@@ -1,0 +1,2 @@
+class interface:
+    pass
