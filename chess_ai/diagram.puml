@@ -1,0 +1,52 @@
+@startuml
+
+class GUI {
+    +display_board(): void
+    +update_move(move: Move): void
+    +get_user_input(): Move
+}
+
+class GameController {
+    +start_game(): void
+    +process_move(move: Move): boolean
+    +switch_player(): void
+}
+
+class Board {
+    +initialize(): void
+    +validate_move(move: Move): boolean
+    +apply_move(move: Move): void
+    +is_checkmate(): boolean
+    +is_stalemate(): boolean
+}
+
+class AI {
+    +calculate_best_move(board: Board): Move
+    +evaluate_position(board: Board): int
+}
+
+class Player {
+    +make_move(board: Board): Move
+    +is_human: boolean
+}
+
+class Move {
+    +from: String
+    +to: String
+    +piece: String
+}
+
+class Main {
+    +main(): void
+}
+
+GUI --> GameController : interacts with
+GameController --> Board : updates and checks
+GameController --> AI : requests move calculation
+GameController --> Player : coordinates input
+Player --> Board : makes moves on
+AI --> Board : reads state from
+Board --> Move : applies
+Main --> GUI : creates instance
+
+@enduml
