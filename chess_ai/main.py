@@ -8,18 +8,17 @@ from constants import SCREEN_SIZE
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+os.environ['SDL_VIDEO_CENTERED'] = '1'  # Centre display window.
+
 def main() -> None:
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
     pygame.display.set_caption('Chess')
-    interface = Interface(screen)
+    interface = Interface(screen, None)
     clock = pygame.time.Clock()
     while True:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-        interface.render()
+        interface.handle_events()  
+        interface.render()  
         pygame.display.flip()
         clock.tick(60)
 

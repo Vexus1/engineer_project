@@ -14,7 +14,7 @@ class Board:
     screen: Surface
 
     def __post_init__(self):
-        self.board = chess.Board()
+        self.chess_board = chess.Board()
         self.pieces = Pieces(None, None)
         self.pieces_images = self.pieces.load_piece_images()
         self.pieces_images = self.pieces.scale_piece_images(self.pieces_images)
@@ -33,7 +33,7 @@ class Board:
     def initial_positions(self) -> None:
         '''Creates the initial position of pieces on the board.'''
         for i in range(64):
-            piece = self.board.piece_at(i)
+            piece = self.chess_board.piece_at(i)
             if piece:
                 piece_symbol = piece.symbol()
                 image = self.pieces_images[piece_symbol]
