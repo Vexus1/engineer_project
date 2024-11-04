@@ -6,6 +6,8 @@ import pygame
 from pygame import Surface
 from icecream import ic
 
+from constants import TILE_SIZE
+
 IMAGES_DIR = 'gui/images'
 
 @dataclass
@@ -16,27 +18,30 @@ class Pieces:
     def __post_init__(self):
         pass
 
-    def load_pieces(self) -> list[tuple[Surface, Surface]]:
-        white_pawn = pygame.image.load(source=f'{IMAGES_DIR}/white_pawn.png')
-        white_bishop = pygame.image.load(source=f'{IMAGES_DIR}/white_bishop.png')
-        white_knight = pygame.image.load(source=f'{IMAGES_DIR}/white_knight.png')
-        white_rook = pygame.image.load(source=f'{IMAGES_DIR}/white_rook.png')
-        white_queen = pygame.image.load(source=f'{IMAGES_DIR}/white_queen.png')
-        white_king = pygame.image.load(source=f'{IMAGES_DIR}/white_king.png')
-        black_pawn = pygame.image.load(source=f'{IMAGES_DIR}/black_pawn.png')
-        black_bishop = pygame.image.load(source=f'{IMAGES_DIR}/black_bishop.png')
-        black_knight = pygame.image.load(source=f'{IMAGES_DIR}/black_knight.png')
-        black_rook = pygame.image.load(source=f'{IMAGES_DIR}/black_rook.png')
-        black_queen = pygame.image.load(source=f'{IMAGES_DIR}/black_queen.png')
-        black_king = pygame.image.load(source=f'{IMAGES_DIR}/black_king.png')
-        pieces = [(white_pawn, black_pawn),
-                  (white_bishop, black_bishop),
-                  (white_knight, black_knight),
-                  (white_rook, black_rook),
-                  (white_queen, black_queen),
-                  (white_king, black_king)]
-        return pieces
+    def load_piece_images(self) -> dict[str, Surface]:
+        pieces_image = {
+            'P': pygame.image.load(f'{IMAGES_DIR}/white_pawn.png'),    
+            'N': pygame.image.load(f'{IMAGES_DIR}/white_knight.png'), 
+            'B': pygame.image.load(f'{IMAGES_DIR}/white_knight.png'),
+            'R': pygame.image.load(f'{IMAGES_DIR}/white_rook.png'),
+            'Q': pygame.image.load(f'{IMAGES_DIR}/white_queen.png'),
+            'K': pygame.image.load(f'{IMAGES_DIR}/white_king.png'),
+            'p': pygame.image.load(f'{IMAGES_DIR}/black_pawn.png'),
+            'n': pygame.image.load(f'{IMAGES_DIR}/black_knight.png'),
+            'b': pygame.image.load(f'{IMAGES_DIR}/black_bishop.png'),
+            'r': pygame.image.load(f'{IMAGES_DIR}/black_rook.png'),
+            'q': pygame.image.load(f'{IMAGES_DIR}/black_queen.png'),
+            'k': pygame.image.load(f'{IMAGES_DIR}/black_king.png')
+        }
+        return pieces_image
     
+    def scale_piece_images(self, piece_images: dict[str, Surface]) -> dict[str, Surface]:
+        scaled_images = {}
+        for piece, image in piece_images.items():
+            scaled_images[piece] = pygame.transform.scale(image, (TILE_SIZE,
+                                                                  TILE_SIZE))
+        return scaled_images
+
     def set_position(self, position) -> None:
         self.position = position
 
