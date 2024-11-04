@@ -22,7 +22,7 @@ class Pieces:
         pieces_image = {
             'P': pygame.image.load(f'{IMAGES_DIR}/white_pawn.png'),    
             'N': pygame.image.load(f'{IMAGES_DIR}/white_knight.png'), 
-            'B': pygame.image.load(f'{IMAGES_DIR}/white_knight.png'),
+            'B': pygame.image.load(f'{IMAGES_DIR}/white_bishop.png'),
             'R': pygame.image.load(f'{IMAGES_DIR}/white_rook.png'),
             'Q': pygame.image.load(f'{IMAGES_DIR}/white_queen.png'),
             'K': pygame.image.load(f'{IMAGES_DIR}/white_king.png'),
