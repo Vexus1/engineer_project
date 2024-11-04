@@ -1,0 +1,68 @@
+% !TEX encoding = UTF-8 Unicode 
+%
+% Use:
+% magister / inzynier - for master thesis or engineering thesis
+% druk / archiwum - for print version or archive version
+% en - to translate template into english
+% examples:
+%\documentclass[inzynier,druk,en] - master thesis, print version, english
+%\documentclass[magister,druk,en]{dyplom}
+%\documentclass[magister,druk]{dyplom}
+
+\documentclass[magister,druk]{dyplom}
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+
+% Maximum section's depth.
+\setcounter{secnumdepth}{4}
+
+% Listings settings
+\setminted{breaklines, 
+frame=lines,           
+framesep=3mm,          
+baselinestretch=1.1,   
+fontsize=\small,       
+% linenos              % line numbering
+}
+
+\usepackage{lipsum}
+
+% \faculty{Faculty of \dots}                   % Uncomment if applicable
+\fieldofstudy{Kierunek z kodem spec., jeżeli dotyczy; np. Informatyka Stosowana (IO)}                          
+\author{Imię i nazwisko autora}
+\title{Tytuł pracy}
+\supervisor{Tytuł, imię i nazwisko opiekuna pracy}
+% \consultant{Consultant's name}               % Uncomment if applicable
+% \specialisation{AAA}                         % Uncomment if applicable
+\keywords{słowo1, słowo2, słowo3}	% 3-5 keywords  
+
+\begin{document}
+
+\maketitle
+
+\input{abstract}
+
+\tableofcontents
+
+\input{introduction}
+
+\input{chapter1}
+
+\input{summary}
+
+% Bibliography
+\bibliographystyle{dyplom}
+\bibliography{bibliography}
+
+% Lists of figures, listings, tables
+\listoffigures
+\listoflistings
+\listoftables
+
+% Appendices - comment out if not applicable
+\appendixpage
+\appendix
+\input{appendix1}
+
+\end{document}
