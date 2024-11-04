@@ -1,11 +1,17 @@
-from kivy.app import App
+import os
 
-from gui import interface
+import pygame
 
-class Chess(App):
-    def build(self):
-        return interface
-    
+from gui.board import Board
+from gui.pieces import Pieces
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+def main():
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                break
 
 if __name__ == '__main__':
-    Chess().run()
+    main()
