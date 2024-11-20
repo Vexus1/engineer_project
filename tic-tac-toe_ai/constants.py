@@ -1,0 +1,7 @@
+ENV_NAME = 'tictactoe_gym/tictactoe-v0'
+GAMMA = 0.9
+EPSILON = 1.0
+EPSILON_DECAY = 0.995
+EPSILON_MIN = 0.1
+ALPHA = 0.1
+TEST_EPISODES = 20
