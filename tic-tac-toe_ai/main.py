@@ -6,15 +6,18 @@ from tensorboardX import SummaryWriter
 from env.qlearn_agent import Agent
 from constants import *
 
-def main() -> None:
+if __name__ == '__main__':
+    script_dir = os.path.dirname(os.path.abspath(__file__))  
+    os.chdir(script_dir) 
+    log_dir = os.path.join(script_dir, "logs")  
     test_env: gym.Env = gym.make(ENV_NAME)
     agent = Agent()
-    writer = SummaryWriter(comment="tic-tac-toe-q-learning")
+    writer = SummaryWriter(logdir=log_dir, comment="tic-tac-toe-q-learning")
     iter_num = 0
     best_reward = 0.0
     while True:
         iter_num += 1
-        agent.play_n_random_steps(100)
+        agent.play_n_random_steps(10)
         reward = 0.0
         for _ in range(TEST_EPISODES):
             reward += agent.play_episode(test_env)
@@ -28,7 +31,3 @@ def main() -> None:
             print(f"solved in {iter_num} iterations")
             break
     writer.close()
-
-if __name__ == '__main__':
-    os.chdir(os.path.dirname(os.path.abspath(__name__)))
-    main()
