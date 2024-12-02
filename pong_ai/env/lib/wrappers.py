@@ -15,19 +15,35 @@ class FireEnv(gym.Wrapper):
         if not (env.unwrapped.get_action_meanings()[1] == 'FIRE' and
                 len(env.unwrapped.get_action_meanings()) >= 3):
             raise ValueError(
-                "The enviroment does not support the FIRE action or "
+                "The environment does not support the FIRE action or "
                 "has insufficient action meanings."
             )
 
-    def step(self, action: int) -> tuple[ndarray, float, bool, dict]:
-        return self.env.step(action)
+    def step(self, action: int) -> tuple[ndarray, float, bool, bool, dict]:
+        result = self.env.step(action)
+        if len(result) == 5:
+            observation, reward, terminated, truncated, info = result
+        else: 
+            observation, reward, done, info = result
+            terminated, truncated = done, False
+        return observation, reward, terminated, truncated, info
     
     def reset(self, **kwargs) -> tuple[ndarray, dict]:
         obs, info = self.env.reset(**kwargs)
-        obs, _, done, _ = self.env.step(1)
+        result = self.env.step(1)
+        if len(result) == 5:
+            obs, _, terminated, truncated, info = result
+            done = terminated or truncated
+        else:
+            obs, _, done, info = result
         if done:
             obs, info = self.env.reset(**kwargs)
-        obs, _, done, _ = self.env.step(2)
+        result = self.env.step(2)
+        if len(result) == 5:
+            obs, _, terminated, truncated, info = result
+            done = terminated or truncated
+        else:
+            obs, _, done, info = result
         if done:
             obs, info = self.env.reset(**kwargs)
         return obs, info
@@ -39,24 +55,30 @@ class MaxSkipEnv(gym.Wrapper):
         self.obs_buffer = deque(maxlen=2)
         self.skip = skip
     
-    def step(self, action: int) -> tuple[ndarray, float, bool, dict]:
+    def step(self, action: int) -> tuple[ndarray, float, bool, bool, dict]:
         total_reward = 0.0
-        for _ in range(self.skip):
-            obs, reward, terminated, truncated, info = self.env.step(action) # ???
+        for i in range(self.skip):
+            result = self.env.step(action)
+            if len(result) == 5:
+                obs, reward, terminated, truncated, info = result
+                is_done = terminated or truncated
+            else: 
+                obs, reward, done, info = result
+                terminated, truncated = done, False
+                is_done = done
             self.obs_buffer.append(obs)
             total_reward += reward
-            is_done = terminated or truncated
-            if is_done: 
+            if is_done:
                 break
         max_frame = np.max(np.stack(self.obs_buffer), axis=0)
-        return max_frame, total_reward, is_done, info
+        return max_frame, total_reward, terminated, truncated, info
     
     def reset(self, **kwargs) -> tuple[ndarray, dict]:
         self.obs_buffer.clear()
         obs, info = self.env.reset(**kwargs)
         self.obs_buffer.append(obs)
         return obs, info
-    
+
 
 class ProcessFrame84(gym.ObservationWrapper):
     def __init__(self, env: gym.Env):
@@ -114,19 +136,19 @@ class BufferWrapper(gym.ObservationWrapper):
             old_space.high.repeat(n_steps, axis=0),
             dtype=dtype
         )
+        self.buffer = np.zeros((n_steps,) + old_space.shape, dtype=dtype)
 
     def reset(self, **kwargs) -> tuple[ndarray, dict]:
-        self.buffer = np.zeros_like(
-            self.observation_space.low, dtype=self.dtype
-        )
         obs, info = self.env.reset(**kwargs)
+        self.buffer.fill(0)
+        self.buffer[-1] = obs
         return self.observation(obs), info
     
     def observation(self, observation: ndarray) -> ndarray:
         self.buffer[:-1] = self.buffer[1:]
         self.buffer[-1] = observation
         return self.buffer
-    
+
 
 def make_env(env_name: str) -> gym.Env:
     if "ALE/" not in env_name:
@@ -143,4 +165,5 @@ def make_env(env_name: str) -> gym.Env:
     env = ProcessFrame84(env)
     env = ImageToTorch(env)
     env = BufferWrapper(env, n_steps=4)
-    return ScaledFloatFrame(env)
+    env = ScaledFloatFrame(env)
+    return env

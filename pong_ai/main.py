@@ -68,7 +68,7 @@ class Agent:
             q_vals_v = net(state_v)
             _, act_v = torch.max(q_vals_v, dim=1)
             action = int(act_v.item())
-        new_state, reward, terminated, truncated, _ = self.env.step(action)
+        new_state, reward, terminated, truncated, info = self.env.step(action)
         is_done = terminated or truncated
         self.total_reward += reward
         exp = Experience(self.state, action, reward, is_done, new_state)
@@ -145,11 +145,13 @@ if __name__ == '__main__':
             writer.add_scalar("reward_100", m_reward, frame_idx)
             writer.add_scalar("reward", reward, frame_idx)
             if best_m_reward is None or best_m_reward < m_reward:
-                torch.save(net.state_dict(), args.env +
-                           "-best_%.0f.dat" % m_reward)
+                save_path = os.path.join(os.getcwd(), args.env + "-best_%.0f.dat" % m_reward)
+                save_dir = os.path.dirname(save_path)
+                if not os.path.exists(save_dir):
+                    os.makedirs(save_dir)  
+                torch.save(net.state_dict(), save_path)
                 if best_m_reward is not None:
-                    print("Best reward updated %.3f -> %.3f" % (
-                        best_m_reward, m_reward))
+                    print("Best reward updated %.3f -> %.3f" % (best_m_reward, m_reward))
                 best_m_reward = m_reward
             if m_reward > MEAN_REWARD_BOUND:
                 print("Solved in %d frames!" % frame_idx)
