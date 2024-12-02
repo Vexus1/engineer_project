@@ -1,21 +1,12 @@
-from dataclasses import dataclass, field
-
-import torch 
+import torch
 import torch.nn as nn
 import numpy as np
 
-@dataclass
 class DQN(nn.Module):
-    input_shape: tuple[int, int, int]
-    n_actions: int
-    conv: nn.Sequential = field(init=False)
-    fc: nn.Sequential = field(init=False)
-
-    def __post_init__(self): 
-        super().__init__()
-        self.create_conv_neural_net()
-
-    def create_conv_neural_net(self) -> None:
+    def __init__(self, input_shape: tuple[int, int, int], n_actions: int):
+        super(DQN, self).__init__()
+        self.input_shape = input_shape
+        self.n_actions = n_actions
         self.conv = nn.Sequential(
             nn.Conv2d(self.input_shape[0], 32, kernel_size=8, stride=4),
             nn.ReLU(),
@@ -23,7 +14,7 @@ class DQN(nn.Module):
             nn.ReLU(),
             nn.Conv2d(64, 64, kernel_size=3, stride=1),
             nn.ReLU()
-        )   
+        )
         conv_out_size = self.get_conv_out(self.input_shape)
         self.fc = nn.Sequential(
             nn.Linear(conv_out_size, 512),
@@ -35,7 +26,7 @@ class DQN(nn.Module):
         with torch.no_grad():
             o = self.conv(torch.zeros(1, *shape))
         return int(np.prod(o.size()))
-    
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         conv_out = self.conv(x).view(x.size()[0], -1)
         return self.fc(conv_out)
