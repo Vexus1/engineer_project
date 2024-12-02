@@ -1,6 +1,6 @@
 import os
 from dataclasses import dataclass
-from collections import deque
+from collections import deque, namedtuple
 
 import argparse
 import time
@@ -15,17 +15,9 @@ from env.lib import wrappers
 from env.lib import dqn_model
 from constants import *
 
-@dataclass(frozen=True)
-class Experience:
-    state: np.ndarray
-    action: int
-    reward: float
-    done: bool
-    new_state: np.ndarray
-
-    def __iter__(self):
-        return iter((self.state, self.action, self.reward,
-                     self.done, self.new_state))
+Experience = namedtuple(
+    'Experience', field_names=['state', 'action', 'reward',
+                               'done', 'new_state'])
 
 
 class ExperienceBuffer:
@@ -46,7 +38,7 @@ class ExperienceBuffer:
             zip(*[self.buffer[idx] for idx in indices])
         return (np.array(states), np.array(actions), 
                 np.array(rewards, dtype=np.float32),
-                np.array(dones, dtype=np.float32),
+                np.array(dones, dtype=np.uint8),
                 np.array(next_states))
     
 

@@ -21,29 +21,19 @@ class FireEnv(gym.Wrapper):
 
     def step(self, action: int) -> tuple[ndarray, float, bool, bool, dict]:
         result = self.env.step(action)
-        if len(result) == 5:
-            observation, reward, terminated, truncated, info = result
-        else: 
-            observation, reward, done, info = result
-            terminated, truncated = done, False
+        observation, reward, terminated, truncated, info = result
         return observation, reward, terminated, truncated, info
     
     def reset(self, **kwargs) -> tuple[ndarray, dict]:
         obs, info = self.env.reset(**kwargs)
         result = self.env.step(1)
-        if len(result) == 5:
-            obs, _, terminated, truncated, info = result
-            done = terminated or truncated
-        else:
-            obs, _, done, info = result
+        obs, _, terminated, truncated, info = result
+        done = terminated or truncated
         if done:
             obs, info = self.env.reset(**kwargs)
         result = self.env.step(2)
-        if len(result) == 5:
-            obs, _, terminated, truncated, info = result
-            done = terminated or truncated
-        else:
-            obs, _, done, info = result
+        obs, _, terminated, truncated, info = result
+        done = terminated or truncated
         if done:
             obs, info = self.env.reset(**kwargs)
         return obs, info
@@ -57,15 +47,10 @@ class MaxSkipEnv(gym.Wrapper):
     
     def step(self, action: int) -> tuple[ndarray, float, bool, bool, dict]:
         total_reward = 0.0
-        for i in range(self.skip):
+        for _ in range(self.skip):
             result = self.env.step(action)
-            if len(result) == 5:
-                obs, reward, terminated, truncated, info = result
-                is_done = terminated or truncated
-            else: 
-                obs, reward, done, info = result
-                terminated, truncated = done, False
-                is_done = done
+            obs, reward, terminated, truncated, info = result
+            is_done = terminated or truncated
             self.obs_buffer.append(obs)
             total_reward += reward
             if is_done:
@@ -118,14 +103,8 @@ class ImageToTorch(gym.ObservationWrapper):
         )
 
     def observation(self, observation: ndarray) -> ndarray:
-        if observation.ndim == 3:
-            return np.moveaxis(observation, 2, 0)
-        elif observation.ndim == 2:
-            # Jeśli obraz jest 2D, dodaj dodatkowy wymiar dla kanałów
-            observation = observation[np.newaxis, ...]
-            return observation
-        else:
-            raise ValueError(f"Unexpected observation dimensions: {observation.shape}")
+        return np.moveaxis(observation, 2, 0)
+
 
     
 class ScaledFloatFrame(gym.ObservationWrapper):
@@ -152,27 +131,12 @@ class BufferWrapper(gym.ObservationWrapper):
         return self.observation(obs.squeeze()), info 
     
     def observation(self, observation: ndarray) -> ndarray:
-        if observation.ndim == 3:
-            self.buffer[:-1] = self.buffer[1:]
-            self.buffer[-1] = observation
-        elif observation.ndim == 2:
-            self.buffer[:-1] = self.buffer[1:]
-            self.buffer[-1] = observation[np.newaxis, ...]
-        else:
-            raise ValueError(f"Unexpected observation dimensions: {observation.shape}")
+        self.buffer[:-1] = self.buffer[1:]
+        self.buffer[-1] = observation
         return self.buffer
 
 
-
 def make_env(env_name: str) -> gym.Env:
-    if "ALE/" not in env_name:
-        gym.register(
-            id=ENV_NAME,
-            entry_point="ale_py.gym:ALEEnv",
-            kwargs={"game": "pong"},
-            max_episode_steps=SYNC_TARGET_FRAMES,
-            reward_threshold=MEAN_REWARD_BOUND
-        )
     env = gym.make(env_name, render_mode=None)
     env = MaxSkipEnv(env)
     env = FireEnv(env)
