@@ -28,5 +28,6 @@ class DQN(nn.Module):
         return int(np.prod(o.size()))
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
+        assert x.ndim == 4, f"Expected input with 4 dimensions, got {x.shape}"
         conv_out = self.conv(x).view(x.size()[0], -1)
         return self.fc(conv_out)

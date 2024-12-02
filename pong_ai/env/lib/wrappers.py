@@ -118,9 +118,16 @@ class ImageToTorch(gym.ObservationWrapper):
         )
 
     def observation(self, observation: ndarray) -> ndarray:
-        return np.moveaxis(observation, 2, 0)
-    
+        if observation.ndim == 3:
+            return np.moveaxis(observation, 2, 0)
+        elif observation.ndim == 2:
+            # Jeśli obraz jest 2D, dodaj dodatkowy wymiar dla kanałów
+            observation = observation[np.newaxis, ...]
+            return observation
+        else:
+            raise ValueError(f"Unexpected observation dimensions: {observation.shape}")
 
+    
 class ScaledFloatFrame(gym.ObservationWrapper):
     def observation(self, observation: ndarray) -> ndarray:
         return np.array(observation).astype(np.float32) / 255.0
@@ -136,18 +143,25 @@ class BufferWrapper(gym.ObservationWrapper):
             old_space.high.repeat(n_steps, axis=0),
             dtype=dtype
         )
-        self.buffer = np.zeros((n_steps,) + old_space.shape, dtype=dtype)
 
     def reset(self, **kwargs) -> tuple[ndarray, dict]:
+        self.buffer = np.zeros_like(
+            self.observation_space.low, dtype=self.dtype
+        )
         obs, info = self.env.reset(**kwargs)
-        self.buffer.fill(0)
-        self.buffer[-1] = obs
-        return self.observation(obs), info
+        return self.observation(obs.squeeze()), info 
     
     def observation(self, observation: ndarray) -> ndarray:
-        self.buffer[:-1] = self.buffer[1:]
-        self.buffer[-1] = observation
+        if observation.ndim == 3:
+            self.buffer[:-1] = self.buffer[1:]
+            self.buffer[-1] = observation
+        elif observation.ndim == 2:
+            self.buffer[:-1] = self.buffer[1:]
+            self.buffer[-1] = observation[np.newaxis, ...]
+        else:
+            raise ValueError(f"Unexpected observation dimensions: {observation.shape}")
         return self.buffer
+
 
 
 def make_env(env_name: str) -> gym.Env:

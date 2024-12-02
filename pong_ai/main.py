@@ -23,6 +23,10 @@ class Experience:
     done: bool
     new_state: np.ndarray
 
+    def __iter__(self):
+        return iter((self.state, self.action, self.reward,
+                     self.done, self.new_state))
+
 
 class ExperienceBuffer:
     def __init__(self, capacity: int):
@@ -58,17 +62,17 @@ class Agent:
 
     @torch.no_grad()
     def play_step(self, net: nn.Module,
-                  epsilon: float = 0.0, device: str = "cpu") -> float | None:
+                epsilon: float = 0.0, device: str = "cpu") -> float | None:
         done_reward = None
         if np.random.random() < epsilon:
-            action = env.action_space.sample()
+            action = self.env.action_space.sample()
         else:
-            state_a = np.array([self.state], copy=False)
-            state_v = torch.tensor(state_a).to(device)
+            state_a = np.asarray([self.state])
+            state_v = torch.tensor(state_a).squeeze(2).to(device)
             q_vals_v = net(state_v)
             _, act_v = torch.max(q_vals_v, dim=1)
             action = int(act_v.item())
-        new_state, reward, terminated, truncated, info = self.env.step(action)
+        new_state, reward, terminated, truncated, _ = self.env.step(action)
         is_done = terminated or truncated
         self.total_reward += reward
         exp = Experience(self.state, action, reward, is_done, new_state)
@@ -77,7 +81,7 @@ class Agent:
             done_reward = self.total_reward
             self.reset()
         return done_reward
-    
+
 
 def calc_loss(batch: tuple[ndarray, ndarray, ndarray, ndarray, ndarray],
               net: nn.Module, tgt_net: nn.Module,
@@ -162,7 +166,7 @@ if __name__ == '__main__':
             tgt_net.load_state_dict(net.state_dict())
         optimizer.zero_grad()
         batch = buffer.sample(BATCH_SIZE)
-        loss_t = calc_loss(batch, net, tgt_net, deviece=device)
+        loss_t = calc_loss(batch, net, tgt_net, device=device)
         loss_t.backward()
         optimizer.step()
     writer.close()
