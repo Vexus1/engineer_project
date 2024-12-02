@@ -61,7 +61,7 @@ class MaxSkipEnv(gym.Wrapper):
 class ProcessFrame84(gym.ObservationWrapper):
     def __init__(self, env: gym.Env):
         super(ProcessFrame84, self).__init__(env)
-        self.observation_spacer = Box(
+        self.observation_space = Box(
             low=0, high=255, shape=(84, 84, 1), dtype=np.uint8
         )
 
