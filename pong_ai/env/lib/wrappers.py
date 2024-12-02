@@ -2,9 +2,12 @@ from collections import deque
 
 import cv2
 import gymnasium as gym
+from ale_py import ALEInterface
 from gymnasium.spaces import Box
 import numpy as np
 from numpy import ndarray
+
+from constants import *
 
 class FireEnv(gym.Wrapper):
     def __init__(self, env: gym.Env):
@@ -19,17 +22,15 @@ class FireEnv(gym.Wrapper):
     def step(self, action: int) -> tuple[ndarray, float, bool, dict]:
         return self.env.step(action)
     
-    def reset(self) -> ndarray:
-        self.env.reset()
-        obs, _, terminated, truncated, _ = self.env.step(1)
-        is_done = terminated or truncated  
-        if is_done:
-            self.env.reset()
-        obs, _, terminated, truncated, _ = self.env.step(2)
-        is_done = terminated or truncated
-        if is_done:
-            self.env.reset()
-        return obs
+    def reset(self, **kwargs) -> tuple[ndarray, dict]:
+        obs, info = self.env.reset(**kwargs)
+        obs, _, done, _ = self.env.step(1)
+        if done:
+            obs, info = self.env.reset(**kwargs)
+        obs, _, done, _ = self.env.step(2)
+        if done:
+            obs, info = self.env.reset(**kwargs)
+        return obs, info
     
 
 class MaxSkipEnv(gym.Wrapper):
@@ -41,7 +42,7 @@ class MaxSkipEnv(gym.Wrapper):
     def step(self, action: int) -> tuple[ndarray, float, bool, dict]:
         total_reward = 0.0
         for _ in range(self.skip):
-            obs, reward, terminated, truncated, info = self.env.step(action)
+            obs, reward, terminated, truncated, info = self.env.step(action) # ???
             self.obs_buffer.append(obs)
             total_reward += reward
             is_done = terminated or truncated
@@ -50,11 +51,11 @@ class MaxSkipEnv(gym.Wrapper):
         max_frame = np.max(np.stack(self.obs_buffer), axis=0)
         return max_frame, total_reward, is_done, info
     
-    def reset(self) -> ndarray:
+    def reset(self, **kwargs) -> tuple[ndarray, dict]:
         self.obs_buffer.clear()
-        obs = self.env.reset()
+        obs, info = self.env.reset(**kwargs)
         self.obs_buffer.append(obs)
-        return obs
+        return obs, info
     
 
 class ProcessFrame84(gym.ObservationWrapper):
@@ -110,14 +111,16 @@ class BufferWrapper(gym.ObservationWrapper):
         old_space = env.observation_space
         self.observation_space = Box(
             old_space.low.repeat(n_steps, axis=0),
-            old_space.high.repeat(n_steps, axis=0), dtype=dtype
+            old_space.high.repeat(n_steps, axis=0),
+            dtype=dtype
         )
 
-    def reset(self) -> ndarray:
+    def reset(self, **kwargs) -> tuple[ndarray, dict]:
         self.buffer = np.zeros_like(
             self.observation_space.low, dtype=self.dtype
         )
-        return self.observation(self.env.reset())
+        obs, info = self.env.reset(**kwargs)
+        return self.observation(obs), info
     
     def observation(self, observation: ndarray) -> ndarray:
         self.buffer[:-1] = self.buffer[1:]
@@ -126,10 +129,18 @@ class BufferWrapper(gym.ObservationWrapper):
     
 
 def make_env(env_name: str) -> gym.Env:
-    env = gym.make(env_name)
+    if "ALE/" not in env_name:
+        gym.register(
+            id=ENV_NAME,
+            entry_point="ale_py.gym:ALEEnv",
+            kwargs={"game": "pong"},
+            max_episode_steps=SYNC_TARGET_FRAMES,
+            reward_threshold=MEAN_REWARD_BOUND
+        )
+    env = gym.make(env_name, render_mode=None)
     env = MaxSkipEnv(env)
     env = FireEnv(env)
     env = ProcessFrame84(env)
     env = ImageToTorch(env)
-    env = BufferWrapper(env)
+    env = BufferWrapper(env, n_steps=4)
     return ScaledFloatFrame(env)
