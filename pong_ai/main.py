@@ -17,6 +17,23 @@ from constants import *
 
 @dataclass(frozen=True)
 class Experience:
+    """
+    Represents a single experience step in the environment.
+
+    Args
+    ----------
+    state : ndarray
+        Current state of the environment.
+    action : int
+        Action taken by the agent.
+    reward : float
+        Reward received after the action.
+    done : bool
+        Boolean indicating whether the episode ended.
+    new_state : ndarray
+        State resulting from the action.
+    """
+    
     state: ndarray
     action: int
     reward: float
@@ -29,17 +46,29 @@ class Experience:
 
 
 class ExperienceBuffer:
+    """
+    Stores and manages a fixed-size buffer of experience tuples for replay.
+    Provides random sampling of experiences for training the Q-network.
+
+    Args
+    ----------
+    capacity : int
+        Maximum number of experiences to store.
+    """
+
     def __init__(self, capacity: int):
         self.buffer: deque[Experience] = deque(maxlen=capacity)
 
     def __len__(self):
         return len(self.buffer)
 
-    def append(self, experience: Experience) -> None:    
+    def append(self, experience: Experience) -> None: 
+        """Adds an experience to the buffer."""   
         self.buffer.append(experience)
 
     def sample(self, batch_size: int) -> tuple[ndarray, ndarray,
                                                ndarray, ndarray, ndarray]:
+        """Randomly samples a batch of experiences."""
         indices = np.random.choice(len(self.buffer), batch_size, replace=False)
         states, actions, rewards, dones, next_states = \
             zip(*[self.buffer[idx] for idx in indices])
@@ -50,12 +79,29 @@ class ExperienceBuffer:
     
 
 class Agent:
+    """
+    Manages the interaction between the agent and the environment.
+    Responsible for:
+
+        - Selecting actions based on epsilon-greedy policy.
+        - Collecting experiences.
+        - Resetting the environment after an episode.
+
+    Args
+    ----------
+    - env : wrappers.make_env
+        The game environment.
+    - exp_buffer : ExperienceBuffer
+        ExperienceBuffer for storing gameplay experiences.
+    """
+
     def __init__(self, env: wrappers.make_env, exp_buffer: ExperienceBuffer):
         self.env = env
         self.exp_buffer = exp_buffer
         self._reset()
 
     def _reset(self) -> None:
+        """Resets the agent's state and reward for a new episode."""
         self.state, _ = env.reset()  
         self.state = np.asarray(self.state, dtype=np.float32)  
         self.total_reward = 0.0
@@ -63,6 +109,11 @@ class Agent:
     @torch.no_grad()
     def play_step(self, net: nn.Module,
                 epsilon: float = 0.0, device: str = "cpu") -> float | None:
+        """
+        Executes a single step in the environment, appending the
+        experience to the buffer and returning 
+        the total reward if the episode ends.
+        """
         done_reward = None
         if np.random.random() < epsilon:
             action = env.action_space.sample()
@@ -87,6 +138,7 @@ class Agent:
 def calc_loss(batch: tuple[ndarray, ndarray, ndarray, ndarray, ndarray],
               net: nn.Module, tgt_net: nn.Module,
               device: str = "cpu") -> torch.Tensor:
+    """Calculates the mean squared error loss for the Q-network."""
     states, actions, rewards, dones, next_states = batch
     states_v = torch.tensor(np.array(
         states, copy=False)).to(device)
