@@ -1,6 +1,6 @@
 import os
 from dataclasses import dataclass
-from collections import deque, namedtuple
+from collections import deque
 
 import argparse
 import time
@@ -15,9 +15,17 @@ from env.lib import wrappers
 from env.lib import dqn_model
 from constants import *
 
-Experience = namedtuple(
-    'Experience', field_names=['state', 'action', 'reward',
-                               'done', 'new_state'])
+@dataclass(frozen=True)
+class Experience:
+    state: ndarray
+    action: int
+    reward: float
+    done: bool
+    new_state: ndarray
+
+    def __iter__(self):
+        return iter((self.state, self.action, 
+                     self.reward, self.done, self.new_state))
 
 
 class ExperienceBuffer:
@@ -32,24 +40,24 @@ class ExperienceBuffer:
 
     def sample(self, batch_size: int) -> tuple[ndarray, ndarray,
                                                ndarray, ndarray, ndarray]:
-        indices = np.random.choice(len(self.buffer), batch_size, 
-                                   replace=False)
+        indices = np.random.choice(len(self.buffer), batch_size, replace=False)
         states, actions, rewards, dones, next_states = \
             zip(*[self.buffer[idx] for idx in indices])
-        return (np.array(states), np.array(actions), 
-                np.array(rewards, dtype=np.float32),
-                np.array(dones, dtype=np.uint8),
-                np.array(next_states))
+        return np.array(states), np.array(actions), \
+               np.array(rewards, dtype=np.float32), \
+               np.array(dones, dtype=np.uint8), \
+               np.array(next_states)
     
 
 class Agent:
     def __init__(self, env: wrappers.make_env, exp_buffer: ExperienceBuffer):
         self.env = env
         self.exp_buffer = exp_buffer
-        self.reset()
+        self._reset()
 
-    def reset(self) -> None:
-        self.state, _ = self.env.reset()
+    def _reset(self) -> None:
+        self.state, _ = env.reset()  
+        self.state = np.asarray(self.state, dtype=np.float32)  
         self.total_reward = 0.0
 
     @torch.no_grad()
@@ -57,10 +65,10 @@ class Agent:
                 epsilon: float = 0.0, device: str = "cpu") -> float | None:
         done_reward = None
         if np.random.random() < epsilon:
-            action = self.env.action_space.sample()
+            action = env.action_space.sample()
         else:
-            state_a = np.asarray([self.state])
-            state_v = torch.tensor(state_a).squeeze(2).to(device)
+            state_a = np.asarray([self.state]) 
+            state_v = torch.tensor(state_a).to(device)
             q_vals_v = net(state_v)
             _, act_v = torch.max(q_vals_v, dim=1)
             action = int(act_v.item())
@@ -69,9 +77,10 @@ class Agent:
         self.total_reward += reward
         exp = Experience(self.state, action, reward, is_done, new_state)
         self.exp_buffer.append(exp)
+        self.state = new_state
         if is_done:
             done_reward = self.total_reward
-            self.reset()
+            self._reset()
         return done_reward
 
 
@@ -79,14 +88,15 @@ def calc_loss(batch: tuple[ndarray, ndarray, ndarray, ndarray, ndarray],
               net: nn.Module, tgt_net: nn.Module,
               device: str = "cpu") -> torch.Tensor:
     states, actions, rewards, dones, next_states = batch
-    states_v = torch.tensor(np.array(states, copy=False)).to(device)
-    next_states_v = torch.tensor(np.array(next_states, copy=False)).to(device)
+    states_v = torch.tensor(np.array(
+        states, copy=False)).to(device)
+    next_states_v = torch.tensor(np.array(
+        next_states, copy=False)).to(device)
     actions_v = torch.tensor(actions).to(device)
     rewards_v = torch.tensor(rewards).to(device)
     done_mask = torch.BoolTensor(dones).to(device)
     state_action_values = net(states_v).gather(
-        1, actions_v.unsqueeze(-1)
-    ).squeeze(-1)
+        1, actions_v.unsqueeze(-1)).squeeze(-1)
     with torch.no_grad():
         next_state_values = tgt_net(next_states_v).max(1)[0]
         next_state_values[done_mask] = 0.0
@@ -95,7 +105,7 @@ def calc_loss(batch: tuple[ndarray, ndarray, ndarray, ndarray, ndarray],
     return nn.MSELoss()(state_action_values, expected_state_action_values)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--cuda", default=False,
                         action="store_true", help="Enable cuda")
@@ -125,7 +135,7 @@ if __name__ == '__main__':
         epsilon = max(EPSILON_FINAL, EPSILON_START -
                       frame_idx / EPSILON_DECAY_LAST_FRAME)
         reward = agent.play_step(net, epsilon, device=device)
-        if reward:
+        if reward is not None:
             total_rewards.append(reward)
             speed = (frame_idx - ts_frame) / (time.time() - ts)
             ts_frame = frame_idx
@@ -141,13 +151,11 @@ if __name__ == '__main__':
             writer.add_scalar("reward_100", m_reward, frame_idx)
             writer.add_scalar("reward", reward, frame_idx)
             if best_m_reward is None or best_m_reward < m_reward:
-                save_path = os.path.join(os.getcwd(), args.env + "-best_%.0f.dat" % m_reward)
-                save_dir = os.path.dirname(save_path)
-                if not os.path.exists(save_dir):
-                    os.makedirs(save_dir)  
-                torch.save(net.state_dict(), save_path)
+                torch.save(net.state_dict(), args.env +
+                           "-best_%.0f.dat" % m_reward)
                 if best_m_reward is not None:
-                    print("Best reward updated %.3f -> %.3f" % (best_m_reward, m_reward))
+                    print("Best reward updated %.3f -> %.3f" % (
+                        best_m_reward, m_reward))
                 best_m_reward = m_reward
             if m_reward > MEAN_REWARD_BOUND:
                 print("Solved in %d frames!" % frame_idx)
