@@ -2,6 +2,7 @@ from collections import deque
 
 import cv2
 import gymnasium as gym
+from gymnasium import spaces
 from ale_py import ALEInterface
 import numpy as np
 from numpy import ndarray
@@ -123,6 +124,43 @@ class ImageToPyTorch(gym.ObservationWrapper):
     def observation(self, observation: ndarray) -> ndarray:
         """Converts an image from HWC (height, width, channels) to CHW format."""
         return np.moveaxis(observation, 2, 0)
+    
+
+class LazyFrames(object):
+    def __init__(self, frames):
+        self.frames = frames
+
+    def __array__(self, dtype=None):
+        out = np.concatenate(self.frames, axis=0)
+        if dtype is not None:
+            out = out.astype(dtype)
+        return out
+
+
+class FrameStack(gym.Wrapper):
+    def __init__(self, env, k):
+        gym.Wrapper.__init__(self, env)
+        self.k = k
+        self.frames = deque([], maxlen=k)
+        shp = env.observation_space.shape
+        self.observation_space = spaces.Box(low=0, high=255, 
+                                            shape=(shp[0]*k, shp[1], shp[2]),
+                                            dtype=np.float32)
+        
+    def step(self, action: int) -> tuple[ndarray, float, bool, bool, dict]:
+        obs, reward, terminated, truncated, info = self.env.step(action)
+        self.frames.append(obs)
+        return self.get_ob(), reward, terminated, truncated, info
+
+    def reset(self, **kwargs) -> ndarray:
+        observation = self.env.reset()
+        for _ in range(self.k):
+            self.frames.append(observation)
+        return self.get_ob()
+    
+    def get_ob(self):
+        assert len(self.frames) == self.k
+        return LazyFrames(list(self.frames))
 
 
 class ScaledFloatFrame(gym.ObservationWrapper):
@@ -136,34 +174,6 @@ class ScaledFloatFrame(gym.ObservationWrapper):
         return np.array(observation).astype(np.float32) / 255.0
     
 
-class BufferWrapper(gym.ObservationWrapper):
-    """
-    Maintains a buffer of n most recent observations.
-    Combines these observations into a single input for the neural network.
-    """
-
-    def __init__(self, env: gym.Env, n_steps: int, dtype: type = np.float32):
-        super(BufferWrapper, self).__init__(env)
-        self.dtype = dtype
-        old_space = env.observation_space
-        self.observation_space = gym.spaces.Box(
-            old_space.low.repeat(n_steps, axis=0),
-            old_space.high.repeat(n_steps, axis=0), dtype=dtype)
-
-    def reset(self, **kwargs) -> tuple[ndarray, dict]:
-        """Resets the environment and initializes the observation buffer."""
-        self.buffer = np.zeros_like(
-            self.observation_space.low, dtype=self.dtype)
-        obs, info = self.env.reset(**kwargs)
-        return self.observation(obs), info
-
-    def observation(self, observation: ndarray) -> ndarray:
-        """Updates the buffer with a new observation."""
-        self.buffer[:-1] = self.buffer[1:]
-        self.buffer[-1] = observation
-        return self.buffer
-
-
 def make_env(env_name, render_mode=None):
     """
     Creates a processed environment with a sequence of wrappers.
@@ -174,5 +184,5 @@ def make_env(env_name, render_mode=None):
     env = FireResetEnv(env)      # Fire action handling
     env = ProcessFrame84(env)    # Grayscale + resize
     env = ImageToPyTorch(env)    # Transpose for PyTorch
-    env = BufferWrapper(env, 4)  # Frame buffer
+    env = FrameStack(env, 4)     # Frame buffer
     return ScaledFloatFrame(env) # Normalize pixels
