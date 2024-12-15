@@ -130,3 +130,42 @@ def group_list(items, lens):
         result.append(items[cur_ofs:cur_ofs+g_len])
         cur_ofs += g_len
     return result
+
+
+@dataclass(frozen=True)
+class ExperienceFirstLast:
+    state: np.ndarray
+    action: int
+    reward: float
+    last_state: np.ndarray | None
+
+    def __iter__(self):
+        return iter((self.state, self.action, self.reward, self.last_state))
+    
+
+class ExperienceSourceFirstLast(ExperienceSource):
+    def __init__(self, env: gym.Env, agent, gamma, steps_count=1,
+                 steps_delta=1, vectorized=False):
+        assert isinstance(gamma, float)
+        assert 0.0 <= gamma <= 1.0
+        super(ExperienceSourceFirstLast, self).__init__(env, agent,
+                                                        steps_count+1,
+                                                        steps_delta,
+                                                        vectorized=vectorized)
+        self.gamma = gamma
+        self.steps = steps_count
+
+    def __iter__(self):
+        for exp in super(ExperienceSourceFirstLast, self).__iter__():
+            if exp[-1].done and len(exp) <= self.steps:
+                last_state = None
+                elems = exp
+            else:
+                last_state = exp[-1].state
+                elems = exp[:-1]
+            total_reward = 0.0
+            for e in reversed(elems):
+                total_reward *= self.gamma
+                total_reward += e.reward
+            yield ExperienceFirstLast(state=exp[0].state, action=exp[0].action,
+                                      reward=total_reward, last_state=last_state)
