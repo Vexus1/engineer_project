@@ -2,28 +2,33 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
+from .wrappers import LazyFrames
+
 def states_preprocessor(states, device='cpu', dtype=torch.float32):
     """
     Convert list of states into the form suitable for model.
-    :param states: list of numpy arrays or a single numpy array
+    :param states: list of numpy arrays or LazyFrames
     :param device: target device for tensor (e.g., 'cpu' or 'cuda')
     :param dtype: data type of the tensor (e.g., torch.float32)
     :return: torch.Tensor on specified device
     """
-    if isinstance(states, np.ndarray):
-        np_states = states if states.ndim > 1 else np.expand_dims(states, 0)
-    else:
-        if len(states) == 1:
-            np_states = np.expand_dims(states[0], 0)
+    processed_states = []
+    for state in states:
+        if isinstance(state, LazyFrames):
+            state = np.array(state)
+        if isinstance(state, np.ndarray):
+            if state.ndim == 3:
+                state = np.expand_dims(state, 0)
+            processed_states.append(state)
         else:
-            np_states = np.array([np.array(s, copy=False) for s in states],
-                                  copy=False)
+            raise ValueError(f"Unexpected state type: {type(state)}. Expected LazyFrames or np.ndarray.")
+    np_states = np.concatenate(processed_states, axis=0)
     return torch.tensor(np_states, device=device, dtype=dtype)
 
 
 class ProbabilityActionSelector():
     def __call__(self, probs):
-        assert isinstance(self, np.array)
+        assert isinstance(probs, np.ndarray)
         actions = []
         for prob in probs:
             actions.append(np.random.choice(len(prob), p=prob))
@@ -45,12 +50,10 @@ class PolicyAgent:
         if agent_states is None:
             agent_states = [None] * len(states)
         if self.preprocessor is not None:
-            states = self.preprocessor(states)
-            if torch.is_tensor(states):
-                states = states.to(self.device)
+            states = self.preprocessor(states, device=self.device)
         prob_v = self.model(states)
         if self.apply_softmax:
             prob_v = F.softmax(prob_v, dim=1)
         probs = prob_v.data.cpu().numpy()
         actions = self.action_selector(probs)
-        return np.array(actions), agent_states  
+        return np.array(actions), agent_states

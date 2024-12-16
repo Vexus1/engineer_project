@@ -23,18 +23,18 @@ def unpack_batch(batch, net, device='cpu'):
     not_done_idx = []
     last_states = []
     for idx, exp in enumerate(batch):
-        states.append(np.array(exp.state, copy=False))
+        states.append(np.asarray(exp.state))
         actions.append(int(exp.action))
         rewards.append(exp.reward)
         if exp.last_state is not None:
             not_done_idx.append(idx)
-            last_states.append(np.array(exp.last_state, copy=False))
+            last_states.append(np.asarray(exp.last_state))
     states_v = torch.FloatTensor(
-        np.array(states, copy=False)).to(device) # numpy to fix
+        np.asarray(states)).to(device) # numpy to fix
     actions_t = torch.LongTensor(actions).to(device)
     rewards_np = np.array(rewards, dtype=np.float32)
     if not_done_idx:
-        last_states_v = torch.FloatTensor(np.array(last_states, copy=False)).to(device)
+        last_states_v = torch.FloatTensor(np.asarray(last_states)).to(device)
         last_vals_v = net(last_states_v)[1]
         last_vals_np = last_vals_v.data.cpu().numpy()[:, 0]
         last_vals_np *= GAMMA ** REWARD_STEPS
@@ -46,6 +46,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--cuda", default=False, action="store_true", help="Enable cuda")
     parser.add_argument("-n", "--name", required=True, help="Name of the run")
+    parser.add_argument("--env", default=ENV_NAME, help="Environment name")
     args = parser.parse_args()
     device = torch.device("cuda" if args.cuda else "cpu")
     make_env = lambda: wrappers.make_env(args.env)
@@ -54,7 +55,7 @@ if __name__ == "__main__":
     writer = SummaryWriter(comment="-" + args.env)
     net = A2CModel(envs[0].observation_space.shape,
                    envs[0].action_space.n).to(device)
-    agent = PolicyAgent(lambda x: net(x)[0], apply_softmax=True, device=False)
+    agent = PolicyAgent(lambda x: net(x)[0], apply_softmax=True, device=device)
     exp_source = ExperienceSourceFirstLast(envs, agent, gamma=GAMMA,
                                            steps_count=REWARD_STEPS)
     optimizer = optim.Adam(net.parameters(), lr=LEARNING_RATE, eps=1e-3)

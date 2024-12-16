@@ -4,6 +4,8 @@ from dataclasses import dataclass
 import numpy as np
 import gymnasium as gym
 
+from .wrappers import LazyFrames
+
 @dataclass(frozen=True)
 class Experience:
     state: np.ndarray
@@ -31,9 +33,11 @@ class ExperienceSource:
 
     def __iter__(self):
         states, agent_states, histories = [], [], []
-        env_lens, cur_rewards, cur_steps= [], [], []
+        env_lens, cur_rewards, cur_steps = [], [], []
         for env in self.pool:
-            obs = env.reset()
+            obs, info = env.reset()  # Obsługa krotki (obs, info)
+            if isinstance(obs, LazyFrames):
+                obs = np.array(obs)  # LazyFrames -> NumPy array
             if self.vectorized:
                 obs_len = len(obs)
                 states.extend(obs)
@@ -101,7 +105,7 @@ class ExperienceSource:
                         cur_rewards[idx] = 0.0
                         cur_steps[idx] = 0
                         if not self.vectorized:
-                            states[idx] = env.reset()
+                            states[idx], _ = env.reset()
                         else:
                             states[idx] = None
                         agent_states[idx] = None # warning

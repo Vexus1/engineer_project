@@ -152,16 +152,16 @@ class FrameStack(gym.Wrapper):
         self.frames.append(obs)
         return self.get_ob(), reward, terminated, truncated, info
 
-    def reset(self, **kwargs) -> ndarray:
-        observation = self.env.reset()
+    def reset(self, **kwargs) -> tuple[ndarray, dict]:
+        observation, info = self.env.reset(**kwargs)
         for _ in range(self.k):
             self.frames.append(observation)
-        return self.get_ob()
+        return self.get_ob(), info
     
     def get_ob(self):
         assert len(self.frames) == self.k
         return LazyFrames(list(self.frames))
-
+    
 
 class ScaledFloatFrame(gym.ObservationWrapper):
     """
