@@ -123,7 +123,7 @@ class ImageToPyTorch(gym.ObservationWrapper):
 
     def observation(self, observation: ndarray) -> ndarray:
         """Converts an image from HWC (height, width, channels) to CHW format."""
-        return np.moveaxis(observation, 2, 0)
+        return np.swapaxes(observation, 2, 0)
     
 
 class LazyFrames(object):
@@ -185,4 +185,6 @@ def make_env(env_name, render_mode=None):
     env = ProcessFrame84(env)    # Grayscale + resize
     env = ImageToPyTorch(env)    # Transpose for PyTorch
     env = FrameStack(env, 4)     # Frame buffer
-    return ScaledFloatFrame(env) # Normalize pixels
+    # return ScaledFloatFrame(env) # Normalize pixels
+    return env
+
