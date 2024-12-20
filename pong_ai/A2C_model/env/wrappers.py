@@ -36,7 +36,7 @@ class FireResetEnv(gym.Wrapper):
         done = terminated or truncated
         if done:
             self.env.reset(**kwargs)
-        return obs, info
+        return obs, info # jedna rzecz zamist dwóch 
     
 
 class MaxAndSkipEnv(gym.Wrapper): 
@@ -156,10 +156,9 @@ class FrameStack(gym.Wrapper):
         observation, info = self.env.reset(**kwargs)
         for _ in range(self.k):
             self.frames.append(observation)
-        return self.get_ob(), info
+        return self.get_ob(), info # info niepotrzebne chyba
     
     def get_ob(self):
-        assert len(self.frames) == self.k
         return LazyFrames(list(self.frames))
     
 

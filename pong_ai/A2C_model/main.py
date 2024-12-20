@@ -45,7 +45,7 @@ def unpack_batch(batch, net, device='cpu'):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--cuda", default=False, action="store_true", help="Enable cuda")
-    parser.add_argument("-n", "--name", required=True, help="Name of the run")
+    # parser.add_argument("-n", "--name", required=True, help="Name of the run")
     parser.add_argument("--env", default=ENV_NAME, help="Environment name")
     args = parser.parse_args()
     device = torch.device("cuda" if args.cuda else "cpu")
@@ -53,8 +53,10 @@ if __name__ == "__main__":
     envs = [make_env() for _ in range(NUM_ENVS)]
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     writer = SummaryWriter(comment="-" + args.env)
+    
     net = A2CModel(envs[0].observation_space.shape,
                    envs[0].action_space.n).to(device)
+    print(net)
     agent = PolicyAgent(lambda x: net(x)[0], apply_softmax=True, device=device)
     exp_source = ExperienceSourceFirstLast(envs, agent, gamma=GAMMA,
                                            steps_count=REWARD_STEPS)

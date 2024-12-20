@@ -15,7 +15,7 @@ class RewardTracker:
         self.ts_frame = 0
         self.total_rewards = []
         return self
-    
+
     def __exit__(self, *args):
         self.writer.close()
 
@@ -25,10 +25,7 @@ class RewardTracker:
         self.ts_frame = frame
         self.ts = time.time()
         mean_reward = np.mean(self.total_rewards[-100:])
-        if epsilon is None:
-            epsilon_str = ""
-        else:
-            epsilon_str = ", eps %.2f" % epsilon
+        epsilon_str = "" if epsilon is None else ", eps %.2f" % epsilon
         print("%d: done %d games, mean reward %.3f, speed %.2f f/s%s" % (
             frame, len(self.total_rewards), mean_reward, speed, epsilon_str
         ))
@@ -46,8 +43,6 @@ class RewardTracker:
 
 class TensorBoardMeanTracker:
     def __init__(self, writer, batch_size):
-        assert isinstance(batch_size, int)
-        assert writer is not None
         self.writer = writer
         self.batch_size = batch_size
 
@@ -73,8 +68,6 @@ class TensorBoardMeanTracker:
             return float(value)
         
     def track(self, param_name, value, iter_index):
-        assert isinstance(param_name, str)
-        assert isinstance(iter_index, int)
         data = self.batches[param_name]
         data.append(self._as_float(value))
         if len(data) >= self.batch_size:

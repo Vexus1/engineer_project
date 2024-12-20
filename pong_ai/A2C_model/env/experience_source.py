@@ -4,8 +4,6 @@ from dataclasses import dataclass
 import numpy as np
 import gymnasium as gym
 
-from .wrappers import LazyFrames
-
 @dataclass(frozen=True)
 class Experience:
     state: np.ndarray
@@ -35,9 +33,7 @@ class ExperienceSource:
         states, agent_states, histories = [], [], []
         env_lens, cur_rewards, cur_steps = [], [], []
         for env in self.pool:
-            obs, info = env.reset()  # Obsługa krotki (obs, info)
-            if isinstance(obs, LazyFrames):
-                obs = np.array(obs)  # LazyFrames -> NumPy array
+            obs, _ = env.reset() 
             if self.vectorized:
                 obs_len = len(obs)
                 states.extend(obs)
@@ -55,18 +51,18 @@ class ExperienceSource:
         while True:
             actions = [None] * len(states)
             states_input = []
-            states_indicies = []
+            states_indices = []
             for idx, state in enumerate(states):
                 if state is None:
                     actions[idx] = self.pool[0].action_space.sample()
                 else:
                     states_input.append(state)
-                    states_indicies.append(idx)
+                    states_indices.append(idx)
             if states_input:
                 states_actions, new_agent_states = self.agent(states_input,
-                                                                agent_states)
+                                                              agent_states)
                 for idx, action in enumerate(states_actions):
-                    g_idx = states_indicies[idx]
+                    g_idx = states_indices[idx]
                     actions[g_idx] = action
                     agent_states[g_idx] = new_agent_states[idx]
             grouped_actions = group_list(actions, env_lens)
@@ -74,8 +70,8 @@ class ExperienceSource:
             global_ofs = 0
             for _, (env, action_n) in enumerate(zip(self.pool, grouped_actions)):
                 if self.vectorized:
-                    next_state, r_n, truncated, terminated, _ = env.step(action_n)
-                    is_done = truncated or terminated
+                    next_state_n, r_n, truncated, terminated, _ = env.step(action_n)
+                    is_done_n = truncated or terminated
                 else:
                     next_state, r, truncated, terminated, _ = env.step(action_n[0])
                     is_done = truncated or terminated
@@ -89,9 +85,9 @@ class ExperienceSource:
                     cur_steps[idx] += 1
                     if state is not None:
                         history.append(Experience(state=state, action=action,
-                                                reward=r, done=is_done))
-                    if len(history) == (self.steps_count and 
-                                        iter_idx % self.steps_delta == 0):
+                                                  reward=r, done=is_done))
+                    if len(history) == self.steps_count and \
+                        iter_idx % self.steps_delta == 0:
                         yield tuple(history)
                     states[idx] = next_state
                     if is_done:
@@ -150,8 +146,6 @@ class ExperienceFirstLast:
 class ExperienceSourceFirstLast(ExperienceSource):
     def __init__(self, env: gym.Env, agent, gamma, steps_count=1,
                  steps_delta=1, vectorized=False):
-        assert isinstance(gamma, float)
-        assert 0.0 <= gamma <= 1.0
         super(ExperienceSourceFirstLast, self).__init__(env, agent,
                                                         steps_count+1,
                                                         steps_delta,

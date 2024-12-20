@@ -19,7 +19,6 @@ def states_preprocessor(states):
 
 class ProbabilityActionSelector():
     def __call__(self, probs):
-        assert isinstance(probs, np.ndarray)
         actions = []
         for prob in probs:
             actions.append(np.random.choice(len(prob), p=prob))
