@@ -1,17 +1,112 @@
-\documentclass[10pt]{article}
+\documentclass[a4paper, 10pt]{article}
 \usepackage{polski}
-\usepackage[left=1cm, right=1.5cm, top=0cm, bottom=1cm]{geometry}
-\usepackage{multicol}
-% \renewcommand{\familydefault}{\sfdefault}
-\usepackage{lipsum}
-\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{charter}
-\usepackage{enumitem}
-\usepackage{fancyvrb}
-\usepackage{nopageno}
-\usepackage[dvipsnames]{xcolor}
+\usepackage{geometry}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+
+\geometry{top=2cm, bottom=2cm, left=2.5cm, right=2.5cm}
+
+% Dostosowanie odstępów dla sekcji i podsekcji
+\titleformat{\section}[block]{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{3em}{2em} % Odstęp przed i po sekcji
+\titleformat{\subsection}[block]{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{2em}{1em} % Odstęp przed i po podsekcji
 
 \begin{document}
-    test
+
+    \thispagestyle{empty}
+
+    \begin{center}
+        \textbf{\LARGE Politechnika Wrocławska} \\[1em]
+        \Large Wydział Matematyki \\[2em]
+
+        \textbf{KIERUNEK:} \\
+        \Large Matematyka Stosowana \\[2em]
+
+        \textbf{\LARGE PRACA DYPLOMOWA \\[0.5em] INŻYNIERSKA} \\[6em]
+
+        \textbf{\large TYTUŁ PRACY:} \\[1em]
+        \textbf{\Large Analiza efektywności metod uczenia przez wzmacnianie w grach komputerowych} \\[2em]
+
+        \textbf{\large AUTOR:} \\[1em]
+        \textbf{\Large Adrian Galik} \\[2em]
+
+        \textbf{\large PROMOTOR:} \\[1em]
+        \textbf{\Large dr hab. Janusz Szwabiński } \\[10em]
+
+        WROCŁAW 2024
+    \end{center}
+
+    \newpage
+    \section{Wstęp}
+    \indent Rozwój technologii w tempie przekraczającym wszelkie oczekiwania oraz zwiększająca się dostępnosć mocy
+    obliczeniowej doprowadziły do tego że algorytmy uczenia maszynowego stanowią nieoderwalną część życia codziennego
+    każdego z nas. Zastosowanie ich można znaleść w dziedzinach robotyki, rozpoznawania obrazów, przetwarzania
+    języka naturalnego, klasyfikacja spamu, systemy nawigacyjne, diagnostyka chorób, sztuczna inteligencja w grach oraz
+    wiele innych gałęzi technologii które oddziałują na nas w sposób pośredni lub bezpośredni. Jedną z najbardziej 
+    fascynujących, a zarazem najstarszych dziedzin uczenia maszynowego jest uczenie przez wzmacnianie. Znana już od lat 50 ubiegłego wieku
+    będzie ona kluczowym działem z którego algorymy będą stanowiły fundament mojej pracy.
+    \newline
+    \indent Celem niniejszej pracy inżynierskiej jest analiza efektywności wybranych metod uczenia
+    przez wzmacnianie w grach komputerowych. Przede wszystkim badania oraz porównania algorytmów zarówno jeśli chodzi o czas uczenia
+    oraz efektywność zostały przeprowacone na przykładzie gry Pong, która jest bardzo często wykorzystywana jako dobry przykład środowiska testowego
+    do badań nad algorytmami sztucznej inteligencji. W ramach pracy zaimplementowałem trzy popularne metody uczenia przez wzmacnianie:
+    Deep Q-Learning (DQN), Advantage Actor-Critic (A2C) oraz Asynchronous Advantage Actor-Critic (A3C), a w następnym kroku zbadałem ich efektywność
+    na zasadzie różnych parametrów m. in. prędkość uczenia oraz skuteczność gry.
+
+    \section{Wprowadzenie do uczenia maszynowego}
+    \indent Uczenie maszynowe jest jedną z kluczowych gałęzi sztucznej inteligencji, której celem jest tworzenie algorytmów zdolnych
+    do uczenia się na podstawie danych i podejmowania decyzji bez konieczności programowania reguł działania. 
+    Oto nieco ogólniejsza definicja: Uczenie maszynowe to "dziedzina nauki dająca komputerom możliwość uczenia się
+    bez konieczności ich jawnego programowania". - Arthur Samuel, 1959. A tu bardziej techniczna:
+    "Mówimy, że program komputerowy uczy się na podstawie doświadczenia E w odniesieniu do jakiegoś zadania T
+    i pewnej miary wydajności P, jeśli jego wydajność (mierzona przez P) wobec zadania T wzrasta wraz z nabywaniem
+    doświadczenia E". - Tom Mitchell, 1997. Przykładowe dane używane do trenowania systemu noszą nazwę
+    \textbf{zbioru/zestawu uczącego} (ang. training set). Każdy taki element uczący jest nazywany 
+    \textbf{przykładem uczącym (próbką uczącą)}. Część systemu uczenia maszynowego odpowiedzialna za uczenie się i uzyskiwanie 
+    przwidywań nazywana jest modelem. Przykładowymi modelami są sieci neuronowe i lasy losowe. Dla przykładu klasyfikacji spamu to zgodnie z definicją Toma Mitchella: naszym
+    zadaniem T jest oznaczenie spamu, doświadczeniem E - dane uczące a do wyznaczenia pozostaje miara wydajności P.
+    Może być nią na przykład stosunek prawidłowo oznaczonych wiadomości do przykjładów nieprawidłowo zaklasyfikowanych.
+    (książka uczenie maszynowe z użyciem Scikit-Learn, Keras i TensorFlow (5 zdań ostatnich))
+    
+    \subsection{Podział uczenia maszynowego} (Można dodać do każdego jakieś wykresy)
+    Algorytmy uczenia maszynowego można podzielić na cztery ogólne kategorie:
+    
+    \subsubsection{Uczenie nadzorowane}
+    To najczęstszy przypadek uczenia maszynowego. W tym przypadku algorytm uczy się na podstawie
+    oznaczonych danych wejściowych które są opisane przez człowieka oraz odpowiadających im wyników.
+    Głównymi zastosowaniami algorytmów uczenia nadzorowanego to klasyfikicja i regresja. Klasycznym przykładem
+    jest klasyfikacja spamu, polega ona na analizie przez algorytm e-maila i przypisanie do niego kategorii "spam" 
+    lub "nie spam". Przykład algorytmów: regresja liniowa, drzewa decyzyjne, SVM
+
+    \subsubsection{Uczenie nienadzorowane}
+    Algorytm analizuje dane bez użycia jakichkolwiek oznacznień w celu znalezienie grup lub ukrytych wzorców.
+    Kluczowymi zadaniami uczenia nienadzorowanego są między innymi: wizualizacja danych,
+    redukcja wymiarowości, analiza skupień, wyrywanie anomalii, wykrywanie nowości, usuwanie szumu
+    oraz uczenie przy użyciu reguł asocjacyjnych. Przykład algorytmów: K-Means DBSCAN
+
+    \subsubsection{Uczenie częściowo nadzorowane}
+    Jest to specyficzny przypadek uczenia nadzorowanego, lecz ma ono na tyle odmienne zasady działania że tworzy
+    odzielną kategorię. W uczeniu częściowo nadzorowanym algorytm nie używa oznaczeń nadanych przez człowieka, lecz są one 
+    wygenerowane na podstawie danych wejściowych (zazwyczaj stosowane są do tego algorytmy heurystyczne).
+    Jest to szczególnie przydatne w sytuacjach, gdy oznaczanie danych jest kosztowne lub czasochłonne jak przykładowo
+    w diagnos~tyce medycznej. 
+
+    \subsubsection{Uczenie przez wzmacnianie}
+    Dziedzina która była zaniedbywana do momentu w którym autorzy projektu Google DeepMind wykorzystali ją w celu nauki komputerów 
+    gier Atari. Jest to specyficzna forma uczenia maszynowego gdyż w zasadniczy sposób różni się od wszystkich poprzednich metod gdyż
+    alogrytm nie uczy się za pomocą danych lecz na podstawię interakcji z dynamicznym środowiskiem stąd nazwa "wzmacnianie". 
+    Agentem nazywamy element który jest odpowiedzialny za interakcję ze środowiskiem, a same interakcje nazywamy akcjami.
+    Algorytm za wykonanie każdej akcji definiowanej przez autora otrzymuje adekwatnie do oczekiwań nagrodę i karę. Na podstawię 
+    tej metody algorytm uczy się strategii która pozwala mu maksymalizować nagrodę na podstawię konkretnego stanu środowiska.
+    
+    \section{Teoretyczne podstawy uczenia przez wzmacnianie}
+
+    \subsection{Podstawowe pojęcia i definicje}
+    \begin{itemize}
+        \item Agent - 
+    \end{itemize}
+
 \end{document}

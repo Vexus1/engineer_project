@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{einstein}
+{\sc Einstein, A.}
+\newblock {Zur Elektrodynamik bewegter K{\"o}rper}. ({German}) [{On} the electrodynamics of moving bodies].
+\newblock {\em Annalen der Physik 322}, 10 (1905), 891--921.
+
+\bibitem{latexcompanion}
+{\sc Goossens, M., Mittelbach, F., Samarin, A.}
+\newblock {\em The \LaTeX\ Companion}.
+\newblock Addison-Wesley, Reading, Massachusetts, 1993.
+
+\end{thebibliography}

@@ -1,0 +1,9 @@
+\babel@toc {polish}{}\relax 
+\contentsline {chapter}{Wstęp}{3}{chapter*.2}%
+\contentsline {chapter}{\numberline {1}Rozdział pierwszy}{5}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Podrozdział pierwszy}{5}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Podrozdział drugi}{6}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Definicje, lematy, twierdzenia, przykłady i wnioski}{7}{chapter.2}%
+\contentsline {chapter}{Podsumowanie}{9}{chapter*.6}%
+\contentsline {chapter}{Dodatek}{11}{chapter*.7}%
+\contentsline {chapter}{Bibliografia}{12}{section*.8}%
