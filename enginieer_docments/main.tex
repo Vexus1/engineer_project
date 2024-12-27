@@ -106,7 +106,53 @@
 
     \subsection{Podstawowe pojęcia i definicje}
     \begin{itemize}
-        \item Agent - 
+        \item \textbf{Agent} - Podmiot który wchodzi w interakcje ze środowiskiem wykonując podane akcje/decyzje oraz obserwacje i otrzymując za to nagrody.
+        Zadaniem agenta jest maksymalizacja długoterminowej nagrody. Na przykład w szachach agentem jest gracz lub program komputerowy.
+        \item \textbf{Środowisko} - Jest to wszystko co oddziałuje na agenta i z czym wchodzi on w interakcję. Komunikacja środowiska
+        z agentem ogranicza się do obserwacji i nagrody. Na przykład środowiskiem w szachach jest plansza szachowa.
+        \item \textbf{Stan (\( s \))} - Informacje które środowisko dostarcza agentowi. Dają one wiadomości na temat tego co dzieje się wokół niego.
+        \item \textbf{Akcje (\( a \))} - Wszystkie czynności które agent może wykonywać w środowisku. Na przykład przesunięcie
+        pionka o jedno pole do przodu.
+        \item \textbf{Nagroda (\( r_t \))} - informacja zwrodna od środowiska wskazująca na to czy akcja była korzystna.
+        Nagroda ma charakter lokalny czyli odzwierciedla niedawną działalność agenta, a nie wszystkie jego sukcesy. Celem agenta jest maksymalizacja
+        skumulowanej nagrody.
+        \item \textbf{Polityka (\( \pi \))} - Strategia agenta, która pomaga mu podejmować akcje w danych stanach. Polityka może być deterministyczna
+        (\( \pi(s) - a \)) albo stochastyczna (\( \pi(a|s) \))
     \end{itemize}
+    (jakiś rysunek można dodać)
 
+    \subsection{Modele Markowa (MDP)}
+    Procesy decyzyjne Markowa (Markov Decision Processes, MDP) są podstawą matematyczną uczenia przez wzmacnianie. Dzięki MPD możemy zdefiniować
+    środowisko uczenia przez wzmacnianie jako pięciokrotkę:
+    \[ M = (S,A, P(s'|s,a), R(s,a), \gamma) \] (wzór do sprawdzenia)
+    gdzie:
+    \begin{itemize}
+        \item \( S \)  - zbiór możliwych stanów \( (s \in S ) \).
+        \item \( A \)- zbiór możliwych akcji \( (a \in A ) \).
+        \item \( P(s'|s,a) \) - Funkcja prawdopodobieństwa przejścia ze stanu \( s \) do stanu \( s' \) po wykonaniu po wykonaniu akcji \( a \).
+        \item \( R(s,a) \) - Funkcja nagrody, określa wartość nagordy otrzymanej po wykonaniu akcji \( a \) w stanie \( s \).
+        \item \( \gamma \) - Wpółczynnik dyskontowania, określa istotność przyszłych nagród \( (0 \leq \gamma \leq 1) \).
+    \end{itemize}
+    Cechą kluczową w procesie decyzyjnym Markowa jest własność Markowa, która zakłada iż przyszył stan środowiska, zależy jedynie od obecnego
+    stanu i podjętej akcji, a nie od historii wcześniejszych stanów:
+    \[ P(s_{t+1}|s_t,a_t,s_{t-1},a_{t-1},...) = P(s_{t+1}|s_t, a_t) \]
+    Dzięki właściwości Markowa jesteśmi w stanie uprościć modelowanie środowiska, pozwalając określić prawdopodobieństwa przejścia między stanami dzięki funkcji przejścia
+    \( P(s'|s,a) \).
+
+    \subsubsection{Proces Markowa z nagrodami}
+    Abyśmy mogli użyć nagrody, trzeba rozszerzyć klasyczny model procesu Markowa o mechanizm przyznawania nagród.
+    Zatem dla naszego przypadku każda para \( (s,a) \) jest skojarzona z funkcją nagrody \( R(s,a) \), która określa średnią wartrość oczekiwaną nagrody po wykonaniu
+    akcji a w stanie s:
+    \[ R(s,a) = E[r_{t+1}|s_t = s_t, a_t = a] \]
+    Nagorda może występować w różnych formach, może być ona pozytywna lub negatywna czy też duża lub mała. Jeżeli nagroda jest
+    przyznawana niezależnie od poprzedniego stanu lub za osiągnięcie danego stanu, wtedy można zachować tylko pary stan -> nagroda, co znacząco
+    pomaga w uproszczeniu zapisu nagrody. Ma to zastosowanie tylko i wyłącznie wtedy, gdy wartość nagrody zależy wyłącznie 
+    od stanu docelowego.
+    \\ \\
+    Kolejnym elementem na którym warto zwrócić uwagę jest \textbf{stopa dyskontowa \( \gamma \)}, gdzie \( 0 \leq \gamma \leq 1 \). 
+    Określa ona wpływ przyszłych nagród w chwili czasowej \( t \).
+    \\ \\
+    Dla każdego epizodu definiujemy wartość wynikową w czasie \( t \) w poniższy sposób:
+    \[ G_t = R_{t+1} + \gamma R_{t+2} + ... = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \]
+    Dla każdego punktu czasowego obliczamy wartość wynikową jako sumę kolejnych nagród. Dla 
 \end{document}
