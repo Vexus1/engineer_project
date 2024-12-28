@@ -149,10 +149,151 @@
     pomaga w uproszczeniu zapisu nagrody. Ma to zastosowanie tylko i wyłącznie wtedy, gdy wartość nagrody zależy wyłącznie 
     od stanu docelowego.
     \\ \\
-    Kolejnym elementem na którym warto zwrócić uwagę jest \textbf{stopa dyskontowa \( \gamma \)}, gdzie \( 0 \leq \gamma \leq 1 \). 
-    Określa ona wpływ przyszłych nagród w chwili czasowej \( t \).
-    \\ \\
     Dla każdego epizodu definiujemy wartość wynikową w czasie \( t \) w poniższy sposób:
     \[ G_t = R_{t+1} + \gamma R_{t+2} + ... = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \]
-    Dla każdego punktu czasowego obliczamy wartość wynikową jako sumę kolejnych nagród. Dla 
-\end{document}
+    Gdzie:
+    \begin{itemize}
+        \item \( G_t \) - Skumulowana nagroda, która jest całkowitą wartością nagród jakie otrzyma agent od momentu t w przyszłości.
+        Jest to miara, która oceania, jak dobrze agent postępuje, biorąc pod uwagę zarówno natychmastowa, jak i przyszłe nagrody.
+        \item \( \gamma \) - Współczynnik dyskontowania z zakresu \( [0, 1] \) który jest miarą tego jak agent ocenia przyszłe nagrody w porównaniu z 
+        nagrodami natychmiastowymi. na przykład:
+        \begin{itemize}
+            \item Dla \( \gamma = 0 \), agent skupia się wyłącznie na nagrodach natychmiastowych.
+            \item Gdy \( \gamma \) jest blisko 1, agent korzysta z długoterminowych strategii co może przyniać się do bardziej sensownych akcji. 
+        \end{itemize}
+        \item \( r_{t+k+1} \) - Nagroda otrzymana przez agenta w kroku czasowym \( t + k + 1 \). Są to nagrody będące sygnałami zwrotnymi otrzymanymi
+        od środowiska, mające na celu informowanie agenta o jakości jego działań.
+        \item \( k \) - indeks czasowy który określa zasięg możliwości przyszłych decyzji agenta, dzięki któremu jest w stanie obliczyć skumulowaną nagrodę.
+        Sumowanie zaczyna się od \( k = 0 \) co wskazuje nagrodzie otrzymanej po wykonaniu akcji w stanie \( s_t \).
+    \end{itemize}
+    Skumulowana nagroda \( G_t \) jest ma kluczowe znaczenie w uczeniu przez wzmacnianie ponieważ określa ocenę jakości działań agenta. Stanowi ona podstawyw cel, który agent stara się 
+    maksymalizować poprzez optymalny wybór akcji. Istnieją dwa kluczowe zastosowania \( G_t \) w uczeniu przez wzmacnianie:
+    \begin{itemize}
+        \item Funkcje wartości:
+        \begin{itemize}
+            \item Funckja wartości stanu \( V^\pi(s) \) - Oczekiwana skumulowana nagroda, którą agent może uzyskać, zaczynając od stanu s i postępując zgodnie z polityką \( \pi \).
+            \[ V^\pi(s) = E_\pi[G_t|s_t=s] \]
+            \item Funkcja wartości akcji \( Q^\pi(s,a) \) - Oczekiwana skumulowana nagroda, którą agent może uzyskać, wykonując akcję \( a \) w stanie \( s \),
+            a następnie postępując zgodnie z polityką \( \pi \).
+            \[ Q^\pi(s,a) = E_\pi[G_t|s_t=s,a_t=a] \]
+        \end{itemize}
+        \item Algorytmy uczenia:
+        \begin{itemize}
+            \item W algorymach takich jak Q-learning, funkcja wartości \( Q \) działa na zasadzie aktualizacji skumulowanej nagrody \( G_t \) w celu znalezienia odpowiedniej polityki.
+            \item W metodach takich jak aktor-krytyk (A2C) aktor (polityka) oraz krytyk (funkcja wartości) są aktualizwoane w celu maksymalizacji oczekiwanej skumulowanej nagrody.
+        \end{itemize}
+    \end{itemize}
+    \textbf{Przykład zastosowania skumulowanej nagrody \( G_t \) w grze pong:}
+    Niech agent będzie graczem który otrzumuje następujące nagrody w kolejnych krokach czasowych:
+    \begin{itemize}
+        \item \( r_1 = +1 \) - zdobycie punktu
+        \item \( r_2 = -1 \) - utrata punktu
+        \item \( r_3 = +1 \)
+        \item \( r_4 = +1 \)
+        \item \( r_5 = -1 \)
+    \end{itemize}
+    Zakładając że \( \gamma = 0.9 \), wtedy skumulowana nagroda \( G_0 \) zaczynając od chwili \( t = 0 \) będzie obliczana jako:
+    \[ G_0 = \gamma^0r_1 + \gamma^1r_2 + \gamma^2r_3 + \gamma^3r_4 + \gamma^4r_5 + ... \]
+    \[ G_0 = 1 * 1 + 0.9 * (-1) + 0.9^2 * 1 + 0.9^3 * 1 + 0.9^4 * (-1) + ... \]
+    \[ G_0 = 1 - 0.9 + 0.81 + 0.729 - 0.6561 + ... \]
+    Agent będzię skupiał się na maksymalizacji sumy tych wartości, dzięki czemu sprawi to zachętę do podejmowania działań prowadzących do długoterminowych korzyści. \\
+    (Jakiś rysunek by się przydał)
+    \subsection{Równanie Bellmana}
+    Jednym z fundamendalnych narzędzi w teorii uczenia przez wzmacnianie jest równanie Bellmana.
+    Umożliwia ono formalizację relacji między wartością stanów a akcjami, co jest niezbędne do optymalizacji polityk agenta.
+    Równanie to pozwala na rekurencyjne obliczanie wartości funkcji, co jest kluczowe dla wielu algorytmów uczenia przez wzmacnianie.
+    "Równanie Bellmana stanowi podstawę dla większości algorytmów uczenia przez wzmacnianie, ponieważ pozwala na efektywne obliczanie wartości stanów i akcji poprzez iteracyjne aktualizacje"
+    - Sutton i Barto, 2018.
+    \subsubsection{Równanie Bellmana dla funkcji wartości stanu \( V^\pi(s) \)}
+    Funkcja wartości stanu \( V^\pi(s) \) określa oczekiwaną sumę zdyskontowanych nagród które agent może uzyskać zaczynając od stanu s
+    i postępując zgodnie z polityką \( \pi \). Wzór na równanie Bellmana dla wartości stanu:
+    \[ V^\pi(s) = E_\pi[R_{t+1}  \gamma V^\pi(S_{t_1})|S_t = s] \],
+    gdzie:
+    \begin{itemize}
+        \item \( V^\pi(s) \) - Funckja stanu wartości dla polityki \( \pi \), określająca sumę zdyskontowanych nagród od stanu \( s \).
+        \item \( E_\pi \) - Oczekiwana wartrość przy użyciu plityki \( \pi \).
+        \item \( R_{t+1} \) - Nagroda otrzymywana po przejściu ze stanu \( s \) do stanu \( s_{t+1} \) która jest wynikiem podjęcia kacji zgodnych z polityką \( \pi \).
+        \item \( \gamma \) - Współczynnik dyskonotwania \( (0 \leq \gamma \leq 1) \).
+        \item \( S_{t+1} \) - Stan osiągnięty po wykonaniu akcji w stanie \( s \).
+    \end{itemize}
+    Równanie to można interpretować poprzez równość wartości stanu s a oczekiwanej nagrodzie otrzymanej po przejściu do kolejnego stanu plus zdyskontowanej wartości nowego stanu,
+    zakładając, iż agent działa zgodnie z polityką \( \pi \).
+    \subsubsection{Równanie Bellmana dla funkcji wartości akcji \( Q^\pi(s,a) \)}
+    Funkcja wartości akcji \( Q^\pi(s,a) \) określa oczekiwaną sumę zdyskontowanych nagród, które agent może uzyskać, wykonując akcję \( a \) w stanie \( s \), zgodnie z polityką \( \pi \).
+    Równanie jest wyrażone poprzez wzór:
+    \[ Q^\pi(s,a) = E_\pi[R_{t+1} + \gamma Q^\pi(S_{t+1}, A_{t+1})|S_t = s, A_t = a] \]
+    Gdzie:
+    \begin{itemize}
+        \item \( A_{t+1} \) - Akcja podjęta w stanie \( S_{t+1} \) zgodnie z polityką \( \pi \).
+    \end{itemize}
+    Równanie to mówi, że wartośc akcji \( a \) w stanie \( s \) jest równa oczekiwanej nagrodzie otrzymanej po wykonani akcji \( a \) plus zdystkontowaniej wartości
+    \( A_{t+1} \) w nowym stanie \( S_{t+1} \), zakładając, że agent działa zgodnie z polityką \( \pi \).
+    \subsubsection{Równanie Bellmana dla polityki optymalnej \( V^*(s) \) i \( Q^*(s,a) \)}
+    Polityka optymalna \( \pi^* \) maksymalizuje funkcję wartości: \( V^*(s) = max_\pi V^\pi(s) \).
+    Równanie Bellmana dla funkcji wartości stanu w optymalnej poltyce wyraża się poniższym wzorem:
+    \[ V^*(s) = max_a E[R_{t+1} + \gamma V^*(S_{t+1})|S_t = s, A_t = a] \]
+    Analogicznie poniżej równanie dla funkcji wartości akcji w polityce optymalnej:
+    \[ Q^*(s,a) = E[R_{t+1} + \gamma max_a' Q^*(S_{t+1},a')|S_t = a, A_t = a] \]
+    Równania można interpretować jako:
+    \begin{itemize}
+        \item \( V^*(s) \) - Najlepsza możliwa wastość stanu \( s \), uzyskana poprzez wybur najlepszej akcji.
+        \item \( Q^*(s,a) \) - Najlepsza możliwa wartość akcji \( a \) w stanie \( s \), uwzględniająca przyszłe optymalne decyzje.
+    \end{itemize}
+    Równania te stanowią podstawę dla optymalnej polityki algorytmów takich jak Value iteration i Q-learning.
+    \subsubsection{Metoda iteracji wartości}
+    Algorytm, który pozwala na uteracyjną aktualizację funkcji wartości stanu \( V(s) \) zgodnie z rówaniem Bellmana dla optymalnej polityki, do momentu osiągnięcia zbieżności.
+    \\ Składa się ona z poniższych kroków:
+    \begin{itemize}
+        \item Zainicjalizuj wszystkie stany \( V_i \) z pewnymi wartościami początkowymi. Zawyczaj \( V(s) = 0 \) dla wszsytkich \( s \in S \).
+        \item Dla każdego stanu \( s in S \) w procesie decyzyjnym Markowa wykonaj aktualizacje:
+        \[ V(s) \leftarrow max_a \sum_{s'} P(s'|s,a)[R(s,a) + \gamma V(s')] \]
+        \item Powtarzaj poprzedni krok poprzez wykonanie wielu iteracji do momentu gdy maksymalna zmiana \( V(s) \) jest mniejsza niż zadany próg. 
+    \end{itemize}
+    \subsubsection{Metoda iteracji polityki}
+    Algorytm składający się z dwóch głównych kroków: ewaluacji polityki i jej ulepszania. Składa się on z poniższych kroków:
+    \begin{itemize} 
+        \item Zainicjalizuj początkową politykę \( \pi_0 \) oraz \( V(s) \)
+        \item Oblicz wartość \( V^\pi (s) \) dla bierzącej polityki \( \pi \) za pomocą poniższego wzoru:
+        \[ V^\pi = \sum_{a} \pi(a|s) \sum_{s'} P(s'|s,a) [R(s,a) + \gamma V^\pi(s')] \]
+        \item ulepszenie polityki poprzez wybur akcji \( a \) maksymalizującej wartość oczekiwaną dla każdego stanu \( s \) za pomocą poniższego wzoru:
+        \[ \pi'(s) = argmax_a \sum_{s'} P(s'|s,a) [R(s,a) + \gamma V^\pi(s')] \]
+        \item Sprawdzenie zbieżności. Jeżeli polityka \( \pi' \) jest taka sama jak \( \pi \), algorytm kończy działanie.
+        W przeciwnym wypadku, ustaw \( \pi = \pi' \) i powtórz poprzednie 2 kroki. 
+    \end{itemize}
+    \subsection{Metoda entropii krzyżowej w uczeniu przez wzmacnianie}
+    Entropia krzyżowa jest miarą różnicy pomiędzy dwoma rozkładami prawdopodobieństwa. Entropia krzyżowa w kontekście uczenia przez wzmacnianie
+    jest używana do oceny jak dobrze nowa polityka agenta \( \pi_{new}(a|s) \) zbliża się do idealnego rozkładu akcji, który ma na celu maksymalizację oczekiwanej skumulowanej nagrody.
+    Wzór na entropię krzyżową między dwoma rozkładami \( p(a) \) i \( q(a) \) wyraża się następująco:
+    \[ H(p,q) = - \sum_{a \in A} p(a) log(q(a)) \]
+    gdzie:
+    \begin{itemize}
+        \item \( p(a) \) - Jest rozkładem prawdopodobieństwa akcji \( a \) według starej polityki \( \pi_{old}(a|s) \).
+        \item \( q(a) \) - Jest rozkładem prawdopodobieństwa akcji \( a \) według nowej polityki \( \pi_{new} (a|s) \).
+    \end{itemize} 
+    \subsubsection{Twierdzenie o próbkowaniu istotnościowym}
+    Próbkowanie istotnościowe pozwala na przekształcenie rozkładu prawdopodobieństwa, aby oszacować wartość oczekiwaną funkcji \( f(x) \) przy
+    użyciu próbek pobranych z innego rozkładu prawdopodobieństwa. W kontekście uczenia przez wzmacnianie jest to przydatne w momencie gdy
+    próbki akcji są zbierane na podstawie starej polityki \( \pi_{old}(a|s) \), a chcemy oszacować wartości dla nowej polityki \( \pi_{new} (a|s) \).
+    \\ Twierdzenie o próbkowaniu istotnościowym:
+    \[ E_{x \sim p(x)} [H(x)] = \int_{x} p(x)H(x) dx = \int_{x} q(x) \frac{p(x)}{q(x)} H(x) dx = E_{x \sim q(x)} [\frac{p(x)}{q(x)}H(x)]\] 
+    gdzie:
+    \begin{itemize}
+        \item \( p(x) \) - Rozkład próbkowania (np. stara polityka)
+        \item \( q(x) \) - Rozkład docelowy (np. nowa polityka)
+        \item \( H(x) \) - Funkcja entropi w stanie \( x \) zdefiniowana jako:
+        \[ H(\pi) = - \sum_{a \in A} \pi(a|s)log(\pi(a|s)) \]
+    \end{itemize}
+    \subsubsection{Dywergencja Kullbacka-Leiblera}
+    Pozawla ona obliczyć odległość między dwoma rozkładami prawdopodobieństwa \( p(x) \) i \( q(x) \). W kontekście uczenia przez wzmacjnanie jest ona używana
+    do oceny jak bardzo nowa polityka różni sie od starej polityki. 
+    \\ Definicja dywergencji Kullbacka-Leiblera:
+    \[ KL(p(x) || q(x)) = \sum_{x} p(x) \frac{p(x)}{q(x)}\]
+    W kontekście uczenia przez wzmacnianie:
+    \[ KL(\pi_{old}(a|s) || \pi_{new}(a|s)) = \sum_{a} \pi_{old}(a|s) log(\frac{\pi_{old}(a|s)}{\pi_{new}(a|s)})\]
+    Dywergencja Kullbacka-Leiblera w kontekście uczenia przez wzmacnianie jest używana do:
+    \begin{itemize}
+        \item Regularizacji polityki - Ogranicza stopień smiany między starą a nową polityką, co skutecznie niweluję problem nagłych i dużych zmian,
+        które mogą mieć negatywny wpływ na proces uczenia.
+        \item Kontrola eksploracji - Służy do utrzymywania balansu między eksploracją nowych akcji a eksploracją znanych akcji.
+    \end{itemize}
+\end{document} 

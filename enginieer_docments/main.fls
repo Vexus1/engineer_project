@@ -74,13 +74,16 @@ INPUT /usr/share/texlive/texmf-dist/fonts/enc/dvips/pl/plmi.enc
 INPUT /usr/share/texlive/texmf-dist/fonts/enc/dvips/pl/plrm.enc
 INPUT /usr/share/texlive/texmf-dist/fonts/enc/dvips/pl/plms.enc
 INPUT /usr/share/texlive/texmf-dist/fonts/enc/dvips/pl/plme.enc
+INPUT /usr/share/texlive/texmf-dist/fonts/enc/dvips/pl/plsc.enc
 INPUT main.aux
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/pl/plex10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/pl/plmi10.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/pl/plmi7.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/pl/plr10.pfb
+INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/pl/plr5.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/pl/plr7.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/pl/plsy10.pfb
+INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/pl/plsy5.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/pl/plsy7.pfb
 INPUT /usr/share/texmf/fonts/type1/public/cm-super/sfbx1000.pfb
 INPUT /usr/share/texmf/fonts/type1/public/cm-super/sfbx1200.pfb
