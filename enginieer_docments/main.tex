@@ -421,7 +421,7 @@
         \[ \theta^- \leftarrow \theta \]
     \end{itemize}
     \subsubsection{Zalety i wady DQN}
-    \textbf{Zalety:}
+    \noindent \textbf{Zalety:}
     \begin{itemize}
         \item Efektywność w dużych przestrzeniach stanów dzięki głębokim sieciom neuronowym
         \item Stabilizacja uczenia za pomocą mechanizmów replay i target network
@@ -434,4 +434,70 @@
         \item Problemy z eksploracją. Model może utknąć w lokalnym minimum.
     \end{itemize}
     \subsection{Advantage Actor-Critic (A2C)}
+    Advantage Actor-Critc (A2C) to metoda, która łączy w sobie zalety metod opartych na polityce i opartych na wartściach.
+    Pozwala ona na zminiejszczenie wariancji poprzez uzależnienie punktu odniesienia od stanu. Nagrodę można przedstawić
+    jako wartość stanu plus przewaga akcji: \( Q(s,a) = V(s) + A(s,a) \). A2C działa na zasadzie wykorzystania dwóch odzielnych
+    sieci nauronowych: aktora odpowiedzialnego za wybur akcji oraz krytka oceniającego jakość wypranych akcji.
+    \subsubsection{Architektura modelu}
+    Aktor jest odpowiedzialny za generowanie rozkładu prawdopodobieństwa akcji \( \pi(a|s) \)
+    w danym stanie 
+    \begin{itemize}
+        \item Warstwa wejściowa która przyjmuje stan środowiska \( s_t \) jako wejście. Stan ten może być representowany jako wektor cech lub inna odpowiednia reprezentacja.
+        \item Warstwy ukryte reprezentowane jako kilka warstw neuronowych w pełni połączonych lub konwolucyjnych które
+        mają za zadanie przetworzyć informacje z wejścia
+        \item Warstwa wyjściowa która używa funkcji softmax w celu wyprowadzenia rozkładu prawdopodobieństwa akcji:
+        \[ \pi(a|s) = \frac{exp(f(a,s))}{\sum_{a'}exp(f(a',s))} \]
+        gdzie \( f(a,s) \) jest wynikiem ostatniej warstwy sieci aktora.
+    \end{itemize}
+    krytyk ocenia wartość stanu \( V(s) \) oraz przewagi akcji \( A(s,a) \) w danym stanie, co jest kluczowe dla podejmowania odpowiednich akcji przez aktora.
+    \begin{itemize}
+        \item Warstwa wejściowa przyjmuje ten sam stan środowiska \( s_t \) co aktor.
+        \item Warstwy ukryte są reprezentowane jako kikla warstw neuronowych mających za zadanie przetwarzać informacje z wejścia.
+        \item Warstwa wyjściowa ma na celu wyprowadzić jendą wartość funckji skalarnej wartości stanu:
+        \[ V(s) = f(s) \]
+        gdzie \( f(s) \) jest wynikiem ostatniej warstwy sieci krytyka.
+    \end{itemize}
+    Warto także wspomnieć o wspóldzieleniu warstw przez algorytm A2C mianowice część warstw sieci może być współdzielona między
+    aktorem a krytykiem, co pozwala na efektywniejsze uczenie się współnych reprezentacji stanów.
+    \subsubsection{Proces treningu algorytmu A2C}
+    Poniższy opis procesu A2C obejmuje interakcje agenta ze środowiskiem, zbieranie doświadczeń, obliczanie przewagi i aktualizację wag sieci aktora i krytyka.
+    \begin{itemize}
+        \item Inicjalizacja procesu uczenia z parametrami sieciowymi \( \theta \) przyjmując wartrości losowe dla obu sieci aktora i krytyka.
+        parametr polityki \( \theta_\pi \) (aktor), parametr wartości \( \theta_v \) (krytyk)
+        \item Wykonać \( N \) kroków w środowisku używając bieżącej polityki \( \pi_\theta \). Dla każdego kroku
+        \( t \) zapamiętać stan \( s_t \) akcję \( a_t \) wylosowaną z \( \pi_{\theta_\pi} (a|s_t) \), nagrodę \( r_t \).
+        \item Jeżeli dotarliśmy do końca epizodu, przyjmujemy \( R = 0 \) w przeciwnym wypadku obliuczamu wartość stanu końcowego \( s_{t+1} \)
+        Przy pomocy sieci wartości:
+        \[ R = V_{\theta_v}(s_{t+1}). \]
+        W przypadku zakończenia epizodu na przykład gdy gra się kończy przerywamy zbieranie danych wcześniej.
+        \item Przetwarzamy kroki wstecz od \( t = t_N, t_{N-1}, ..., t_{start} \), obliczając skumulowaną nagrodę z dyskonotwaniem:
+        \[ R \leftarrow r_t + \gamma R \]
+        następnie należy aktualizować gradnienty aktora i krytyka:
+        \begin{itemize}
+            \item Gradient polityki:
+            \[ \nabla \theta_\pi \leftarrow \nabla \theta_\pi log \pi_{\theta_\pi} (a_t|s_t) (R-V_{\theta_v}(s_t)) \]
+            \item Gradient wartości:
+            \[ \nabla \theta_v \mathcal{L}_v \leftarrow \frac{\partial}{\partial \theta_v} (R - V_{\theta_v}(s_t))^2 \]
+        \end{itemize}
+        Sumujemy powyższe gradienty dla aktora i krytyka w pamięci co w praktyce zbiera się je wektorem przez \( N \) kroków.
+        \item Zaktualizować parametry sieci wykorzystując zsumowane gradienty. Wektor \( \nabla \theta_\pi \) dodajemy do \( \theta_\pi \) (maksymalizacja polityki) oraz
+        wektor \( \nabla \theta_v \) odejmujemy od \( \theta_v \) (minimalizacja błędu wartości).
+        \item Powtarzamy procedure z kroku 2 do momentu osiągnięcia konwergencji lub uzyskania założonych winików.
+    \end{itemize}
+    \subsubsection{Zaleti i wady A2C}
+    \noindent \textbf{Zalety:}
+    \begin{itemize}
+        \item Lączenie zalet metod opartych na polityce i wartości poprzez kożystanie zarówno z optypalizacji polityki, jak i oceny stanu jakości przez krytyka.
+        \item Stabilność uczenia się dzięki wykorzystaniu przewagi \( A(s,a) \) oraz regularyzacji entropii.
+        \item Efektywna eksploracja poprzez regularyzację entropii.
+        \item Skalowalność
+    \end{itemize}
+    \textbf{Wady:}
+    \begin{itemize}
+        \item Złożoność obliczeniowa. Algorytm A2C wymaga trenowania dwóch oddzielnych sieci neuronowych dla aktora i krytyka co zwiększa
+        wymagania obliczeniowej
+        \item Wrażliwość na parametry takie jak cwspółczynnik regulacji entropii \( \beta \), współczynnik dyskonotwania \( \gamma \) 
+        oraz współczynnik uczenia \( \alpha \).
+        \item Potencjalne problemy z równowagą aktora i krytyka, która przy niewłaściwej synchronizacji może doprowadzić do niestabilnosći w procesie uczenia
+    \end{itemize}
 \end{document} 
