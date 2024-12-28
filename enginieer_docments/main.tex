@@ -5,6 +5,7 @@
 \usepackage{geometry}
 \usepackage{indentfirst}
 \usepackage{titlesec}
+\usepackage{amsmath}
 
 \geometry{top=2cm, bottom=2cm, left=2.5cm, right=2.5cm}
 
@@ -296,4 +297,141 @@
         które mogą mieć negatywny wpływ na proces uczenia.
         \item Kontrola eksploracji - Służy do utrzymywania balansu między eksploracją nowych akcji a eksploracją znanych akcji.
     \end{itemize}
+    \section{Implementacjia wybranych algorytmów uczenia przez wzmacnianie}
+    W dziedzinie uczenia przez wzmacnianie istnieje szeroki zakres różnych algorytmów, a ich wybór w dużej mierze
+    jest zależny od środowiska w jakim algorytmowi przyszło pracować. algorytmy te można podzielić na trzy główne kategorie:
+    \begin{itemize}
+        \item Algorytmy optymalizujące wartości (Value Optimization)
+        \item Algorytmy optymalizujące politykę (Policy Optimization)
+        \item Algorytmy imitacyjne (imitation)
+    \end{itemize}
+    \subsection{Klasyfikacja algorytmów uczenia przez wzmacnianie}
+    \subsubsection{Algorytmy optymalizujące wartości (Value optimization)}
+    Algorytmy tej kategorii są skoncentrowane na nauce funkcji wartości, która ma za zadanie ocenić jakość stanów lub akcji w danym czasie.
+    Najbardziej znanym algorytmem tej kategorii jest \textbf{Q-Learning}, który ma nacelu nauke funkcji \textbf{\( Q(s,a) \)}, 
+    która reprezentuje oczekiwaną sumę zdyskontowanych nagród po wykonaniu akcji \( a \) w stanie \( s \) oraz postępuje ona zgodnie z optymalną polityką.
+    \\ \textbf{Przykłady algorytmów:}
+    \begin{itemize}
+        \item Q-Learning
+        \item Deep Q-Learning (DQN)
+        \item double DQN
+        \item dueling DQN
+    \end{itemize}
+    \subsubsection{Algorytmy optymalizujące politkę (Policy Optimization)}
+    Algorytmy te działają na zasadzie bezpośredniej optymalizacji polityki agenta, czyli regułę wyboru akcji w każdym stanie.
+    Algorytm zamiast uczyć się funkcji wartości, optymalizuje politkę starając się znaleść najbardziej korzystną politykę na zasadzie maksymalizacji
+    oczekiwanej sumy nagród.
+    \\ \textbf{Przykłady algorytmów:}
+    \begin{itemize}
+        \item Policy Gradient Methods (REINFORCE)
+        \item Advantage Actor-Critic (A2C)
+        \item Asynchronous Adbantage Actor-Critic (A3C)
+        \item Proximal Policy Optimization (PPO)
+    \end{itemize}
+    \subsubsection{Algorytmy imitacyjne (imitation)}
+    Algorytmy imitacyjne naśladują działania eksperta dzięki czemu uczą się jak poprawnie się zachowywać. Celem jest
+    stworzenie odpowiedniej polityki, która ma na celu reprodukcje sukcesów eksperta bez konieczności eksploracji środowiska.
+    \\ \textbf{Przykłady algorytmów:}
+    \begin{itemize}
+        \item Behavioral Cloning
+        \item Inverse Reinforcement Learning (IRL)
+        \item Generative Adversarial Imitation Learning (GAIL)
+    \end{itemize}
+    \subsection{Wybór algorytmów do implementacji}
+    W kontekście realizacji mojego projektu zdecydowałem się na implementacji algorytmów należących do dwóch z pierwszych kategorii a mianowicie:
+    \textbf{Deep Q-Learning (DQN)}, \textbf{Advantage Actor-Critic (A2C)} oraz \textbf{Asynchronous Advantage Actor-Critic (A3C)}.
+    Za podjęciem tej decyzji w dużej mierze odpowiadało wybrane środowisko i specyfikacja zadania.
+    \subsubsection{Dlaczego odrzucono klasyczną metodę Q-Learning?}
+    Klasyczna metoda uczenia przez wzmacnianie jaką jest Q-Learning chodź stanowi fundament, posiada dość spore ograniczenia co 
+    czyni ją nieskuteczną w bardziej złożonych środowiskaj, takich jak gry wideo. Z głównych powodów które doprowadziły 
+    do zrezygnowania z metody Q-Learning w tym projekcie są:
+    \begin{itemize}
+        \item Wysoka wymiarowość przestrzeni stanów - Gry takie jak Pong, ale także inne gry z kategori gier Atari generują bardzo złożone 
+        i wysoko wymiarowe dane wejściowe, przez co ze względu na bardzo dużą ilość pamięci do przechowywania wartości \( Q(s,a) \),
+        tablicowe podejście algorytmu Q-Learning staje się niepraktyczne.
+        \item Brak generalizacji - Klasyczna metoda Q-Learning nie jest w stanie generować doświadczeń do nowych, nieznanych stanów, co 
+        przyczynia się do sporego ograniczenia efektywnego uczenia się w dynamicznych środowiskach.
+        \item Trudność z eksploracją - Wysoki poziom eksploracji który jest wymagany przez Q-Learning doporwadza do sporego czasu oczekiwania.
+        \item Brak stabilności procesu uczenia - Model Q-Learning dla dużych przestrzeni stanów oraz dynamicznych środowisk jest niestabilny co prowadzi
+        do trundości a nawet niemożliwości osiągnięcia konwergencji modelu. 
+    \end{itemize}
+    Ze względu na powyższe powody zdeycydowałem się na wykorzystanie bardziej zaawansowanych metod które wykorzystują ogromne zasoby jakie daje im 
+    wykorzystanie sieci neuronowych do aproksymacji wartości funkcji.
+    \subsection{Deep Q-Learning (DQN)}
+    Algorytm Deep Q-Learning (DQN) jest bardziej zaawansowaną metodą od zwykłego Q-Learning gdyż wykorzystuję głębokie sieci neuronowe.
+    Została ona zaprojektowana w celu efektywnego radzenia sobie z dużymi i złożonymi przestrzeniami stanów które są trudne a nawet nie możliwe
+    do obsłużenia przez tradycyjną metodę Q-Learning. Przy pomocy zastosowania głębokich sieci neuronowych algorytm umożliwia agentom
+    uczenie sie w bardziej efektywny sposób zaawansowanych strategii w środowiskach o wysokiej złożoności, takich jak gry wideo.
+    \subsubsection{Architektura modelu}
+    Architektura modelu Deep Q-Learning opiera się na głębokiej sieci neuronowej, która pełni rolę funkcji aproksymującej 
+    Q-funkcję \( Q(s,a;\theta) \). Główne elementy architektóry DQN to:
+    \begin{itemize}
+        \item Sieć Q (Q-Network):
+        \begin{itemize}
+            \item Wejście - Stan środowiska \( s \), który może mieć reprezentacje na przerózne sposoby, np: jako wektor cech 
+            czy też surowe dane.
+            \item Warstwy ukryte - Kilka warst neuronowych często konwolucyjnych w przypadku na przykład przetwarzania obrazów.
+            Są one głównie odpowiedzialne za ekstrakcję cech i przetwarzanie informacji z wejścia.
+            \item Warstwa wyjściowa - Wyprowadza wartości \( Q \) dla każdej możliwej akcji \( a \) w danym stanie \( s \).
+        \end{itemize}
+        \item Sieć docelowa (Target Network) - Jest ona kopią sieci \( Q \) mającą na celu aktualizację rzadziej niż sieć \( Q \).
+        Sieć docelowa służy do generowania celów dla aktualizacji Q-funkcji, co pomaga w odpowiedniej stabilizacji procesu uczenia.
+        \item Bufor doświadczeń (Experience Replay Buffer) - Mechanizm który pozwala na przechowanie przejść (\( s_t, a_t, r_{t+1}, s_{t+1} \)),
+        które są później losowo pobierane do treningu. Za pomocą tego agent jest w stanie się uczyć różnorodnych doświadczeń,
+        co pozwala mu na redukcje korelacji między kolejnymi próbami i ulepsza stabilizację procesu uczenia.
+    \end{itemize}
+    \subsubsection{Przykładowa architektura sieci Q dla DQN}
+    \begin{itemize}
+        \item Warstwa wejściowa - Wejście w postaci obrazu o rozmiarze 84x84 pikseli z 4 kanałami
+        \item Pierwsza warstwa konwolucyjna - 32 filtry, rozmiar jądra 8x8, stride 4, aktywacja ReLU.
+        \item Druga warstwa konwolucyjna - 64 filtry, rozmiar jądra 4x4, stride 2, aktywacja ReLU.
+        \item Trzecia warstwa konwolucyjna - 64 filtry, rozmiar jądra 3x3, stride 1, aktywacja ReLU.
+        \item Warstwa w pełni połączona - 512 neuronów, aktywacja ReLU.
+        \item Warstwa wyjściowa - Liczbna neronów jest równa liczbie dostępnych akcji w środowisku, bez wykorzystania funkcji aktywacji
+    \end{itemize}
+    \subsubsection{Proces treningu algorytmu DQN}
+    Proces treningu obejmuje kilka kluczowych dla działania etapów mających na celu efektywne uczenie się optymalnej polityki.
+    Poniżej jest przedstawiony opis etapów krok po kroku:
+    \begin{itemize}
+        \item Zainicjalizuj \( Q(s,a;\theta) \) za pomocą początkowego przybliżenia:
+        \begin{itemize}
+            \item Sieć Q - Zaincjalizowanie parametrów sieci \( Q \) z losowymi wartościami.
+            \item Sieć docelowa - Skopiowanie wag sieci \( Q \) do sieci docelowej.
+            \item Bufor doświadczeń - Utworzenie pustego bufora do przechowywania przejść (\( s_t, a_t, r_{t+1}, s_{t+1} \)).
+        \end{itemize}
+        \item Wybór akcji (strategia \( \epsilon \)-greedy): \\
+        Agent wybiera kacjię \( a_t \) na podstawię bierzącego stanu \( s_t \) za pomocą strategii \( \epsilon \)-greedy.
+        \[
+        a_t =
+        \begin{cases} 
+        \text{Losowa akcja} & \text{z prawdopodobieństwem } \epsilon, \\
+        \arg\max_a Q(s_t, a; \theta) & \text{z prawdopodobieństwem } 1 - \epsilon.
+        \end{cases}
+        \]
+        \item Agent wykonuje wybraną akcję \( a_t \) w środowisku, co prowadzi do otrzymania nagrody \( r_{t+1} \)
+        oraz przejścia do nowego stanu \( s_{t+1} \)
+        \item Przechowanie doświadczenia (\( s_t, a_t, r_{t+1}, s_{t+1} \)) w buforze.
+        \item Pobranie mini-partii przejść (\(s_i, a_i, r_i s'_i \)) doświadczeń z bufora
+        \item Obliczenie targetów Q-values za pomocą wzoru:
+        \[ y_i = r_i + \gamma max_{a'}Q(s'_i,q';\theta^-) \]
+        gdzie \( \theta^- \) jest parametrem docelowej sieci
+        \item Aktualizacja sieci Q poprzez minimalizację funkcji straty błędu średniokwadratowego (MSE):
+        \[ \mathcal{L}(\theta) = \frac{1}{N} \sum_{i}(Q(s_i,a_i;\theta)-y_i)^2 \]
+        \item aktualizacja sieci docelowej:
+        \[ \theta^- \leftarrow \theta \]
+    \end{itemize}
+    \subsubsection{Zalety i wady DQN}
+    \textbf{Zalety:}
+    \begin{itemize}
+        \item Efektywność w dużych przestrzeniach stanów dzięki głębokim sieciom neuronowym
+        \item Stabilizacja uczenia za pomocą mechanizmów replay i target network
+    \end{itemize}
+    \textbf{wady:}
+    \begin{itemize}
+        \item Terning sieci DQN wymaga znaczących zasobów obliczeniowych
+        \item Kluczowe w treningu sieci DQN jest dobranie odpowiednich hiperparametrów dla odpowiedniej optymalizacji
+        co może nieść za sobą spore trudności.
+        \item Problemy z eksploracją. Model może utknąć w lokalnym minimum.
+    \end{itemize}
+    \subsection{Advantage Actor-Critic (A2C)}
 \end{document} 
