@@ -1,0 +1,32 @@
+\babel@toc {polish}{}\relax 
+\contentsline {chapter}{\numberline {1}Wstęp}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Wprowadzenie do problematyki}{3}{section.1.1}%
+\contentsline {chapter}{\numberline {2}Podstawy teoretyczne}{5}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Wprowadzenie do analizy technicznej}{5}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Wprowadzenie do kryptowalut}{6}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Wprowadzenie do uczenia maszynowego}{8}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Podstawowe pojęcia}{8}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Kluczowe rodzaje uczenia maszynowego \hyperref [info19]{[19]}}{9}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Zastosowania uczenia maszynowego w różnych dziedzinach \hyperref [info20]{[20]} }{9}{subsection.2.3.3}%
+\contentsline {chapter}{\numberline {3}Wybrane wskaźniki analizy technicznej}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Średnia ruchoma (\textit {ang. Moving Average})}{12}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Opis wskaźnika}{12}{subsection.3.1.1}%
+\contentsline {subsubsection}{Średnia ruchoma prosta (\textit {ang. Simple Moving Average}) (SMA)}{12}{section*.5}%
+\contentsline {subsubsection}{Średnia ruchoma wykładnicza (\textit {ang. Exponential Moving Average}) (EMA)}{13}{section*.6}%
+\contentsline {subsection}{\numberline {3.1.2}Zastosowanie wskaźnika w analizie technicznej}{13}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}Wykresy świecowe (\textit {ang. Candlestick Charts})}{16}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Charakterystyka wzorów świecowych}{16}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Przykładowe formacje i ich interpretacje}{17}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Zniesienia Fibonacciego (Fibonacci Retracements)}{21}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Teoria ciągów Fibonacciego}{22}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Zastosowanie zniesień Fibonacciego}{23}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Oscylator stochastyczny \textit {(ang. Stochastic Oscillator)}}{25}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Opis oscylatora}{25}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Sygnały generowane przez oscylator:}{25}{subsection.3.4.2}%
+\contentsline {chapter}{\numberline {4}Metody uczenia maszynowego w prognozowaniu kursów kryptowalut}{29}{chapter.4}%
+\contentsline {chapter}{\numberline {5}Eksperymenty i wyniki}{31}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Dyskusja}{33}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Podsumowanie i wnioski}{35}{chapter.7}%
+\contentsline {chapter}{\numberline {A}Załączniki}{39}{appendix.A}%
+\contentsline {chapter}{\numberline {B}DODATKI}{41}{appendix.B}%
+\contentsline {chapter}{DODATKI}{41}{appendix.B}%

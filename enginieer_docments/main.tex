@@ -1,4 +1,4 @@
-\documentclass[a4paper, 10pt]{article}
+\documentclass[a4paper, 12pt]{article}
 \usepackage{polski}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -6,8 +6,9 @@
 \usepackage{indentfirst}
 \usepackage{titlesec}
 \usepackage{amsmath}
+\usepackage{graphicx}
 
-\geometry{top=2cm, bottom=2cm, left=2.5cm, right=2.5cm}
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
 
 % Dostosowanie odstępów dla sekcji i podsekcji
 \titleformat{\section}[block]{\normalfont\Large\bfseries}{\thesection}{1em}{}
@@ -500,4 +501,132 @@
         oraz współczynnik uczenia \( \alpha \).
         \item Potencjalne problemy z równowagą aktora i krytyka, która przy niewłaściwej synchronizacji może doprowadzić do niestabilnosći w procesie uczenia
     \end{itemize}
+    \section{Eksperymenty i analiza wyników}
+    \subsection{Konfiguracja środowiska testowego}
+    Głównym celem pracy jest przeprowadzenie eksperymentów z uczeniem przez wzmacnianie do prostej gry typu Atari. 
+    Ze względu na to zdecydowano się na wybór gry Pong jako środowiska testowego. W celu łatwości implementacji oraz eliminacji
+    nadmiarowej ilościu kodu zdecydowano się skorzystać z zasobów biblioteki Gymnasium która zapewnia jednolity
+    interfejs API dla agenta uczenia przez wzmacnianie.
+    \subsubsection{Środowisk testowe: Pong}
+    Pong jest popularną grą wideo z kategorii gier Atari, które idealnie się nadają do testowania algorytmów takich jak uczenie przez wzmacnianie,
+    dlatego zdecydowano się na użycie tej gry. Biblioteka Gymnasium (następca biblioteki Gym) oferuje szeroką gamę możliwości testowych poprzez gre Pong.
+    Wiele algorytmów zostało przetestowanych i wykorzystanych jako benchmark w uczeniu maszynowych ze względu na prostotę implementacji biblioteki. Warto też zwrócić
+    uwagę iż pong wymaga od agenta skutecznego podejmowania decyzji w czasie rzeczywistym co nadaje się idealnie do testów.
+    \subsubsection{Charakterystyka środowiska Pong:} 
+    \begin{itemize}
+        \item Stan Środowiska - Stanem środowiska jest aktualny widok gry który wyświetla obraz, który ma wymiary 210 x 160 x 3 (wysokośc, szerokość, kanały RGB).
+        W celu efektywnego uczenia obraz jest przetwarzany wstępnie w celu redukcji wymiarów oraz uproszczenia danych wejściowych
+        \item Zbiór akcji - Dla gry Pong mamy możliwość wykonania trzech akcji: przesunięcie paletki w góre, przesunięcie paletki w dół oraz pozostawienie paletki w miejscu.
+        \item Nagrody - Sposób przyznawania nagród dla naszego środowiska wyraża się w następujący sposób: +1: Agent zdobywa punkt w momencie odbica piłki w taki sposób aby przeciwnik nie był w stanie jej odbić,
+        -1: W momencie gdy agent nie doła odbić piłki przeciwnik otrzymuje punkt, 0: Dla pozostałych przypadków np: w trakcie wymiany odbić.
+        \item Warunek końca epizodu - Koniec jednego epizodu uczenia następuje w momencie, gdy agent lub jego przeciwnik osiągnie 21 punktów.
+        \item Cel agenta - Głównym zadaniem agenta jest maksymalizacja całkowitej zdyskontowanej nagrody podczas jednego epizodu gry, co oznacza wygrywaniu z przewagą większej ilości punktów niż przeciwnik.
+    \end{itemize}
+    \subsubsection{Język programowania: Python}
+    W ramach implementacji algorytmów uczenia przez wzmacnianie zdecydowano się na użycię języka programowania Python. Głównymi aspektami przemawiającym za wybraniem tego języka są przedewszystkim szeroka
+    gama bilbiotek wspierających uczenie przez wzmacnianie np. Gymnasium, Pytorch. Python jest najpopularniejszym językiem sotosowanym w dziedzinie sztucznej inteligencji i uczenia przez wzmacnianie. Duża ilość 
+    współczesnych algorytmów sztucznej inteligencji została zaprojektowana przy pomocy Pythona co także skłania do skorzystania z tego języka programowania. 
+    \subsubsection{Biblioteki wykorzystane do implementacji}
+    \begin{itemize}    
+        \item Gymnasium - Biblioteka stanowiąca standard dla uczenia przez wzmacnianie służąca do symulacji środowsik. Zastosowaną ją głównie w celu dostarczenia środowiska gry pong, oraz
+        łatwości w zapewnieniu interfejsu dla agenta który ma mu służyć jako interakcja ze środowiskiem. Biblioteka oferuje prostą interakcję z różnymi algorytmami uczenia przez wzmacnianie.
+        \item PyTorch - Pozwala na implementacje złożonych modeli uczenia przez wzmacnianie opartych na sieciach neuronowych za pomocą kilku linijek kodu. 
+        PyToch zapewnia dwie wysokopoziomowe funkcję: Obliczenia tensorowe z silną akceleracją przy pomocy wykorzystania procesorów graficznych, 
+        Wykorzystanie głębokich sieci neuronowych zaprojektowanych za pomocą taśmowych systemów automatycznego różnicowania.
+        \item OpenCV - Zestaw narzędzi pozwalający na przetwarzanie obrazu oraz wizję komputerową wizję zadań. Dzięki wykorzystaniu tej biblioteki jesteśmy w stanie
+        osiągnąć szybkie iw wydajne przetwarzanie danych wizualizacyjnych przed przesłaniem ich do sieci neuronowej, dzięki czemu uzyskujemy 
+        pozytywny efekt w postaci czasu treningu oraz jego efektywności. 
+    \end{itemize}
+    \subsection{Kryteria oceny modeli}
+    \subsection{Wyniki dla modelu Deep Q-Learning}
+    Model Deep Q-Learning został zaimplementowany w celu wytrenowania agenta do gry Pong, za pomocą
+    wykorzystania głębokich sieci neuronowych w do aproksymacji wartości funkcji Q. Strutura algorytmu opiera się na wykorzystaniu
+    bibliotek PyTorch, Gymnasium oraz OpenCV. Środowisko zostało odpowiednio dostosowane za pomocą wrapperów, mających na celu poprawę
+    efektywności i jakości danych wejściowych. 
+    \newpage
+    \subsubsection{Analiza wykresu nagordy}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/DQL_reward.png}
+        \caption{Opis obrazka}
+        \label{fig:etykieta_obrazka}
+    \end{figure}
+    Na podstawię poniższego wykresu przedstawiającego proces uczenia modelu Deep Q-Learning widzimy, że na początku treningu agent wykonuje
+    losowe ruchy czyli ekspoloruje środowisko, co jest adekwatne do otrzymywania nagród na poziomie około -21 czyli maksymalnej możliwej przegranej. 
+    Następnie następuje powolny wzrost wartości nagród co wskazuje na powolne szukanie podstawowych strategii przez agenta. W momencie około 100 000 
+    kroków treningowych następuje gwałtowny wzrost otrzymywanej średniej nagrody agenta co wskazuje na stopniową naukę strategii gry.
+    W okolicach około 175 000 kroków średnia nagroda zaczyna przekraczać punkt 0 co oznacza iż agent zaczyna wygrywać więcej razy w trakcie jednego epizodu gry.
+    W momencie około 300 000 kroków można zaobserwować osiągnięcie stopniowej stablności wyników, zbliżając się do maksymalnej średniej nagrody wynoszącej +21.
+    W kolejnych krokach widać niewielkie wachania wyników co jest związane z stochastyczną naturą dynamicznego środowiska gry Pong.
+    Proces treningu został zakończony w ciągu około 540 000 kroków, przy czasie trwania procesu uczenia wynoszącym 1,166 godziny czasu rzeczywistego.
+    \subsubsection{Opis implementacji modelu Deep Q-Learning}
+    Implementacja modelu składa się z następujących elementów:
+    \begin{itemize}
+        \item Architektura sieci neuronowej - Do modelu DQN wykorzystano seić neuronową która jest głęboką siecią konwolucyjną składającą się z poniższych warstw:
+        \begin{itemize}
+            \item Warstwy konwolucyjne:
+            \begin{itemize}
+                \item Pierwsza warstwa: 32 filtry o rozmiarze 8 x 8 i kroku 4.
+                \item Druga warstwa: 64 filtry o rozmiarze 4 x 4 i kroku 2.
+                \item Trzecia warstwa: 64 filtry o rozmiarze 3 x 3 i kroku 1.
+            \end{itemize}
+            Celem zastosowania warstw konwolucyjnych jest redukcja wymarowości wejściowego obrazu oraz wyodrębnienie istotnych cech dla podejmowania decyzji przez agenta
+            \item Warstwy w pełni połączone:
+            \begin{itemize}
+                \item jedna warstwa o 512 neuronach z funkcją aktywacji ReLU.
+                \item Warstwa wyjściowa odpowiadająca za generacje Q-wartości dla każdej możliwej akcji wykonanej przez agenta.
+            \end{itemize}
+        \end{itemize}
+        \item Przygotowanie danych wejściowych - Do odpowiedniego przetworzenia danych wejściowych zastosowano poniższe wrappery:
+        \begin{itemize}
+            \item MaxAndSkipEnv
+            \item FireResetEnv
+            \item ProcessFrame84
+            \item ImageToPyTorch
+            \item BufferWrapper
+            \item ScaledFloatFrame
+        \end{itemize}
+        \item Mechanizm bufora powtórki (replay buffer) - Służy do przechowywania i próbkowania partii danych podczas treningu. Rozmiar bufora: 10 000 ostatnich doświadczeń.
+        Próbkowanie doświadczeń odbywa się poprzes losowe wybieranie 32-elementowych mechanizmów uczenia wsadowego (batch learning) w celu minimalizacji korelacji między próbkami.
+        \item Wykorzystanie algorytmu epsilonu zachłannego - Ma na celu stworzenie strategii która pozwala na połączenie akcji eksploracji i eksploatacji. Początkowa wartość epsilonu: 1.0
+        (losowe wybory). Stopniowy spadek wartości epsilonu do momentu 0.01 w ciągu 150 000 kroków.
+        \item Synchronizacja sieci docelowej - Sieć docelowa zostaje zsysnchronizowana z główną siecią co 1000 kroków w celu poprawy stabilności porcesu uczenia.
+    \end{itemize}
+    \subsubsection{Problem przetrenowania modelu}
+    Podczas testów modelu poprzez wyświetlenie gry Pong w postaci aplikacji można zaobserwować iż modele ze średnim wynikiem 10-21 grają w bardzo specyficzny sposób. Agent mimo wysokiej
+    skuteczności w osiąganiu wyników w środowisku Pong, wykonywał ruchu które w zasadzie przewidywały już zachowanie przeciwnika na którym odbywało się trenowanie. Takie zachowanie wskazuje
+    na nadmierne dopasowanie do danych treningowych. Ten problem, znany jako przetrenowanie (overfitting), jest szczególnie istotny w algorytmach uczenia przez wzmacnianie.
+    \\ \\ \textbf{Przyczyny przetrenowania modelu DQN:}
+    \begin{itemize}
+        \item Ograniczona różnorodność danych w replay buffer - Replay buffer przechowuje ograniczoną liczbę doświadczeń do 10 000 ostatnich kroków. 
+        W momencie gdy agent dominuję daną strategię gry, bufor może być wypełniony głównie przykładami wspierającymi taką startegię, co prowadzi do utraty różnorodności danych.
+        W praktyce agent uczy się przewidywania konkretnych scenariuszy, które często występują w buforze, co skutkuje brakiem przygotowania na bardziej niestandardowe sytuacje.
+        \item Eksploatacja kosztem eksploracji - Podczas późniejszych etapów uczenia, gdy wartość \( \epsilon \) w strategii epsilon-greedy spada do 0.01, agent w praktyce przestaje 
+        eksplorować nowe akcje, korzystając jedynie z wyuczonych optymalnych ruchów. Skutkuje to brakiem otkrywania alternatywnych strategii.
+        \item Brak elementu stochastyczności w wyborze akcji - Wybór akcji w modelu DQN dokonuje się na podstawie maksymalizacji wartości \( Q \), co może prowadzić do sztywnego
+        dopasowania do konkretnego zestawu stanu i akcji, bez uwzględnienia potencajlnie równie dobrych alternatyw.
+        \item Brak mechanizmów zapobiegających przetrenowaniu - Ze względu na swoją naturę model DQN nie uwzględnia mechanizmów regulujących eksplorację (np. entropii polityki)
+    \end{itemize}
+    \textbf{Zastosowanie Generatywnych Sieci Przeciwstawnych (GAN) jako możliwe rozwiązanie problemu przetrenowania - }
+    Jednym z potencjalnych rozwiązań problemu przetrenowania jest zastosowanie generatywnych sieci przeciwstawnych w celu zwiększenia różnorodności danych oraz poprawy modelu.
+    To podejście może zostać użyte do tworzenia syntetycznych trajektorii w środowisku gry Pong, które byłyby trudne dla agenta, co zmusiłoby go do bardziej uniwersalnego zachowania.
+    Także dzięki temu osiągamy możliwość wprowadzenia stochastyczności w wyborze stanów i akcji, które agent rzadko widzi w trakcie treningu, co zmniejsza ryzyko nadmiernego dopasowania.
+    Dzięki bardziej zróżnicowanym doświadczeniom za pomocą zastosowania tego podejścia, agent staje się lepiej przygotowany na nietypowe sytuacje podczas gry. 
+    Ze względu na bardzo dużą trudność w implementacji generatywnych sieci przeciwstawnych dla modelu DQN zdecydowano się stworzyć inny model (A2C).
+    Także dużym problemem po zastosowaniu tego podejścia jest dostosowanie hiperparametrów, które muszą być dla tego przypadku perfekcyjnie dobrane.
+    \subsubsection{Tabela z wynikami dla różnych hiperparametrów}
+    \subsubsection{Wnioski}
+    Model Deep Q-Learning (DQN) wykazał dużą skuteczność w nauce gry Pong, osiągając maksymalną średnią nagrodę równą +21, co wskazuje na pełne opanowanie środowiska przez agenta.
+    Proces uczenia przebiegł zgodnie z założeniami - początkowe wyniki były bardzo niskie, co wynikało z losowej eksploracji środowiska, następnie z biegiem czasu treningu agent stopniowo
+    uczył się nowych strategii i popbrawiał swoje wyniki, ąż do momentu osiągniuęcia zauważalnej stabilności w momencie przekroczenia około 300 000 kroków.
+    Mechanizm bufora powtórki pozwolił na efektywne przechowywanie i ponowne wykorzystanie doświadczeń, a strategia epslion-greedy przyczyniła sie do balansu między eskploracją 
+    nowych akcji a eksploatacją wyuczonych strategii. Mimo sporych sukcesów osiągniętych przez model DQN można zaobserwować pewne ograniczenia, szczególnie w późniejszych etapach treningu.
+    Zauważono zjawisko przetrenowania, które objawiało się w postaci nienaturalnych ruchów agenta, które wskazują na nadmierne dopasowanie do danych. Problem ten wynikał w dużej mierze 
+    z natury modelu DQN który ma ograniczoną różnorodność danych w buforze oraz malejącą wartość epsilonu, która redukuje eksplorację na korzyść eksploatacji. 
+    Ze względu na te problemu postanowiono zastosować bardziej zaawansowany algorytm taki jak A2C, który charakteryzuje się lepszym balansem
+    między eksploracją a aksplatacją dzięki polityce stochastycznej. Podsumowujcąc, mimo iż model DQN jest skuteczny w grze Pong, jego ograniczenia
+    w zakresie przetrenowania, długioego czasu konwergencji oraz wrażliwości na hiperparametry wskazują na potrzebę zastosowania bardziej zaawansowanych podejść.
+    Model ten jest idealnym punktem wyjścia jeśli chodzi o dalsze badania, ale w praktycznych zastosowaniach wymaga dużej ilości wsparcia w postaci dodatkowych 
+    mechanizmów usprawniających eksplorację oraz optymalizację.
+    \subsection{Wyniki dla modelu Advantage Actor-Critic (A2C)}
 \end{document} 
