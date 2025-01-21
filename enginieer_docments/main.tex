@@ -7,6 +7,9 @@
 \usepackage{titlesec}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage[backend=biber,style=numeric]{biblatex}
+\addbibresource{bibliography.bib} 
 
 \geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
 
@@ -57,7 +60,6 @@
     do badań nad algorytmami sztucznej inteligencji. W ramach pracy zaimplementowałem trzy popularne metody uczenia przez wzmacnianie:
     Deep Q-Learning (DQN), Advantage Actor-Critic (A2C) oraz Asynchronous Advantage Actor-Critic (A3C), a w następnym kroku zbadałem ich efektywność
     na zasadzie różnych parametrów m. in. prędkość uczenia oraz skuteczność gry.
-
     \section{Wprowadzenie do uczenia maszynowego}
     \indent Uczenie maszynowe jest jedną z kluczowych gałęzi sztucznej inteligencji, której celem jest tworzenie algorytmów zdolnych
     do uczenia się na podstawie danych i podejmowania decyzji bez konieczności programowania reguł działania. 
@@ -629,4 +631,140 @@
     Model ten jest idealnym punktem wyjścia jeśli chodzi o dalsze badania, ale w praktycznych zastosowaniach wymaga dużej ilości wsparcia w postaci dodatkowych 
     mechanizmów usprawniających eksplorację oraz optymalizację.
     \subsection{Wyniki dla modelu Advantage Actor-Critic (A2C)}
+    Model Advantage Actor-Critic (A2C) został zaimplementowany z celu poprawy stabilności i efektywności prcesu uczenia w porównaniu do klasycznego algorytmu Deep Q-Learning (DQN).
+    Wykorzystuje on równoległe środowiska oraz jednoczesne uczenie polityki i fuynkcji wartości, dzięki czemu agent podejmuje lepsze decyzje. 
+    Za pomocą zastosowania regularyzacji entropii, model A2C unika problemu nadmiernego dopasowania, wspierając eksplorację środowiska.
+    Poniżej przedstawiono wyniki uzyskane podczas treningu modelu A2C. Wykresy ilustrują kluczowe aspekty procesu uczenia, między innymi: przewaga (\( A(s,a) \)), zmiany funkcji nagrody,
+    gradienty oraz straty. Za pomocą tych wizualizacji można przeanalizować szczegółowo zachowanie modelu podczas procesu uczenia oraz ocenić jego efektywność w kontekście rozważanego problemu.\
+    \subsubsection{Analiza wykresów dla modelu A2C} 
+    \noindent \textbf{Wykres przewagi (\( A(s,a) \))} 
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/A2C_advantage.png}
+        \caption{Opis obrazka}
+    \end{figure}
+    Wykres przedstawia wartość przewagi, czyli rożnice między wartością stanu a wartością oczekiwaną na podstawie polityki, jest to kluczowy element procesu uczenia w modelu A2C.
+    Na wykresie można zaobserwować wahania wartości w trakcie treningu, co wskazuje na róznorodność w ocenie podejmowanych decyzji przez agenta.
+    Stabilizacja wartości przewagi w późniejszych etapach wskazuje na to, że model zaczyna poprawnie się uczyć podejmowania decyzji oraz optymalizacji polityki.
+    \\ \\ 
+    \textbf{Wykres średniej wartości paczki}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/A2C_batch_rewards.png}
+        \caption{Opis obrazka}
+    \end{figure}
+    Wykres przedstawia sumaryczne nagrody zebrane przez agenta w kolejnych epizodach.
+    Początkowy wzorst wartości wskazuje na adaptację modelu do środowiska.
+    W późniejszych etapach zaobserwowano regularny wzrost nagród co sugeruję poprawę strategii agenta, która skutkuje osiąganiem coraz lepszych wyników.
+    \\ \\ 
+    \textbf{Wykres Normy L2 gradnientu}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/A2C_grad_l2.png}
+        \caption{Opis obrazka}
+    \end{figure}
+    Wartość L2-normy gradientów moniotruje siłę aktualizacji parametrów modelu. Zbyt duże wartości gradientów prowadzą do niestabilności procesu uczenia, 
+    natomiast zbyt małe prowadzą do problemów z osiągnięciem konwergencji. Uzyskany wykres pokazuje stabilizację norm gradientów podczas treningu,
+    co wskazuje na skutceczne zarządzanie porcesem optymalizacji.
+    \\ \\ 
+    \textbf{Wykres maksymalnych gradientów}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/A2C_grad_max.png}
+        \caption{Opis obrazka}
+    \end{figure}
+    Maksymalne wartości gradientów wskazują na bardziej znaczące zmiany parametrów podczas trenowania modelu.
+    Stabilizacja ich w późniejszym procesie treningu sugeruje, iż model zaczyna osiągać równowagę w uczeniu oraz dostosowywaniu się do środowiska.
+    \\ \\ 
+    \textbf{Wykres wariancji gradientów}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/A2C_grad_var.png}
+        \caption{Opis obrazka}
+    \end{figure}
+    Wariancja gradientów pokazuje, jak bardzo różnią się gradienty dla różnych partii danych. 
+    Na początku procesu uczenia jest ona bardzo mała, ale później zaczyna rosnąć co oznacza, że polityka ulega zmianie.
+    \\ \\ 
+    \textbf{Wykres straty entropii}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/A2C_loss_entropy.png}
+        \caption{Opis obrazka}
+    \end{figure}
+    Strata entropii mierzy poziom eksploracji w polityce agenta. Zmniejszająca się wartość entropii w procesie treningu modelu
+    oznacza, że model staje się bardziej pewny w procesie podejmowania decyzji. Początkowo wysoka entropia wskazuje na eksplorację,
+    następnie jej spadek w późniejszych etapach wskazuje na stabilizację polityki.
+    Zasadniczo oznacza to, że podczas gdy polityka zaczyna się zmieniać, agent staje się coraz bardziej pewny akcji, które wykonuje.
+    \\ \\ 
+    \textbf{Wykres straty polityki}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/A2C_loss_policy.png}
+        \caption{Opis obrazka}
+    \end{figure}
+    Strata polityki pokazuje jak dostosowują się parametry sieci odpowiedzialne za wybór akcji.
+    Początkowo zmiaany są intensywne, ale ich stabilizacja w późniejszych etapach treningu wskazuje,
+    że agent zbliża się do optymalnej polityki. Generalnie strata plityki zmniejsza się i jest ona skorelowana
+    ze stratą całkowitą. Jest to zjawisko pozytywne.
+    \\ \\ 
+    \textbf{Wykres straty wartości}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/A2C_loss_value.png}
+        \caption{Opis obrazka}
+    \end{figure}
+    Strata wartości pokazuje różnicę między przewidywaną a rzeczywistą wartością stanu.
+    Konsekwentnie malejąca wartość stanu tej straty podczas procesu treningu oznacza, że przybliżenie \( V(s) \) poprawia się podczas procesu trenowania.
+    Wskazuje to na skuteczniejsze podejmowanie decyzji przez model
+    \\ \\ 
+    \textbf{Wykres całkowitej straty}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/A2C_loss_total.png}
+        \caption{Opis obrazka}
+    \end{figure}
+    Łączna strata, która jest sumą strat polityki, wartości oraz entropii.
+    Ma zazadanie ona odzwierciedlić ogólny koszt optymalizacji procesu. Całkowita strata systematycznie maleje,
+    co pokazuje, że model skutecznie minimalizuje wartość błędu funkcji kosztu.
+    Stabilizacja pod koniec procesu uczenia wskazuje na osiągnięcie równowagi między eksploracją a eksploatacją.
+    \\ \\ 
+    \textbf{Wykres średnich wartości nagród}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/A2C_reward.png}
+        \caption{Opis obrazka}
+    \end{figure}
+    Wartość nagrody dla każdego kolejnego epizodu procesu uczenia ilustruje efektywność modelu.
+    Początkowe niskie wartości wskazują na fazę eksploracji modelu, a ich systematyczny wzrost sugeruje poprawę strategii wykonywanych przez agenta.
+    Średnia nagroda stopniowo rośnie i osiąga maksymalną wartość (około +21), co sugeruje pełne opanowanie środowiska przez agenta.
+    \subsubsection{Opis implementacji algorytmu A2C}
+    Implementacja modelu składa się z następujących elementów:
+    \begin{itemize}
+        \item Architektura seici neuronowej - Model A2C składa się z następujących elementów:
+        \begin{itemize}
+            \item Warstwy konwolucyjne: \textbf{pierwsza warstwa} składa się z 32 filtrów o rozmiarze 8 x 8, kroku 4 oraz funkcji aktywacji ReLU.
+            Celem tej warstwy jest wykrycie podstawowych cech obrazu, takich jak krawędzie. 
+            \textbf{Druga warstwa} składa się z 64 filtrów o rozmiarze 4 x 4, kroku 2 oraz funkcji aktywacji ReLU.
+            Celem tej warstwy jest wydobycie bardziej zaawansowanych cech, takich jak kształty.
+            \textbf{Trzecia warstwa} składa się z 64 filtrów o rozmiarze 3 x 3, kroku 1 oraz funkcji aktywacji ReLU.
+            Celem tej warstwy jest reprezentacja szczegółowych ceoch obrazu.
+            Wyjście z warstw konwolucyjnych jest spłaszczane do jednowymiarowego wektora za pomocą specjalnie napisanej metody,
+            która oblicza rozmiar wynikowanego tensoru.
+            \item Polityka: odpowiada za generowanie rozkładu prawdopodobieństwa akcji dla danego stanu środowiska. Składa się ona z:
+            \textbf{Pierwsza warstwa w pełni połączona}: liczba neuronów 512, funkcja aktywacji ReLu. Celem jest transformacja cech wejściowych
+            w bardzeij abstrakcyjne reprezentacje.
+            \textbf{Druga warstwa w pełni połączona}: liczba neuronów jest adekwatna do liczby możliwych akcji w środowisku. 
+            Funkcja aktywacji liniowa. Celem tej warstwy jest generowanie wartości akcji, które po zastosowaniu funckji softmax przekształcane są na prawdopodobieństwa.
+            \item Wartość: estymuje wartości stanu \( V(s) \), czyli oczekiwaną wartość nagordy dla danego stanu. składa się ona z:
+            \textbf{Pierwsza warstwa w pełni połączona:} liczba neuronów 512, funkcja aktywacji ReLU. 
+            Celem tej warstwy jest ekstrajca cech dla estymacji wartości stanu.
+            \textbf{Druga warstwa w pełni połączona:} liczba neuronów 1, fukcja aktywacji liniowa. 
+            Celem tej warstwy jest estymacja wartości stanu jako pojedynczej liczby
+        \end{itemize}
+        \item Mechanizm doświadczeń - 
+    \end{itemize}
+    \subsubsection{Tabela z wynikami dla różnych hiperparametrów}
+    \subsubsection{Wnioski}
+    \section{Bibliografia}
+    \printbibliography
 \end{document} 
