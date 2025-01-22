@@ -10,6 +10,10 @@
 \usepackage{float}
 \usepackage{amssymb}
 \usepackage[style=numeric,sorting=none]{biblatex}
+\usepackage{booktabs}
+\usepackage{array}
+
+\numberwithin{equation}{section}
 \addbibresource{bibliography.bib}
 
 
@@ -128,16 +132,22 @@
     \begin{itemize}
         \item Stany i akcje - Agent w chwili \( t \) obserwuje stan \( S_t \) ze zbiorów stanów \( S \), a następnie wybiera akcję \( A_t \) z dostępnego zbioru akcji \( A \).
         \item Funkcja przejścia i nagród - Po wykonaniu akcji \( A_t \) w stanie \( S_t \) agent przechodzi do stanu \( S_{t+1} \) i otrzymuje nagrodę \( R_{t+1} \). Oba te elemenety opisuje funkcja:
-        \[ p(s',r|s,a) = P(S_{t+1} = s', R_{t+1} = r | S_t = s, A_t = a)\]
+        \begin{equation}
+        p(s',r|s,a) = P(S_{t+1} = s', R_{t+1} = r | S_t = s, A_t = a)
+        \end{equation}
         dzięki temu wiadomo z jakim prawdopodobieństwem przy danej akcji w stanie \( s \) agent znajdzie się w stanie \( s' \) oraz jaką otrzyma wtedy nagrodę \( r \).
         \item Oczekiwana nagorda - Bardzo często zamiast śledzić cały rozkład nagród, pracuje się z wartością oczekiwaną natychmiastowej nagrody:
-        \[ r(s,a) = E[R_{t+1} | S_t = s, A_t = a] = \sum_{s',r} r p(s',r|s,a)\]
+        \begin{equation}
+        r(s,a) = E[R_{t+1} | S_t = s, A_t = a] = \sum_{s',r} r p(s',r|s,a)
+        \end{equation}
         Innymi słowy, jest to średnia nagroda, jakiej agent może oczekiwać w momencie przejścia ze stanu \( s \) do \( s' \) przy akcji \( a \).
         \item Współczynnik dyskontowania - Aby modelować długofalowe konsekwencje podejmowanych decyzji, wprowadza się współczynnik \( \gamma \in [0,1] \). Określa on, jak silnie agent ceni przyszłe nagrody w porównaniu z bieżącymi. Gdy \( \gamma = 0 \), agent skupia się wyłącznie na nagrodach natychmiastowych, a gdy \( \gamma \) jest bliskie 1, uwzględnia głównie wpływ aktualnej decyzji na dalszą przyszłość.
     \end{itemize}
     \textbf{Skumulowana nagroda} \\ \\ 
     Dla każdego epizodu w uczeniu przez wzmacnianie definiuje się skumulowaną nagrodę w chwili \( t \) następująco:
-    \[ G_t = R_{t+1} + \gamma R_{t+2} + ... = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \]
+    \begin{equation}
+    G_t = R_{t+1} + \gamma R_{t+2} + ... = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} 
+    \end{equation}
     Gdzie:
     \begin{itemize}
         \item \( G_t \) - całkowita (skumulowana) wartość nagród, którą agent otrzymuje od chwili \( t \) aż do zakończenia epizodu,
@@ -158,10 +168,14 @@
     \textbf{Funkcje wartości i algorytmy uczenia}
     \begin{itemize}
         \item Funckja wartości stanu \( V_\pi(s) \) - Oczekiwana skumulowana nagroda przy założeniu, że agent znajduje się w stanie \( s \) i przestrzega polityki \( \pi \):
-        \[ V_\pi(s) = E_\pi[G_t|S_t=s] \]
+        \begin{equation}
+        V_\pi(s) = E_\pi[G_t|S_t=s]
+        \end{equation}
         \item Funkcja wartości akcji \( Q_\pi(s,a) \) - Oczekiwana skumulowana nagroda przy wykonaniu akcji \( a \) w stanie \( s \), a następnie kontynuacji zgodnie z polityką \( \pi \):
         a następnie postępując zgodnie z polityką \( \pi \).
-        \[ Q_\pi(s,a) = E_\pi[G_t|S_t=s,A_t=a] \]
+        \begin{equation}
+        Q_\pi(s,a) = E_\pi[G_t|S_t=s,A_t=a] 
+        \end{equation}
     \end{itemize}
     Funkcje te są kluczowe w wielu algorytmach uczenia przez wzmacnianie. 
     W podejściu Q-learning następuje iteracyjna aktualizacja wartości \( Q \) w celu wyznaczenia optymalnej polityki,
@@ -189,7 +203,9 @@
     \subsubsection{Równanie Bellmana dla funkcji wartości stanu \( V_\pi(s) \)}
     Funkcja wartości stanu \( V_\pi(s) \) wyraża oczekiwaną sumę zdyskontowanych nagród, jakie agent może uzyskać, rozpoczynając od stanu \( s \) i postępując zgodnie z polityką \( \pi \). 
     Równanie Bellmana w tym kontekście ma postać:
-    \[ V_\pi(s) = E_\pi[R_{t+1} + \gamma G_{t+1}|S_t = s] = \sum_{a} \pi(a|s) \sum_{s',r} p(s',r|s,a) (r + \gamma V_\pi(s')) \],
+    \begin{equation}
+    V_\pi(s) = E_\pi[R_{t+1} + \gamma G_{t+1}|S_t = s] = \sum_{a} \pi(a|s) \sum_{s',r} p(s',r|s,a) (r + \gamma V_\pi(s'))
+    \end{equation}
     gdzie:
     \begin{itemize}
         \item \( V_\pi(s) \) - Funckja stanu wartości dla polityki \( \pi \), określająca sumę zdyskontowanych nagród od stanu \( s \),
@@ -202,17 +218,25 @@
     zakładając, iż agent działa zgodnie z polityką \( \pi \).
     \subsubsection{Równanie Bellmana dla funkcji wartości akcji \( Q_\pi(s,a) \)}
     Funkcja wartości akcji \( Q_\pi(s,a) \) reprezentuje oczekiwaną sumę zdyskontowanych nagród, uzyskiwanych przez agenta w sytuacji, gdy w stanie ss podjęta zostanie akcja \( a \), a w kolejnych krokach zastosowana zostanie polityka \( \pi \). Odpowiednie równanie Bellmana ma postać:
-    \[ Q_\pi(s,a) = E_\pi[R_{t+1} + \gamma G_{t+1}|S_t = s, A_t = a] = \sum_{a} \pi(a|s) \sum_{s',r} p(s',r|s,a)(r + \gamma \sum_{a} \pi(a|s)Q_\pi(s',a')) \]
+    \begin{equation}
+    Q_\pi(s,a) = E_\pi[R_{t+1} + \gamma G_{t+1}|S_t = s, A_t = a] = \sum_{a} \pi(a|s) \sum_{s',r} p(s',r|s,a)(r + \gamma \sum_{a} \pi(a|s)Q_\pi(s',a'))
+    \end{equation}
     Zgodnie z tym równaniem wartość akcji \( a \) w stanie \( s \) zależy od natychmiastowej nagrody oraz zdyskontowanej wartości przyszłych akcji, które zostaną wybrane zgodnie z polityką \( \pi \).
     \subsubsection{Równanie Bellmana dla polityki optymalnej \( V_*(s) \) i \( Q_*(s,a) \)}
     Polityka optymalna \( \pi_* \) maksymalizuje funkcję wartości stanu. Oznacza to, że:
-    \[ V_*(s) = \max_{\pi} V_{\pi}(s), \]
+    \begin{equation}
+    V_*(s) = \max_{\pi} V_{\pi}(s)
+    \end{equation}
     Równanie Bellmana dla optymalnej funkcji wartości stanu może zostać zapisane w postaci:
-    \[ V_*(s) = \max_{a} E[R_{t+1} + \gamma V_*(S_{t+1})|S_t = s, A_t = a] = 
-    \max_{a} \sum_{s',r} p(s',r|s,a)(r + \gamma V_*(s'))\]
+    \begin{equation}
+    V_*(s) = \max_{a} E[R_{t+1} + \gamma V_*(S_{t+1})|S_t = s, A_t = a] = 
+    \max_{a} \sum_{s',r} p(s',r|s,a)(r + \gamma V_*(s'))
+    \end{equation}
     Analogicznie, optymalna funkcja wartości akcji wyraża się wzorem:
-    \[ Q_*(s,a) = E[R_{t+1} + \gamma \max_{a'} Q_*(S_{t+1},a')|S_t = s, A_t = a] =
-    \sum_{s',r} p(s',r|s,a)(r + \gamma \max_{a'} Q_*(s',a')) \]
+    \begin{equation}
+    Q_*(s,a) = E[R_{t+1} + \gamma \max_{a'} Q_*(S_{t+1},a')|S_t = s, A_t = a] =
+    \sum_{s',r} p(s',r|s,a)(r + \gamma \max_{a'} Q_*(s',a'))
+    \end{equation}
     Powyższe równania można interpretować następująco:
     \begin{itemize}
         \item \( V_*(s) \) - Najlepsza możliwa wastość stanu \( s \), uzyskana poprzez wybór najlepszej akcji.
@@ -225,7 +249,9 @@
     \begin{itemize}
         \item Zainicjalizuj wszystkie stany \( V_i \) z pewnymi wartościami początkowymi. Zawyczaj \( V(s) = 0 \) dla wszystkich \( s \in S \).
         \item Dla każdego stanu \( s \in S \) w procesie decyzyjnym Markowa wykonaj aktualizacje:
-        \[ V(s) \leftarrow \max_a \sum_{s',r} p(s',r|s,a)[r + \gamma V(s')] \]
+        \begin{equation}
+        V(s) \leftarrow \max_a \sum_{s',r} p(s',r|s,a)[r + \gamma V(s')]
+        \end{equation}
         \item Powtarzaj poprzedni krok poprzez wykonanie wielu iteracji do momentu gdy maksymalna zmiana \( V(s) \) jest mniejsza niż zadany próg. 
     \end{itemize}
     \subsubsection{Metoda iteracji polityki}
@@ -233,15 +259,21 @@
     \begin{itemize} 
         \item Zainicjalizuj początkową politykę \( \pi(s) \) oraz \( V(s) \)
         \item Oblicz wartość \( V(s) \) dla bierzącej polityki \( \pi \) za pomocą poniższego wzoru:
-        \[ V(s) \leftarrow \sum_{s',r} p(s',r|s,\pi(s))(r + \gamma V(s'))\]
+        \begin{equation}
+        V(s) \leftarrow \sum_{s',r} p(s',r|s,\pi(s))(r + \gamma V(s'))
+        \end{equation}
         \item ulepszenie polityki poprzez wybór akcji \( a \) maksymalizującej wartość oczekiwaną dla każdego stanu \( s \) za pomocą poniższego wzoru:
-        \[ \pi'(s) = argmax_a \sum_{s',r} p(s',r|s,a) [r + \gamma V(s')] \]
+        \begin{equation}
+        pi'(s) = \arg\max_{a} \sum_{s',r} p(s',r|s,a) [r + \gamma V(s')]
+        \end{equation}
         \item Jeżeli \( \pi' = \pi \), kończy się proces w przeciwnym wypadku ustaw \( \pi \leftarrow \pi' \) i ponów kroki 2-3.
     \end{itemize}
     \subsection{Metoda entropii krzyżowej w uczeniu przez wzmacnianie}
     Wzory i definicje użyte w tej sekcji zostały zaczerpnięte z książki „Deep Reinforcement Learning Hands-On.” autorstwa Maxima Lapana \cite{lapan2020deep}.
     Entropia krzyżowa jest miarą różnicy pomiędzy dwoma rozkładami prawdopodobieństwa. W kontekście uczenia przez wzmacnianie bywa wykorzystywana do oceny jakości nowej polityki \( \pi_{new} (a|s) \) względem idealnego rozkładu akcji, który ma maksymalizować skumulowaną nagrodę. Definicja entropii krzyżowej pomiędzy rozkładami \( p(a) \) i \( q(a) \) ma postać:
-    \[ H(p,q) = - \sum_{a \in A} p(a) log(q(a)) \]
+    \begin{equation}
+    H(p,q) = - \sum_{a \in A} p(a) log(q(a))
+    \end{equation}
     gdzie:
     \begin{itemize}
         \item \( p(a) \) - Jest rozkładem prawdopodobieństwa akcji \( a \) według starej polityki \( \pi_{old}(a|s) \).
@@ -250,27 +282,34 @@
     \subsubsection{Twierdzenie o próbkowaniu istotnościowym}
     Próbkowanie istotnościowe pozwala na wykorzystanie próbek pochodzących z pewnego rozkładu prawdopodobieństwa w celu oszacowania wartości oczekiwanej funkcji definiowanej względem innego rozkładu. W uczeniu przez wzmacnianie z próbkowaniem istotnościowym ma się do czynienia np. wtedy, gdy dane są zbierane na podstawie starej polityki \( \pi_{old}(a|s) \), zaś celem jest szacowanie wartości dla nowej polityki \( \pi_{new} (a|s) \). Zgodnie z twierdzeniem:
     \\ Twierdzenie o próbkowaniu istotnościowym:
-    \[ E_{x \sim p(x)} [H(x)] = \int_{x} p(x)H(x) dx = \int_{x} q(x) \frac{p(x)}{q(x)} H(x) dx = E_{x \sim q(x)} [\frac{p(x)}{q(x)}H(x)]\] 
+    \begin{equation}
+    E_{x \sim p(x)} [H(x)] = \int_{x} p(x)H(x) dx = \int_{x} q(x) \frac{p(x)}{q(x)} H(x) dx = E_{x \sim q(x)} [\frac{p(x)}{q(x)}H(x)]
+    \end{equation}
     gdzie:
     \begin{itemize}
         \item \( p(x) \) - Rozkład próbkowania (np. stara polityka)
         \item \( q(x) \) - Rozkład docelowy (np. nowa polityka)
         \item \( H(x) \) - Funkcja entropi w stanie \( x \) często definiowana jako:
-        \[ H(\pi) = - \sum_{a \in A} \pi(a|s)log(\pi(a|s)) \]
+        \begin{equation}
+        H(\pi) = - \sum_{a \in A} \pi(a|s)log(\pi(a|s)) 
+        \end{equation}
     \end{itemize}
     \subsubsection{Dywergencja Kullbacka-Leiblera}
     Dywergencja Kullbacka-Leiblera (KL) mierzy odległość między dwoma rozkładami prawdopodobieństwa \( p(x) \) i \( q(x) \). W uczeniu przez wzmacnianie może służyć do kontrolowania, jak bardzo nowa polityka różni się od starej, co pomaga zapobiegać gwałtownym zmianom w trakcie treningu. Definicję KL przedstawia równanie:
-    \[ KL(p(x) || q(x)) = \sum_{x} p(x) \frac{p(x)}{q(x)}\]
+    \begin{equation}
+    KL(p(x) || q(x)) = \sum_{x} p(x) \frac{p(x)}{q(x)}
+    \end{equation}
     W kontekście uczenia przez wzmacnianie:
-    \[ KL(\pi_{old}(a|s) || \pi_{new}(a|s)) = \sum_{a} \pi_{old}(a|s) log(\frac{\pi_{old}(a|s)}{\pi_{new}(a|s)})\]
+    \begin{equation}
+    KL(\pi_{old}(a|s) || \pi_{new}(a|s)) = \sum_{a} \pi_{old}(a|s) log(\frac{\pi_{old}(a|s)}{\pi_{new}(a|s)})
+    \end{equation}
     Dywergencja Kullbacka-Leiblera w kontekście uczenia przez wzmacnianie jest używana do:
     \begin{itemize}
         \item Regularizacji polityki - Ogranicza stopień smiany między starą a nową polityką, co pomaga uniknąć niestabilnych lub niepożądanych zachowań podczas trenowania,
         \item Kontrola eksploracji - Wspiera utrzymanie równowagi między eksploracją nowych akcji a wykorzystywaniem już poznanych strategii.
     \end{itemize}
     \section{Implementacjia wybranych algorytmów uczenia przez wzmacnianie}
-    W dziedzinie uczenia przez wzmacnianie istnieje szeroki zakres różnych algorytmów, a ich wybór w dużej mierze
-    jest zależny od środowiska w jakim algorytmowi przyszło pracować. algorytmy te można podzielić na trzy główne kategorie:
+    Istnieje wiele algorytmów wykorzystywanych w uczeniu przez wzmacnianie, a konkretny wybór zależy głównie od charakterystyki środowiska oraz rodzaju problemu. Zwyczajowo dzieli się je na trzy główne kategorie:
     \begin{itemize}
         \item Algorytmy optymalizujące wartości (Value Optimization)
         \item Algorytmy optymalizujące politykę (Policy Optimization)
@@ -278,10 +317,8 @@
     \end{itemize}
     \subsection{Klasyfikacja algorytmów uczenia przez wzmacnianie}
     \subsubsection{Algorytmy optymalizujące wartości (Value optimization)}
-    Algorytmy tej kategorii są skoncentrowane na nauce funkcji wartości, która ma za zadanie ocenić jakość stanów lub akcji w danym czasie.
-    Najbardziej znanym algorytmem tej kategorii jest \textbf{Q-Learning}, który ma nacelu nauke funkcji \textbf{\( Q(s,a) \)}, 
-    która reprezentuje oczekiwaną sumę zdyskontowanych nagród po wykonaniu akcji \( a \) w stanie \( s \) oraz postępuje ona zgodnie z optymalną polityką.
-    \\ \textbf{Przykłady algorytmów:}
+    W algorytmach tej grupy zasadniczym celem jest wyuczenie funkcji wartości, która pozwala oceniać jakości stanów lub akcji w danym czasie. Przykładem jest algorytm Q-Learning, koncentrujący się na wyznaczaniu funkcji \( Q(s,a) \), wyrażającej oczekiwaną sumę zdyskontowanych nagród po wykonaniu akcji aa w stanie ss przy założeniu postępowania według polityki optymalnej.
+    \\ \textbf{Przykładowe algorytmy:}
     \begin{itemize}
         \item Q-Learning
         \item Deep Q-Learning (DQN)
@@ -289,10 +326,8 @@
         \item dueling DQN
     \end{itemize}
     \subsubsection{Algorytmy optymalizujące politkę (Policy Optimization)}
-    Algorytmy te działają na zasadzie bezpośredniej optymalizacji polityki agenta, czyli regułę wyboru akcji w każdym stanie.
-    Algorytm zamiast uczyć się funkcji wartości, optymalizuje politkę starając się znaleść najbardziej korzystną politykę na zasadzie maksymalizacji
-    oczekiwanej sumy nagród.
-    \\ \textbf{Przykłady algorytmów:}
+    Podejście to polega na bezpośredniej optymalizacji polityki, czyli reguły wyboru akcji w każdym stanie. Zamiast modelować funkcję wartości, dąży się do znalezienia strategii maksymalizującej oczekiwaną sumę nagród.
+    \\ \textbf{Przykładowe algorytmy:}
     \begin{itemize}
         \item Policy Gradient Methods (REINFORCE)
         \item Advantage Actor-Critic (A2C)
@@ -300,57 +335,73 @@
         \item Proximal Policy Optimization (PPO)
     \end{itemize}
     \subsubsection{Algorytmy imitacyjne (imitation)}
-    Algorytmy imitacyjne naśladują działania eksperta dzięki czemu uczą się jak poprawnie się zachowywać. Celem jest
-    stworzenie odpowiedniej polityki, która ma na celu reprodukcje sukcesów eksperta bez konieczności eksploracji środowiska.
-    \\ \textbf{Przykłady algorytmów:}
+    W podejściu imitacyjnym algorytm wzoruje się na działaniach eksperta (tzw. expert policy) i uczy się replikowania jego skutecznych zachowań bez konieczności przeprowadzania pełnej eksploracji środowiska.
+    \\ \textbf{Przykładowe algorytmy:}
     \begin{itemize}
         \item Behavioral Cloning
         \item Inverse Reinforcement Learning (IRL)
         \item Generative Adversarial Imitation Learning (GAIL)
     \end{itemize}
+    Podział algorytmów uczenia przez wzmacnianie na algorytmy optymalizujące wartości, algorytmy optymalizujące politykę oraz algorytmy imitacyjne jest powszechnie stosowany w literaturze naukowej \cite{sutton2018rl}.
     \subsection{Wybór algorytmów do implementacji}
-    W kontekście realizacji mojego projektu zdecydowałem się na implementacji algorytmów należących do dwóch z pierwszych kategorii a mianowicie:
-    \textbf{Deep Q-Learning (DQN)}, \textbf{Advantage Actor-Critic (A2C)} oraz \textbf{Asynchronous Advantage Actor-Critic (A3C)}.
-    Za podjęciem tej decyzji w dużej mierze odpowiadało wybrane środowisko i specyfikacja zadania.
+    W ramach realizowanego projektu postanowiono skupić się na algorytmach wywodzących się z dwóch pierwszych grup, a więc Deep Q-Learning (DQN), Advantage Actor-Critic (A2C). Wybór wynika głównie z charakteru wybranego środowiska i celów badawczych związanych z grą Pong.
     \subsubsection{Dlaczego odrzucono klasyczną metodę Q-Learning?}
-    Klasyczna metoda uczenia przez wzmacnianie jaką jest Q-Learning chodź stanowi fundament, posiada dość spore ograniczenia co 
-    czyni ją nieskuteczną w bardziej złożonych środowiskaj, takich jak gry wideo. Z głównych powodów które doprowadziły 
-    do zrezygnowania z metody Q-Learning w tym projekcie są:
+    Klasyczny Q-Learning, mimo że stanowi fundament uczenia przez wzmacnianie, bywa niewystarczający w bardziej złożonych środowiskach, na przykład w grach wideo. Istnieje kilka istotnych ograniczeń tej metody:
     \begin{itemize}
-        \item Wysoka wymiarowość przestrzeni stanów - Gry takie jak Pong, ale także inne gry z kategori gier Atari generują bardzo złożone 
-        i wysoko wymiarowe dane wejściowe, przez co ze względu na bardzo dużą ilość pamięci do przechowywania wartości \( Q(s,a) \),
-        tablicowe podejście algorytmu Q-Learning staje się niepraktyczne.
-        \item Brak generalizacji - Klasyczna metoda Q-Learning nie jest w stanie generować doświadczeń do nowych, nieznanych stanów, co 
-        przyczynia się do sporego ograniczenia efektywnego uczenia się w dynamicznych środowiskach.
-        \item Trudność z eksploracją - Wysoki poziom eksploracji który jest wymagany przez Q-Learning doporwadza do sporego czasu oczekiwania.
-        \item Brak stabilności procesu uczenia - Model Q-Learning dla dużych przestrzeni stanów oraz dynamicznych środowisk jest niestabilny co prowadzi
-        do trundości a nawet niemożliwości osiągnięcia konwergencji modelu. 
+        \item Wysoka wymiarowość przestrzeni stanów - Gry Atari, w tym Pong, generują wielowymiarowe dane wejściowe, przez co tablicowe podejście do Q-funkcji staje się niepraktyczne.
+        \item Brak generalizacji - Tablicowa wersja Q-Learningu nie potrafi przekładać wiedzy z jednych stanów na inne, co ogranicza szybkość i skuteczność nauki.
+        \item Trudność z eksploracją - Klasowa metoda Q-Learningu wymaga rozbudowanej fazy eksploracyjnej, co powoduje duże zapotrzebowanie na czas i zasoby.
+        \item Brak stabilności procesu uczenia - W dużych, dynamicznych przestrzeniach stanów uczenie metodą Q-Learning potrafi ulegać częstym fluktuacjom lub nawet nie osiągać zbieżności. 
     \end{itemize}
-    Ze względu na powyższe powody zdeycydowałem się na wykorzystanie bardziej zaawansowanych metod które wykorzystują ogromne zasoby jakie daje im 
-    wykorzystanie sieci neuronowych do aproksymacji wartości funkcji.
+    Z tych względów zdecydowano się na zastosowanie algorytmów, które wykorzystują sieci neuronowe w roli aproksymatora funkcji wartości. Tego rodzaju rozwiązania pozwalają na skuteczniejsze radzenie sobie z wysokowymiarowymi danymi.
     \subsection{Deep Q-Learning (DQN)}
-    Algorytm Deep Q-Learning (DQN) jest bardziej zaawansowaną metodą od zwykłego Q-Learning gdyż wykorzystuję głębokie sieci neuronowe.
-    Została ona zaprojektowana w celu efektywnego radzenia sobie z dużymi i złożonymi przestrzeniami stanów które są trudne a nawet nie możliwe
-    do obsłużenia przez tradycyjną metodę Q-Learning. Przy pomocy zastosowania głębokich sieci neuronowych algorytm umożliwia agentom
-    uczenie sie w bardziej efektywny sposób zaawansowanych strategii w środowiskach o wysokiej złożoności, takich jak gry wideo.
+    Deep Q-Learning (DQN) stanowi rozwinięcie klasycznej metody Q-Learning, w którym w miejsce tablicowej reprezentacji funkcji \( Q(s,a) \) wykorzystuje się głęboką sieć neuronową. Pozwala to agentowi na efektywną naukę w środowiskach cechujących się złożonymi i licznie występującymi stanami.
     \subsubsection{Architektura modelu}
-    Architektura modelu Deep Q-Learning opiera się na głębokiej sieci neuronowej, która pełni rolę funkcji aproksymującej 
-    Q-funkcję \( Q(s,a;\theta) \). Główne elementy architektóry DQN to:
+    Podstawą algorytmu DQN jest sieć neuronowa pełniąca funkcję aproksymatora wartości \( Q(s,a;\theta) \). Najistotniejsze elementy tej architektury to:
     \begin{itemize}
-        \item Sieć Q (Q-Network):
-        \begin{itemize}
-            \item Wejście - Stan środowiska \( s \), który może mieć reprezentacje na przerózne sposoby, np: jako wektor cech 
-            czy też surowe dane.
-            \item Warstwy ukryte - Kilka warst neuronowych często konwolucyjnych w przypadku na przykład przetwarzania obrazów.
-            Są one głównie odpowiedzialne za ekstrakcję cech i przetwarzanie informacji z wejścia.
-            \item Warstwa wyjściowa - Wyprowadza wartości \( Q \) dla każdej możliwej akcji \( a \) w danym stanie \( s \).
-        \end{itemize}
-        \item Sieć docelowa (Target Network) - Jest ona kopią sieci \( Q \) mającą na celu aktualizację rzadziej niż sieć \( Q \).
-        Sieć docelowa służy do generowania celów dla aktualizacji Q-funkcji, co pomaga w odpowiedniej stabilizacji procesu uczenia.
-        \item Bufor doświadczeń (Experience Replay Buffer) - Mechanizm który pozwala na przechowanie przejść (\( s_t, a_t, r_{t+1}, s_{t+1} \)),
-        które są później losowo pobierane do treningu. Za pomocą tego agent jest w stanie się uczyć różnorodnych doświadczeń,
-        co pozwala mu na redukcje korelacji między kolejnymi próbami i ulepsza stabilizację procesu uczenia.
+        \item Sieć Q - Aproksymuje funkcję \( Q \). Otrzymuje na wejściu reprezentację stanu (np. wycinek obrazu) i generuje estymowane wartości \( Q \) dla każdej możliwej akcji w tym stanie.
+        \item Sieć docelowa - Kopia sieci \( Q \), aktualizowana rzadziej niż zasadnicza sieć \( Q \). Ma to na celu stabilizację treningu, ponieważ ogranicza wzajemne sprzężenie pomiędzy siecią \( Q \) a docelową wartością przy obliczaniu błędu.
+        \item Bufor doświadczeń - Przechowuje pary \( ( s_t, a_t, r_{t+1}, s_{t+1}) \), które pochodzą z kolejnych interakcji agenta ze środowiskiem. W trakcie uczenia próbki losuje się z bufora, dzięki czemu redukuje się korelację między kolejnymi próbkami.
     \end{itemize}
+    Architektura została zaprezentowana na podstawie publikacji Mniha et al. \cite{mnih2015nature}
+    \subsubsection{Proces treningu algorytmu DQN}
+    Trening DQN składa się z następujących kroków:
+    \begin{itemize}
+        \item Inicjalizacja:
+        \begin{itemize}
+            \item Sieć Q - Losowa inizjalizacja wag \( \theta \),
+            \item Sieć docelowa - Ustawienie wag \( \theta' \) równych \( \theta \),
+            \item Bufor doświadczeń - Utworzenie pustej struktury do magazynowania próbek \( (s,a,r,s') \)
+        \end{itemize}
+        \item Wybór akcji (strategia \( \epsilon \)-greedy): \\
+        Akcja \( a_t \) w stanie \( s_t \) jest wybierana w sposób probabilistyczny:
+        \[
+        a_t =
+        \begin{cases} 
+        \text{Losowa akcja} & \text{z prawdopodobieństwem } \epsilon, \\
+        \arg\max_{a} Q(s_t, a; \theta) & \text{z prawdopodobieństwem } 1 - \epsilon.
+        \end{cases}
+        \]
+        \item Interakcja ze środowiskiem:
+        \begin{itemize}
+            \item Wykonanie akcji \( a_t \), otrzymanie nagrody \( r_{t+1} \) i przejście do nowego stanu \( s_{t+1} \)
+            \item Zapis przejścia \( s_t, a_t, r_{t+1}, s_{t+1} \)  w buforze.
+        \end{itemize}
+        \item Pobranie próbek z bufora:
+        \begin{itemize}
+            \item Losowanie niewielkiej partii (mini-batch) przejść \( {(s_i, a_i, r_i, s'_i)} \)
+            \item Jeżeli epizod zakończył się w tym kroku, to dla każdego z przejść oblicz wartość docelową \( y = r \). W przeciwnym razie użyj 
+            wzoru \( y_i = r_i + \gamma \max_{a'} Q(s'_i, a'_i; \theta') \), gdzie \( \theta' \) to wagi sieci docelowej.
+        \end{itemize}
+        \item Obliczanie straty (np. błędu średniokwadratowego):
+        \begin{equation}
+        \mathcal{L}(\theta) = \frac{1}{N} \sum_{i}(Q(s_i,a_i;\theta)-y_i)^2 
+        \end{equation}
+        \item Zaktualizuj wartość \( Q(s,a) \) za pomocą algorytmu stochastycznego spadku wzdłuż gradientu poprzez minimalizacje straty w odniesieniu do parametrów modelu.
+        \item Aktualizacja wag sieci \( Q \) - Przypisanie \( \theta \) do \( \theta \) po ustalonej liczbnie kroków, co stabilizuje proces uczenia.
+        \item Powtarzaj proces od punktu drugiego (Wybór akcji) do momentu osiągnięcia stabilnych wyników.
+    \end{itemize}
+    Opis procesu treningu został napisany na podstawie książki Maxima Lapana \cite{lapan2020deep}.
     \subsubsection{Przykładowa architektura sieci Q dla DQN}
     \begin{itemize}
         \item Warstwa wejściowa - Wejście w postaci obrazu o rozmiarze 84x84 pikseli z 4 kanałami
@@ -360,159 +411,136 @@
         \item Warstwa w pełni połączona - 512 neuronów, aktywacja ReLU.
         \item Warstwa wyjściowa - Liczbna neronów jest równa liczbie dostępnych akcji w środowisku, bez wykorzystania funkcji aktywacji
     \end{itemize}
-    \subsubsection{Proces treningu algorytmu DQN}
-    Proces treningu obejmuje kilka kluczowych dla działania etapów mających na celu efektywne uczenie się optymalnej polityki.
-    Poniżej jest przedstawiony opis etapów krok po kroku:
-    \begin{itemize}
-        \item Zainicjalizuj \( Q(s,a;\theta) \) za pomocą początkowego przybliżenia:
-        \begin{itemize}
-            \item Sieć Q - Zaincjalizowanie parametrów sieci \( Q \) z losowymi wartościami.
-            \item Sieć docelowa - Skopiowanie wag sieci \( Q \) do sieci docelowej.
-            \item Bufor doświadczeń - Utworzenie pustego bufora do przechowywania przejść (\( s_t, a_t, r_{t+1}, s_{t+1} \)).
-        \end{itemize}
-        \item Wybór akcji (strategia \( \epsilon \)-greedy): \\
-        Agent wybiera kacjię \( a_t \) na podstawię bierzącego stanu \( s_t \) za pomocą strategii \( \epsilon \)-greedy.
-        \[
-        a_t =
-        \begin{cases} 
-        \text{Losowa akcja} & \text{z prawdopodobieństwem } \epsilon, \\
-        \arg\max_a Q(s_t, a; \theta) & \text{z prawdopodobieństwem } 1 - \epsilon.
-        \end{cases}
-        \]
-        \item Agent wykonuje wybraną akcję \( a_t \) w środowisku, co prowadzi do otrzymania nagrody \( r_{t+1} \)
-        oraz przejścia do nowego stanu \( s_{t+1} \)
-        \item Przechowanie doświadczenia (\( s_t, a_t, r_{t+1}, s_{t+1} \)) w buforze.
-        \item Pobranie mini-partii przejść (\(s_i, a_i, r_i s'_i \)) doświadczeń z bufora
-        \item Obliczenie targetów Q-values za pomocą wzoru:
-        \[ y_i = r_i + \gamma max_{a'}Q(s'_i,q';\theta^-) \]
-        gdzie \( \theta^- \) jest parametrem docelowej sieci
-        \item Aktualizacja sieci Q poprzez minimalizację funkcji straty błędu średniokwadratowego (MSE):
-        \[ \mathcal{L}(\theta) = \frac{1}{N} \sum_{i}(Q(s_i,a_i;\theta)-y_i)^2 \]
-        \item aktualizacja sieci docelowej:
-        \[ \theta^- \leftarrow \theta \]
-    \end{itemize}
     \subsubsection{Zalety i wady DQN}
     \noindent \textbf{Zalety:}
     \begin{itemize}
-        \item Efektywność w dużych przestrzeniach stanów dzięki głębokim sieciom neuronowym
-        \item Stabilizacja uczenia za pomocą mechanizmów replay i target network
+        \item Skuteczne działanie w dużych przestrzeniach stanów dzięki zastosowaniu sieci neuronowych.
+        \item Mechanizmy experience replay i target network wspierają stabilność procesu uczenia.
     \end{itemize}
     \textbf{wady:}
     \begin{itemize}
         \item Terning sieci DQN wymaga znaczących zasobów obliczeniowych
-        \item Kluczowe w treningu sieci DQN jest dobranie odpowiednich hiperparametrów dla odpowiedniej optymalizacji
+        \item Kluczowe w treningu sieci DQN jest dobranie odpowiednich hiperparametrów dla odpowiedniej optymalizacji,
         co może nieść za sobą spore trudności.
         \item Problemy z eksploracją. Model może utknąć w lokalnym minimum.
+        \item Możliwość nadmiernego dopasowania do danych treningowych.
     \end{itemize}
     \subsection{Advantage Actor-Critic (A2C)}
     Advantage Actor-Critc (A2C) to metoda, która łączy w sobie zalety metod opartych na polityce i opartych na wartściach.
     Pozwala ona na zminiejszczenie wariancji poprzez uzależnienie punktu odniesienia od stanu. Nagrodę można przedstawić
     jako wartość stanu plus przewaga akcji: \( Q(s,a) = V(s) + A(s,a) \). A2C działa na zasadzie wykorzystania dwóch odzielnych
-    sieci nauronowych: aktora odpowiedzialnego za wybur akcji oraz krytka oceniającego jakość wypranych akcji.
+    sieci nauronowych: aktora odpowiedzialnego za wybór akcji oraz krytka oceniającego jakość stanu lub poprawność wyboru akcji, dostarczając użytecznych sygnałów uczących.
     \subsubsection{Architektura modelu}
-    Aktor jest odpowiedzialny za generowanie rozkładu prawdopodobieństwa akcji \( \pi(a|s) \)
-    w danym stanie 
+    W modelu A2C zwykle wykorzystuje się jedną sieć neuronową (z ewentualnie współdzielonymi warstwami początkowymi), która rozgałęzia się na dwie części wyjściowe: Aktor, krytyk.
     \begin{itemize}
-        \item Warstwa wejściowa która przyjmuje stan środowiska \( s_t \) jako wejście. Stan ten może być representowany jako wektor cech lub inna odpowiednia reprezentacja.
-        \item Warstwy ukryte reprezentowane jako kilka warstw neuronowych w pełni połączonych lub konwolucyjnych które
-        mają za zadanie przetworzyć informacje z wejścia
-        \item Warstwa wyjściowa która używa funkcji softmax w celu wyprowadzenia rozkładu prawdopodobieństwa akcji:
-        \[ \pi(a|s) = \frac{exp(f(a,s))}{\sum_{a'}exp(f(a',s))} \]
-        gdzie \( f(a,s) \) jest wynikiem ostatniej warstwy sieci aktora.
+        \item Część współdzielona
+        \begin{itemize}
+            \item Warstwa wejściowa - Przyjmuje stan środowiska s. W przypadku gier Atari jest to np. znormalizowany obraz w skali szarości o wymiarach 84 x 84 piksele. W przypadku środowisk wektorowych warstwa wejściowa może mieć postać zwykłego wektora cech.
+            \item Warstwy ukryte - Zwykle stosuje się kilka warstw konwolucujnuch do wyodrębniania cech z obrazu. Przy środowiskach o wejściu wektorowym wystarczające mogą być 203 warsty wpełni połączone.
+            \item Wspólna reprezentacja cech - Wyjście z konwolucji stanowi rdzeń, spółdzielony zarówno przez aktora jak i krytyka. Dzięki temu aktor i krytyk uczą się wspólnej reprezentacji stanu, co często poprawia efektywność i stabilność trenowania.
+        \end{itemize}
+        \item Sieć aktora - Odpowiada za generowanie rozkładu prawdopodobieństwa akcji \( \pi(a,s) \) w danym stanie \( s \):
+        \begin{itemize}
+            \item Warstwa wejściowa - Przyjmuje jako dane wejściowe stan środowiska.
+            \item Warstwy ukryte - Zawierają kilka warstw połączonych lub konwolucyjnych, których celem jest ekstrakcja cech oraz transformacja informacji.
+            \item Warstwa wyjściowa - Zwykle kończy się funkcja softmax, wyprowadzającą prawdopodobieństwo każdej możliwej akcji:
+            \begin{equation}
+            \pi(a|s) = \frac{exp(f(a,s))}{\sum_{a'}exp(f(a',s))}
+            \end{equation}
+            gdzie \( f(a,s) \) jest wynikiem ostatniej warstwy sieci aktora.
+        \end{itemize}
+        \item Sieć Krytyka - Jest odpowiedzialna za szacowanie wartości stanu \( V(s) \) (a także przewagi \( A(s,a) \), jeśli zostanie odpowiednio zaprojektowana). Ma to kluczowe znaczenie przy dostarczaniu trafnej oceny jakości działań aktora.
+        \item Warstwa wejściowa - Przyjmuje stan środowiska jako dane wejściowe podobnie jak sieć aktoram, czasem dodaje się też dodatkową warstwę połączoną.
+        \item Warstwa ukryta - Z reguły zbliżone do tych w sieci aktora, przetwarzające dane wejściowe.
+        \item Warstwa wyjściowa - Ma postać pojedynczej jednostki (neuronu), której wartość numeryczna reprezentuje \( V(s) \), czyli estymowaną wartość stanu:
+        \begin{equation}
+        V(s) = f_{critic}(s) 
+        \end{equation}    
     \end{itemize}
-    krytyk ocenia wartość stanu \( V(s) \) oraz przewagi akcji \( A(s,a) \) w danym stanie, co jest kluczowe dla podejmowania odpowiednich akcji przez aktora.
-    \begin{itemize}
-        \item Warstwa wejściowa przyjmuje ten sam stan środowiska \( s_t \) co aktor.
-        \item Warstwy ukryte są reprezentowane jako kikla warstw neuronowych mających za zadanie przetwarzać informacje z wejścia.
-        \item Warstwa wyjściowa ma na celu wyprowadzić jendą wartość funckji skalarnej wartości stanu:
-        \[ V(s) = f(s) \]
-        gdzie \( f(s) \) jest wynikiem ostatniej warstwy sieci krytyka.
-    \end{itemize}
-    Warto także wspomnieć o wspóldzieleniu warstw przez algorytm A2C mianowice część warstw sieci może być współdzielona między
-    aktorem a krytykiem, co pozwala na efektywniejsze uczenie się współnych reprezentacji stanów.
+    Architektura została zaprezentowana na podstawie publikacji Mniha et al. \cite{mnih2016a3c} oraz oficjalnej dokumentacji modelu A2C \cite{stable_baselines_a2c}
     \subsubsection{Proces treningu algorytmu A2C}
-    Poniższy opis procesu A2C obejmuje interakcje agenta ze środowiskiem, zbieranie doświadczeń, obliczanie przewagi i aktualizację wag sieci aktora i krytyka.
+    Poniżej przedstawiono zarys treningu metody A2C, uwzględniający interakcję agenta ze środowiskiem, gromadzenie doświadczeń, obliczanie przewagi oraz aktualizację parametrów.
     \begin{itemize}
-        \item Inicjalizacja procesu uczenia z parametrami sieciowymi \( \theta \) przyjmując wartrości losowe dla obu sieci aktora i krytyka.
-        parametr polityki \( \theta_\pi \) (aktor), parametr wartości \( \theta_v \) (krytyk)
-        \item Wykonać \( N \) kroków w środowisku używając bieżącej polityki \( \pi_\theta \). Dla każdego kroku
-        \( t \) zapamiętać stan \( s_t \) akcję \( a_t \) wylosowaną z \( \pi_{\theta_\pi} (a|s_t) \), nagrodę \( r_t \).
-        \item Jeżeli dotarliśmy do końca epizodu, przyjmujemy \( R = 0 \) w przeciwnym wypadku obliuczamu wartość stanu końcowego \( s_{t+1} \)
-        Przy pomocy sieci wartości:
-        \[ R = V_{\theta_v}(s_{t+1}). \]
+        \item Inicjalizacja - Nadanie losowych wartości parametrom \( \theta \). Zwykle wyróżnia się: 
+        \begin{itemize}
+            \item \( \theta_{\pi} \) - parametry sieci aktora,
+            \item  \( \theta_v \) - parametry sieci krytyka.
+        \end{itemize}
+        \item Wykonanie N kroków - Przy użyciu bierzącej polityki \( \pi_{\theta_\pi} \), Agent wykonuje \( N \) kroków w środowisku. Dla każdego kroku \( t \) zapisywane są: stan \( s_t \), akcja \( a_t \) oraz nagroda \( r_t \).
+        \item Obliczenie wartości końcowej R - Jeżeli epizod uległ zakończeniu, przyjmuje się \( R = 0 \). W przeciwnym wypadku oblicza się wartość stanu końcowego \(s_{t+1} \) przy użyciu sieci wartości: 
+        \begin{equation}
+        R = V_{\theta_v}(s_{t+1}).
+        \end{equation}
         W przypadku zakończenia epizodu na przykład gdy gra się kończy przerywamy zbieranie danych wcześniej.
-        \item Przetwarzamy kroki wstecz od \( t = t_N, t_{N-1}, ..., t_{start} \), obliczając skumulowaną nagrodę z dyskonotwaniem:
-        \[ R \leftarrow r_t + \gamma R \]
-        następnie należy aktualizować gradnienty aktora i krytyka:
+        \item Przetwarzanie wstecz i aktualizacja parametrów - 
+        Rozważając kroki wstecz od \( t = t_N, t_{N-1}, ..., t_{start} \), aktualizuje się wartość \( R \):
+        \begin{equation}
+        R \leftarrow r_t + \gamma R 
+        \end{equation}
+        Następnie należy aktualizować gradnienty aktora i krytyka:
         \begin{itemize}
             \item Gradient polityki:
-            \[ \nabla \theta_\pi \leftarrow \nabla \theta_\pi log \pi_{\theta_\pi} (a_t|s_t) (R-V_{\theta_v}(s_t)) \]
+            \begin{equation}
+            \nabla \theta_\pi \leftarrow \nabla \theta_\pi log \pi_{\theta_\pi} (a_t|s_t) (R-V_{\theta_v}(s_t))
+            \end{equation}
             \item Gradient wartości:
-            \[ \nabla \theta_v \mathcal{L}_v \leftarrow \frac{\partial}{\partial \theta_v} (R - V_{\theta_v}(s_t))^2 \]
+            \begin{equation}
+            \nabla \theta_v \mathcal{L}_v \leftarrow \frac{\partial}{\partial \theta_v} (R - V_{\theta_v}(s_t))^2 
+            \end{equation}
         \end{itemize}
         Sumujemy powyższe gradienty dla aktora i krytyka w pamięci co w praktyce zbiera się je wektorem przez \( N \) kroków.
-        \item Zaktualizować parametry sieci wykorzystując zsumowane gradienty. Wektor \( \nabla \theta_\pi \) dodajemy do \( \theta_\pi \) (maksymalizacja polityki) oraz
+        \item Aktualizacja parametrów - Zaktualizować parametry sieci wykorzystując zsumowane gradienty. Wektor \( \nabla \theta_\pi \) dodajemy do \( \theta_\pi \) (maksymalizacja polityki) oraz
         wektor \( \nabla \theta_v \) odejmujemy od \( \theta_v \) (minimalizacja błędu wartości).
         \item Powtarzamy procedure z kroku 2 do momentu osiągnięcia konwergencji lub uzyskania założonych winików.
     \end{itemize}
+    Opis procesu treningu został napisany na podstawie książki Maxima Lapana \cite{lapan2020deep}.
     \subsubsection{Zaleti i wady A2C}
     \noindent \textbf{Zalety:}
     \begin{itemize}
-        \item Lączenie zalet metod opartych na polityce i wartości poprzez kożystanie zarówno z optypalizacji polityki, jak i oceny stanu jakości przez krytyka.
+        \item Łączenie mocnych stron algorytmów opartych na wartości i na polityce, poprzez równoczesne optymalizowanie polityki i oceny stanów.
         \item Stabilność uczenia się dzięki wykorzystaniu przewagi \( A(s,a) \) oraz regularyzacji entropii.
-        \item Efektywna eksploracja poprzez regularyzację entropii.
-        \item Skalowalność
+        \item Skuteczna eksploracja - regularizacja entropii zapobiega zbyt wczesnemu zafiksowaniu się na jednej strategii.
+        \item Skalowalność - możliwe jest implementowanie wersji wielowątkowych w różnych środowiskach.
     \end{itemize}
     \textbf{Wady:}
     \begin{itemize}
-        \item Złożoność obliczeniowa. Algorytm A2C wymaga trenowania dwóch oddzielnych sieci neuronowych dla aktora i krytyka co zwiększa
+        \item Złożoność obliczeniowa - Algorytm A2C wymaga trenowania dwóch oddzielnych sieci neuronowych dla aktora i krytyka co zwiększa
         wymagania obliczeniowej
-        \item Wrażliwość na parametry takie jak cwspółczynnik regulacji entropii \( \beta \), współczynnik dyskonotwania \( \gamma \) 
+        \item Wrażliwość na parametry takie jak współczynnik regulacji entropii \( \beta \), współczynnik dyskonotwania \( \gamma \) 
         oraz współczynnik uczenia \( \alpha \).
-        \item Potencjalne problemy z równowagą aktora i krytyka, która przy niewłaściwej synchronizacji może doprowadzić do niestabilnosći w procesie uczenia
+        \item Potencjalne problemy z równowagą między aktorem a krytykiem – niewłaściwa synchronizacja tych dwóch komponentów potrafi prowadzić do niestabilności uczenia.
     \end{itemize}
     \section{Eksperymenty i analiza wyników}
     \subsection{Konfiguracja środowiska testowego}
-    Głównym celem pracy jest przeprowadzenie eksperymentów z uczeniem przez wzmacnianie do prostej gry typu Atari. 
-    Ze względu na to zdecydowano się na wybór gry Pong jako środowiska testowego. W celu łatwości implementacji oraz eliminacji
-    nadmiarowej ilościu kodu zdecydowano się skorzystać z zasobów biblioteki Gymnasium która zapewnia jednolity
-    interfejs API dla agenta uczenia przez wzmacnianie.
+    Głównym celem badań jest przetestowanie wybranych algorytmów uczenia przez wzmacnianie w prostej grze typu Atari. Z tego powodu podjęto decyzję o wyborze gry Pong jako środowiska testowego. W celu uproszczenia procesu implementacji oraz uniknięcia nadmiarowego kodu zastosowano zasoby biblioteki Gymnasium, zapewniającej ujednolicony interfejs API umożliwiający interakcję agenta z otoczeniem.
     \subsubsection{Środowisk testowe: Pong}
     Pong jest popularną grą wideo z kategorii gier Atari, które idealnie się nadają do testowania algorytmów takich jak uczenie przez wzmacnianie,
-    dlatego zdecydowano się na użycie tej gry. Biblioteka Gymnasium (następca biblioteki Gym) oferuje szeroką gamę możliwości testowych poprzez gre Pong.
-    Wiele algorytmów zostało przetestowanych i wykorzystanych jako benchmark w uczeniu maszynowych ze względu na prostotę implementacji biblioteki. Warto też zwrócić
+    dlatego zdecydowano się na użycie tej gry. Biblioteka Gymnasium (następca biblioteki Gym) oferuje szeroką gamę możliwości testowych poprzez gre Pong. W projekcie wykrzystano środowisko PongNoFrameskip-v4, dostarczone przez bibliotekę Arcade Learning Environment \cite{bellemare2013ale}. Wiele algorytmów zostało przetestowanych i wykorzystanych jako benchmark w uczeniu maszynowych ze względu na prostotę implementacji biblioteki. Warto też zwrócić
     uwagę iż pong wymaga od agenta skutecznego podejmowania decyzji w czasie rzeczywistym co nadaje się idealnie do testów.
     \subsubsection{Charakterystyka środowiska Pong:} 
     \begin{itemize}
-        \item Stan Środowiska - Stanem środowiska jest aktualny widok gry który wyświetla obraz, który ma wymiary 210 x 160 x 3 (wysokośc, szerokość, kanały RGB).
-        W celu efektywnego uczenia obraz jest przetwarzany wstępnie w celu redukcji wymiarów oraz uproszczenia danych wejściowych
+        \item Stan Środowiska -  Stan odzwierciedla aktualny obraz z gry, o wymiarach 210 x 160 x3  (wysokość, szerokość, kanały RGB). W celu zwiększenia efektywności uczenia przeprowadza się wstępne przetwarzanie, zmniejszając rozdzielczość oraz upraszczając dane wejściowe.
         \item Zbiór akcji - Dla gry Pong mamy możliwość wykonania trzech akcji: przesunięcie paletki w góre, przesunięcie paletki w dół oraz pozostawienie paletki w miejscu.
         \item Nagrody - Sposób przyznawania nagród dla naszego środowiska wyraża się w następujący sposób: +1: Agent zdobywa punkt w momencie odbica piłki w taki sposób aby przeciwnik nie był w stanie jej odbić,
         -1: W momencie gdy agent nie doła odbić piłki przeciwnik otrzymuje punkt, 0: Dla pozostałych przypadków np: w trakcie wymiany odbić.
         \item Warunek końca epizodu - Koniec jednego epizodu uczenia następuje w momencie, gdy agent lub jego przeciwnik osiągnie 21 punktów.
-        \item Cel agenta - Głównym zadaniem agenta jest maksymalizacja całkowitej zdyskontowanej nagrody podczas jednego epizodu gry, co oznacza wygrywaniu z przewagą większej ilości punktów niż przeciwnik.
+        \item Cel agenta - Maksymalizacja całkowitej zdyskontowanej nagrody w trakcie jednego epizodu, co jest równoznaczne z wygrywaniem większą liczbą punktów niż przeciwnik.
     \end{itemize}
-    \subsubsection{Język programowania: Python}
-    W ramach implementacji algorytmów uczenia przez wzmacnianie zdecydowano się na użycię języka programowania Python. Głównymi aspektami przemawiającym za wybraniem tego języka są przedewszystkim szeroka
-    gama bilbiotek wspierających uczenie przez wzmacnianie np. Gymnasium, Pytorch. Python jest najpopularniejszym językiem sotosowanym w dziedzinie sztucznej inteligencji i uczenia przez wzmacnianie. Duża ilość 
-    współczesnych algorytmów sztucznej inteligencji została zaprojektowana przy pomocy Pythona co także skłania do skorzystania z tego języka programowania. 
+    \subsubsection{Język programowania: Python \cite{python}}
+    W ramach implementacji algorytmów uczenia przez wzmacnianie zdecydowano się na użycię języka programowania Python. Głównymi aspektami przemawiającym za wybraniem tego języka są przede wszystkim szeroka gama bilbiotek wspierających uczenie przez wzmacnianie np. Gymnasium, Pytorch. Python jest najpopularniejszym językiem sotosowanym w dziedzinie sztucznej inteligencji i uczenia przez wzmacnianie. Duża część współczesnych rozwiązań w AI jest implementowana właśnie w Pythonie, co przekłada się na bogate wsparcie społeczności.
     \subsubsection{Biblioteki wykorzystane do implementacji}
     \begin{itemize}    
-        \item Gymnasium - Biblioteka stanowiąca standard dla uczenia przez wzmacnianie służąca do symulacji środowsik. Zastosowaną ją głównie w celu dostarczenia środowiska gry pong, oraz
+        \item Gymnasium \cite{gymnasium2025} - Biblioteka stanowiąca standard dla uczenia przez wzmacnianie służąca do symulacji środowsik. Zastosowaną ją głównie w celu dostarczenia środowiska gry pong, oraz
         łatwości w zapewnieniu interfejsu dla agenta który ma mu służyć jako interakcja ze środowiskiem. Biblioteka oferuje prostą interakcję z różnymi algorytmami uczenia przez wzmacnianie.
-        \item PyTorch - Pozwala na implementacje złożonych modeli uczenia przez wzmacnianie opartych na sieciach neuronowych za pomocą kilku linijek kodu. 
+        \item PyTorch \cite{pytorch2025} - Pozwala na implementacje złożonych modeli uczenia przez wzmacnianie opartych na sieciach neuronowych za pomocą kilku linijek kodu. 
         PyToch zapewnia dwie wysokopoziomowe funkcję: Obliczenia tensorowe z silną akceleracją przy pomocy wykorzystania procesorów graficznych, 
         Wykorzystanie głębokich sieci neuronowych zaprojektowanych za pomocą taśmowych systemów automatycznego różnicowania.
-        \item OpenCV - Zestaw narzędzi pozwalający na przetwarzanie obrazu oraz wizję komputerową wizję zadań. Dzięki wykorzystaniu tej biblioteki jesteśmy w stanie
+        \item OpenCV \cite{opencv2025} - Zestaw narzędzi pozwalający na przetwarzanie obrazu oraz wizję komputerową wizję zadań. Dzięki wykorzystaniu tej biblioteki jesteśmy w stanie
         osiągnąć szybkie iw wydajne przetwarzanie danych wizualizacyjnych przed przesłaniem ich do sieci neuronowej, dzięki czemu uzyskujemy 
         pozytywny efekt w postaci czasu treningu oraz jego efektywności. 
     \end{itemize}
-    \subsection{Kryteria oceny modeli}
     \subsection{Wyniki dla modelu Deep Q-Learning}
-    Model Deep Q-Learning został zaimplementowany w celu wytrenowania agenta do gry Pong, za pomocą
-    wykorzystania głębokich sieci neuronowych w do aproksymacji wartości funkcji Q. Strutura algorytmu opiera się na wykorzystaniu
-    bibliotek PyTorch, Gymnasium oraz OpenCV. Środowisko zostało odpowiednio dostosowane za pomocą wrapperów, mających na celu poprawę
-    efektywności i jakości danych wejściowych. 
+    Model Deep Q-Learning (DQN) został zaimplementowany w celu wytrenowania agenta do gry Pong przy użyciu sieci neuronowej do aproksymacji funkcji \( Q \). Architektura algorytmu opiera się na bibliotekach PyTorch, Gymnasium oraz OpenCV. Dodatkowo środowisko Pong poddano wstępnemu przetwarzaniu (tzw. wrappery), aby usprawnić proces uczenia.
     \newpage
     \subsubsection{Analiza wykresu nagordy}
     \begin{figure}[htbp]
@@ -529,81 +557,75 @@
     W momencie około 300 000 kroków można zaobserwować osiągnięcie stopniowej stablności wyników, zbliżając się do maksymalnej średniej nagrody wynoszącej +21.
     W kolejnych krokach widać niewielkie wachania wyników co jest związane z stochastyczną naturą dynamicznego środowiska gry Pong.
     Proces treningu został zakończony w ciągu około 540 000 kroków, przy czasie trwania procesu uczenia wynoszącym 1,166 godziny czasu rzeczywistego.
-    \subsubsection{Opis implementacji modelu Deep Q-Learning}
-    Implementacja modelu składa się z następujących elementów:
+    \subsubsection{Strukutra projektu}
+    W niniejszej części przedstawiono uproszczony diagram klas (w notacji UML) ilustrujący kluczowe elementy architektury implementacji algorytmu Deep Q-Learning dla gry Pong. Diagram zawiera zarówno klasy związane z gromadzeniem i przetwarzaniem danych (m.in. bufor doświadczeń i tak zwane wrappery), jak również samą sieć neuronową (DQN) i logikę podejmowania decyzji przez agenta. Dzięki tak zorganizowanej strukturze możliwa jest wieloetapowa analiza sekwencji obserwowanych stanów w środowisku oraz generowanie akcji w oparciu o metodologie uczenia ze wzmocnieniem.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/DQN_diagram.png}
+        \caption{Diagram stuktury projektu}
+    \end{figure}
     \begin{itemize}
-        \item Architektura sieci neuronowej - Do modelu DQN wykorzystano seić neuronową która jest głęboką siecią konwolucyjną składającą się z poniższych warstw:
-        \begin{itemize}
-            \item Warstwy konwolucyjne:
-            \begin{itemize}
-                \item Pierwsza warstwa: 32 filtry o rozmiarze 8 x 8 i kroku 4.
-                \item Druga warstwa: 64 filtry o rozmiarze 4 x 4 i kroku 2.
-                \item Trzecia warstwa: 64 filtry o rozmiarze 3 x 3 i kroku 1.
-            \end{itemize}
-            Celem zastosowania warstw konwolucyjnych jest redukcja wymarowości wejściowego obrazu oraz wyodrębnienie istotnych cech dla podejmowania decyzji przez agenta
-            \item Warstwy w pełni połączone:
-            \begin{itemize}
-                \item jedna warstwa o 512 neuronach z funkcją aktywacji ReLU.
-                \item Warstwa wyjściowa odpowiadająca za generacje Q-wartości dla każdej możliwej akcji wykonanej przez agenta.
-            \end{itemize}
-        \end{itemize}
-        \item Przygotowanie danych wejściowych - Do odpowiedniego przetworzenia danych wejściowych zastosowano poniższe wrappery:
-        \begin{itemize}
-            \item MaxAndSkipEnv
-            \item FireResetEnv
-            \item ProcessFrame84
-            \item ImageToPyTorch
-            \item BufferWrapper
-            \item ScaledFloatFrame
-        \end{itemize}
-        \item Mechanizm bufora powtórki (replay buffer) - Służy do przechowywania i próbkowania partii danych podczas treningu. Rozmiar bufora: 10 000 ostatnich doświadczeń.
-        Próbkowanie doświadczeń odbywa się poprzes losowe wybieranie 32-elementowych mechanizmów uczenia wsadowego (batch learning) w celu minimalizacji korelacji między próbkami.
-        \item Wykorzystanie algorytmu epsilonu zachłannego - Ma na celu stworzenie strategii która pozwala na połączenie akcji eksploracji i eksploatacji. Początkowa wartość epsilonu: 1.0
-        (losowe wybory). Stopniowy spadek wartości epsilonu do momentu 0.01 w ciągu 150 000 kroków.
-        \item Synchronizacja sieci docelowej - Sieć docelowa zostaje zsysnchronizowana z główną siecią co 1000 kroków w celu poprawy stabilności porcesu uczenia.
+        \item Main - Moduł główny odpowiada za inicjalizację środowiska Pong, wykorzystując dedykowane wrappery ułatwiające proces uczenia. W jego obrębie tworzone są również wszystkie obiekty niezbędne do trenowania modelu: sieć DQN, bufor doświadczeń oraz agent. Moduł zarządza pętlą treningową - w każdej iteracji agent podejmuje akcje w środowisku, kolekcjonuje nowe doświadczenia i przekazuje je dalej do procesu uczenia. Ponadto, w pliku tym ustala się podstawowe hiperparametry (np. współczynnik uczenia, początkowy poziom eksploracji \( \epsilon \) czy rozmiar partii treningowej w buforze doświadczeń) oraz definiuje sposób rejestrowania postępów treningu.
+        \item Agent - Klasa Agent stanowi łącznik między środowiskiem a siecią Q. Jej zadaniem jest wybór akcji na bazie przyjętej polityki (np. \( \epsilon \)-greedy) oraz monitorowanie bieżącego stanu gry, w tym gromadzenie nagród i informacji o zakończeniu epizodów. Agent organizuje również zapisywanie doświadczeń w buforze, co umożliwia efektywniejsze uczenie modelu w oparciu o różne fragmenty rozgrywki.
+        \item ExperienceBuffer - zapewnia strukturę do przechowywania doświadczeń generowanych przez agenta. Dzięki temu możliwe jest wielokrotne wykorzystanie zapisanych informacji podczas uczenia, co wspomaga stabilność procesu treningowego i poprawia jakość nabywanych przez sieć neuronową reprezentacji.
+        \item Experience - Pojedynczy krok w środowisku (tzw. transition) został zdefiniowany w klasie Experience. Zawiera ona kluczowe dane opisujące stan przed podjęciem akcji, stan po jej wykonaniu, otrzymaną nagrodę oraz informację o ewentualnym zakończeniu epizodu. Każdy obiekt tej klasy wykorzystywany jest następnie przez bufor doświadczeń podczas przygotowywania próbek treningowych dla sieci DQN.
+        \item DQN - Sieć DQN służy do aproksymacji funkcji Q. W opisywanym projekcie wykorzystano sieć konwolucyjną, zaprojektowaną do analizy sekwencji obrazów pochodzących z rozgrywki. Przetworzone przez sieć dane wejściowe umożliwiają wyznaczenie wartości Q dla wszystkich możliwych akcji. Agent, na podstawie tych wartości, wybiera ruch dążący do maksymalizacji skumulowanej nagrody w dłuższym horyzoncie czasowym.
+        \item MaxAndSkipEnv - Mechanizm pozwalający pominąć część klatek i jednocześnie zsumować odpowiadające im nagrody. Wykorzystuje on maksymalne wartości pikseli z dwóch ostatnich obserwacji, co prowadzi do redukcji liczby kroków przetwarzanych podczas treningu i tym samym zwiększa efektywność obliczeń.
+        \item FireResetEnv - odpowiada za inicjalizację rozgrywki przez wymuszenie akcji FIRE (oraz ewentualnie innej) na początku każdego epizodu. Dzięki temu mechanizmowi agent może od razu rozpocząć właściwą interakcję z grą.
+        \item ProcessFrame84 - Ten komponent przetwarza pojedynczą klatkę na obraz w odcieniach szarości oraz skaluje go do rozmiaru 84x84. Pozwala to znacząco zmniejszyć wymiarowość danych wejściowych, co korzystnie wpływa na szybkość i stabilność treningu
+        \item ImageToPyTorch - Zadaniem ImageToPyTorch jest zmiana kolejności wymiarów klatki z postaci (wysokość, szerokość, kanały) na (kanały, wysokość, szerokość).Ułatwia to dalsze przetwarzanie obrazu w bibliotece PyTorch, w której standardem jest inna konwencja wymiarów tensora.
+        \item ScaledFloatFrame - Normalizuje wartości pikseli do zakresu [0,1].
+        \item BufferWrapper - Umożliwia zbudowanie stosu ostatnich kilku klatek, co pozwala sieci neuronowej wyłapać krótkoterminową dynamikę obiektów w grze (ruch piłki i paletki). Dzięki temu agent dysponuje kontekstem czasowym, niezbędnym w zadaniach związanych z przetwarzaniem serii obrazów.
     \end{itemize}
+    Współdziałanie powyższych elementów skutkuje iteracyjnym procesem treningowym, w którym agent stopniowo udoskonala strategię gry w Pong, korzystając zarówno z bieżących obserwacji, jak i zróżnicowanego zasobu doświadczeń przechowywanych w buforze. Sieć DQN oparta na warstwach konwolucyjnych czerpie informacje z wielu typów danych, co pozwala ostatecznie na wypracowanie stabilnej i efektywnej polityki rozgrywki.
+    \\ \\ 
+    Pełną implementację kodu można znaleźć na repozytorium github \cite{DQN}
+    Kod został zainspirowany rozwiązaniami przedstawionymi w książce Maxima Lapana \cite{lapan2020deep} i dostosowany do najnowszych wersji bibliotek.
     \subsubsection{Problem przetrenowania modelu}
-    Podczas testów modelu poprzez wyświetlenie gry Pong w postaci aplikacji można zaobserwować iż modele ze średnim wynikiem 10-21 grają w bardzo specyficzny sposób. Agent mimo wysokiej
-    skuteczności w osiąganiu wyników w środowisku Pong, wykonywał ruchu które w zasadzie przewidywały już zachowanie przeciwnika na którym odbywało się trenowanie. Takie zachowanie wskazuje
-    na nadmierne dopasowanie do danych treningowych. Ten problem, znany jako przetrenowanie (overfitting), jest szczególnie istotny w algorytmach uczenia przez wzmacnianie.
+    W trakcie testowania modelu poprzez bezpośrednią obserwację rozgrywki w formie aplikacji można zauważyć, że modele osiągające średni wynik w przedziale 10–21 przejawiają charakterystyczny styl gry. Mimo wysokiej skuteczności w środowisku Pong, agent wykonuje ruchy przewidujące zachowanie przeciwnika – tego samego, który służył do trenowania. Takie zjawisko jest przejawem nadmiernego dopasowania modelu do danych treningowych, powszechnie określanego jako przetrenowanie (overfitting).
     \\ \\ \textbf{Przyczyny przetrenowania modelu DQN:}
     \begin{itemize}
-        \item Ograniczona różnorodność danych w replay buffer - Replay buffer przechowuje ograniczoną liczbę doświadczeń do 10 000 ostatnich kroków. 
+        \item Ograniczona różnorodność danych w buforze powtórki - Rozmiar bufora (10  000) sprawia, że może on zostać zdominowany przez powtarzające się wzorce rozgrywki, co ogranicza ekspozycję modelu na bardziej nietypowe sytuacje.
         W momencie gdy agent dominuję daną strategię gry, bufor może być wypełniony głównie przykładami wspierającymi taką startegię, co prowadzi do utraty różnorodności danych.
         W praktyce agent uczy się przewidywania konkretnych scenariuszy, które często występują w buforze, co skutkuje brakiem przygotowania na bardziej niestandardowe sytuacje.
-        \item Eksploatacja kosztem eksploracji - Podczas późniejszych etapów uczenia, gdy wartość \( \epsilon \) w strategii epsilon-greedy spada do 0.01, agent w praktyce przestaje 
-        eksplorować nowe akcje, korzystając jedynie z wyuczonych optymalnych ruchów. Skutkuje to brakiem otkrywania alternatywnych strategii.
-        \item Brak elementu stochastyczności w wyborze akcji - Wybór akcji w modelu DQN dokonuje się na podstawie maksymalizacji wartości \( Q \), co może prowadzić do sztywnego
-        dopasowania do konkretnego zestawu stanu i akcji, bez uwzględnienia potencajlnie równie dobrych alternatyw.
+        \item Eksploatacja kosztem eksploracji - Podczas późniejszych etapów uczenia, gdy wartość \( \epsilon \) w strategii epsilon-greedy spada do 0.01, gent rzadko wybiera akcje losowe, co powoduje utrwalenie się wyuczonych schematów i brak odkrywania alternatywnych strategii.
+        \item Brak elementu stochastyczności w wyborze akcji - Wybór akcji w modelu DQN dokonuje się na podstawie maksymalizacji wartości \( Q \), co sprzyja sztywnemu dopasowaniu do konkretnych sekwencji stan - akcja.
         \item Brak mechanizmów zapobiegających przetrenowaniu - Ze względu na swoją naturę model DQN nie uwzględnia mechanizmów regulujących eksplorację (np. entropii polityki)
     \end{itemize}
     \textbf{Zastosowanie Generatywnych Sieci Przeciwstawnych (GAN) jako możliwe rozwiązanie problemu przetrenowania - }
-    Jednym z potencjalnych rozwiązań problemu przetrenowania jest zastosowanie generatywnych sieci przeciwstawnych w celu zwiększenia różnorodności danych oraz poprawy modelu.
-    To podejście może zostać użyte do tworzenia syntetycznych trajektorii w środowisku gry Pong, które byłyby trudne dla agenta, co zmusiłoby go do bardziej uniwersalnego zachowania.
-    Także dzięki temu osiągamy możliwość wprowadzenia stochastyczności w wyborze stanów i akcji, które agent rzadko widzi w trakcie treningu, co zmniejsza ryzyko nadmiernego dopasowania.
-    Dzięki bardziej zróżnicowanym doświadczeniom za pomocą zastosowania tego podejścia, agent staje się lepiej przygotowany na nietypowe sytuacje podczas gry. 
-    Ze względu na bardzo dużą trudność w implementacji generatywnych sieci przeciwstawnych dla modelu DQN zdecydowano się stworzyć inny model (A2C).
-    Także dużym problemem po zastosowaniu tego podejścia jest dostosowanie hiperparametrów, które muszą być dla tego przypadku perfekcyjnie dobrane.
+    Jedną z możliwych strategii radzenia sobie z przetrenowaniem jest poszerzenie zakresu danych treningowych przy pomocy generatywnych sieci przeciwstawnych (GAN). W tym kontekście mogą one posłużyć do tworzenia nowych, trudniejszych do przewidzenia trajektorii rozgrywki w środowisku Pong. W rezultacie agent zostaje zmuszony do wypracowania bardziej uniwersalnych działań. Wprowadzenie losowości w stanach i akcjach, które rzadko pojawiają się w standardowym treningu, pomaga uniknąć zbyt wąskiego dopasowania.
+    Mimo to, wdrożenie GAN w połączeniu z modelem DQN jest z technicznego punktu widzenia złożonym zadaniem, wymagającym precyzyjnie dobranych hiperparametrów. Z tego powodu w niniejszym projekcie zdecydowano się na opracowanie innego modelu (A2C), który w praktyce okazał się łatwiejszy do implementacji przy zachowaniu zadowalającej jakości działania.
     \subsubsection{Tabela z wynikami dla różnych hiperparametrów}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{>{\bfseries}l>{\centering\arraybackslash}m{1cm}>{\centering\arraybackslash}m{2cm}>{\centering\arraybackslash}m{2cm}>{\arraybackslash}m{3cm}}
+        \toprule
+        \textbf{Hiperparametr} & \textbf{Zmiana} & \textbf{Czas} & \textbf{Liczba kroków } & \textbf{Uwagi} \\
+        \midrule
+        $\gamma$ & 0.95 & $ \sim 50 $min & $ \sim 450000 $ & Szybsza konwergencja, mniejsze nagrody. \\
+        \addlinespace
+        BATCH\_SIZE & 64 & $ \sim 2,6 $ godziny & $ \sim 850 000 $ & Stabilniejsze wyniki, wolniejsze uczenie. \\
+        \addlinespace
+        REPLAY\_SIZE & 50,000 & $ \sim 2,5 $ godziny & $ \sim 1100000$ & Większa różnorodność danych, dłuższy czas treningu. \\
+        \addlinespace
+        LEARNING\_RATE & 0.0002 & N/A & N/A & Brak konwegencji. \\
+        \addlinespace
+        LEARNING\_RATE & 0.00015 & N/A & N/A & Brak konwegencji. \\
+        \addlinespace
+        EPSILON\_DECAY & 300,000 & $\sim 2,2 $ godziny & $ \sim 1000000 $  & Większa eksploracja, dłuższy czas do konwergencji. \\
+        \addlinespace
+        SYNC\_TARGET\_FRAMES & 2,000 & N/A & N/A & Brak konwergencji. \\
+        \bottomrule
+        \end{tabular}
+        \caption{Wyniki eksperymentów dla różnych hiperparametrów.}
+        \label{tab:wyniki}
+        \end{table}
     \subsubsection{Wnioski}
-    Model Deep Q-Learning (DQN) wykazał dużą skuteczność w nauce gry Pong, osiągając maksymalną średnią nagrodę równą +21, co wskazuje na pełne opanowanie środowiska przez agenta.
-    Proces uczenia przebiegł zgodnie z założeniami - początkowe wyniki były bardzo niskie, co wynikało z losowej eksploracji środowiska, następnie z biegiem czasu treningu agent stopniowo
-    uczył się nowych strategii i popbrawiał swoje wyniki, ąż do momentu osiągniuęcia zauważalnej stabilności w momencie przekroczenia około 300 000 kroków.
-    Mechanizm bufora powtórki pozwolił na efektywne przechowywanie i ponowne wykorzystanie doświadczeń, a strategia epslion-greedy przyczyniła sie do balansu między eskploracją 
-    nowych akcji a eksploatacją wyuczonych strategii. Mimo sporych sukcesów osiągniętych przez model DQN można zaobserwować pewne ograniczenia, szczególnie w późniejszych etapach treningu.
-    Zauważono zjawisko przetrenowania, które objawiało się w postaci nienaturalnych ruchów agenta, które wskazują na nadmierne dopasowanie do danych. Problem ten wynikał w dużej mierze 
-    z natury modelu DQN który ma ograniczoną różnorodność danych w buforze oraz malejącą wartość epsilonu, która redukuje eksplorację na korzyść eksploatacji. 
-    Ze względu na te problemu postanowiono zastosować bardziej zaawansowany algorytm taki jak A2C, który charakteryzuje się lepszym balansem
-    między eksploracją a aksplatacją dzięki polityce stochastycznej. Podsumowujcąc, mimo iż model DQN jest skuteczny w grze Pong, jego ograniczenia
-    w zakresie przetrenowania, długioego czasu konwergencji oraz wrażliwości na hiperparametry wskazują na potrzebę zastosowania bardziej zaawansowanych podejść.
-    Model ten jest idealnym punktem wyjścia jeśli chodzi o dalsze badania, ale w praktycznych zastosowaniach wymaga dużej ilości wsparcia w postaci dodatkowych 
-    mechanizmów usprawniających eksplorację oraz optymalizację.
+    W przeprowadzonych eksperymentach algorytm Deep Q-Learning (DQN) wykazał się wysoką skutecznością w nauce gry Pong, osiągając maksymalną średnią nagrodę na poziomie +21. Taki wynik potwierdza, że agent zdołał w pełni opanować reguły i dynamikę środowiska. Proces uczenia przebiegał zgodnie z założeniami  początkowe wyniki były niskie z uwagi na losową eksplorację, a w miarę postępu treningu agent sukcesywnie rozwijał strategię, aż do zaobserwowania stabilizacji po około 300 000 kroków.
+    Istotną rolę odegrał bufor powtórki, który pozwolił na wielokrotne wykorzystanie zebranych doświadczeń. Zastosowanie polityki \( \epsilon \) -greedy przyczyniło się natomiast do zachowania równowagi między eksploracją nowych możliwości a eksploatacją już wytrenowanych schematów postępowania. Mimo zadowalających rezultatów, w późniejszych etapach pojawiło się jednak zjawisko przetrenowania, przejawiające się w postaci nienaturalnie przewidujących ruchów agenta. Głównym powodem było ograniczenie różnorodności danych w buforze (zwłaszcza w obliczu malejącego parametru \( \epsilon \)), co z czasem prowadziło do zawężenia zakresu eksplorowanych strategii.
+    W odpowiedzi na problem przetrenowania podjęto decyzję o użyciu bardziej zaawansowanego algorytmu, takiego jak A2C (Advantage Actor-Critic), który umożliwia lepsze wyważenie eksploracji i eksploatacji dzięki wprowadzeniu elementu stochastyczności w polityce. Podsumowując, DQN pozostaje wartościowym punktem wyjścia w badaniach nad grami Atari, niemniej jego praktyczne zastosowania wymagają zarówno dodatkowych mechanizmów ograniczających przetrenowanie, jak i starannej kalibracji hiperparametrów. Te wymogi w sposób naturalny przekładają się na konieczność zaangażowania znacznych zasobów obliczeniowych oraz planowania eksperymentów w sposób maksymalnie metodyczny.
     \subsection{Wyniki dla modelu Advantage Actor-Critic (A2C)}
-    Model Advantage Actor-Critic (A2C) został zaimplementowany z celu poprawy stabilności i efektywności prcesu uczenia w porównaniu do klasycznego algorytmu Deep Q-Learning (DQN).
-    Wykorzystuje on równoległe środowiska oraz jednoczesne uczenie polityki i fuynkcji wartości, dzięki czemu agent podejmuje lepsze decyzje. 
-    Za pomocą zastosowania regularyzacji entropii, model A2C unika problemu nadmiernego dopasowania, wspierając eksplorację środowiska.
-    Poniżej przedstawiono wyniki uzyskane podczas treningu modelu A2C. Wykresy ilustrują kluczowe aspekty procesu uczenia, między innymi: przewaga (\( A(s,a) \)), zmiany funkcji nagrody,
-    gradienty oraz straty. Za pomocą tych wizualizacji można przeanalizować szczegółowo zachowanie modelu podczas procesu uczenia oraz ocenić jego efektywność w kontekście rozważanego problemu.\
+    Poniżej przedstawiono główne wyniki i wizualizacje procesu uczenia modelu A2C, takie jak wykresy przewagi, zmiany funkcji nagrody, gradienty oraz rozmaite funkcje strat. Każdy z tych elementów pozwala z innej perspektywy ocenić, w jaki sposób agent przyswaja strategię gry Pong.
     \subsubsection{Analiza wykresów dla modelu A2C} 
     \noindent \textbf{Wykres przewagi (\( A(s,a) \))} 
     \begin{figure}[H]
@@ -611,9 +633,8 @@
         \includegraphics[width=\textwidth]{pictures/A2C_advantage.png}
         \caption{Opis obrazka}
     \end{figure}
-    Wykres przedstawia wartość przewagi, czyli rożnice między wartością stanu a wartością oczekiwaną na podstawie polityki, jest to kluczowy element procesu uczenia w modelu A2C.
-    Na wykresie można zaobserwować wahania wartości w trakcie treningu, co wskazuje na róznorodność w ocenie podejmowanych decyzji przez agenta.
-    Stabilizacja wartości przewagi w późniejszych etapach wskazuje na to, że model zaczyna poprawnie się uczyć podejmowania decyzji oraz optymalizacji polityki.
+    Wartość przewagi reprezentuje różnicę między wartością konkretnej akcji w danym stanie a uogólnioną wartością tego stanu. Odgrywa kluczową rolę w uczeniu A2C, ponieważ pomaga ograniczyć wariancję w estymacji wartości akcji.
+    Wahania w początkowej fazie świadczą o tym, że agent wciąż uczy się oceniać akcje w poszczególnych stanach, co skutkuje zmiennością przewag. Stopniowa stabilizacja sugeruje, że model z czasem poprawnie identyfikuje wartości akcji, co przekłada się na lepszą politykę w dłuższej perspektywie.
     \\ \\ 
     \textbf{Wykres średniej wartości paczki}
     \begin{figure}[H]
@@ -621,9 +642,8 @@
         \includegraphics[width=\textwidth]{pictures/A2C_batch_rewards.png}
         \caption{Opis obrazka}
     \end{figure}
-    Wykres przedstawia sumaryczne nagrody zebrane przez agenta w kolejnych epizodach.
-    Początkowy wzorst wartości wskazuje na adaptację modelu do środowiska.
-    W późniejszych etapach zaobserwowano regularny wzrost nagród co sugeruję poprawę strategii agenta, która skutkuje osiąganiem coraz lepszych wyników.
+    Ilustruje uśrednione nagrody osiągane przez agenta w kolejnych epizodach:
+    Początkowy wzrost wskazuje na szybkie dostosowywanie się modelu do wymagań środowiska. Stały wzrost wartości nagród w dalszej fazie sugeruje, że agent coraz lepiej rozumie otoczenie i opracowuje skuteczniejsze taktyki gry.
     \\ \\ 
     \textbf{Wykres Normy L2 gradnientu}
     \begin{figure}[H]
@@ -631,9 +651,7 @@
         \includegraphics[width=\textwidth]{pictures/A2C_grad_l2.png}
         \caption{Opis obrazka}
     \end{figure}
-    Wartość L2-normy gradientów moniotruje siłę aktualizacji parametrów modelu. Zbyt duże wartości gradientów prowadzą do niestabilności procesu uczenia, 
-    natomiast zbyt małe prowadzą do problemów z osiągnięciem konwergencji. Uzyskany wykres pokazuje stabilizację norm gradientów podczas treningu,
-    co wskazuje na skutceczne zarządzanie porcesem optymalizacji.
+    Norma L2 gradientów określa siłę aktualizacji parametrów modelu. Zbyt duże wartości mogą prowadzić do niestabilności lub znacznych fluktuacji wag.Zbyt małe wartości utrudniają osiągnięcie konwergencji.Zaobserwowana stabilizacja norm gradientów w trakcie treningu świadczy o prawidłowo przeprowadzanym procesie optymalizacji.
     \\ \\ 
     \textbf{Wykres maksymalnych gradientów}
     \begin{figure}[H]
@@ -641,8 +659,7 @@
         \includegraphics[width=\textwidth]{pictures/A2C_grad_max.png}
         \caption{Opis obrazka}
     \end{figure}
-    Maksymalne wartości gradientów wskazują na bardziej znaczące zmiany parametrów podczas trenowania modelu.
-    Stabilizacja ich w późniejszym procesie treningu sugeruje, iż model zaczyna osiągać równowagę w uczeniu oraz dostosowywaniu się do środowiska.
+    Maksymalne wartości gradientów wskazują na bardziej znaczące zmiany parametrów podczas trenowania modelu. Stabilizacja ich w późniejszym procesie treningu sugeruje, iż model zaczyna osiągać równowagę w uczeniu oraz dostosowywaniu się do środowiska.
     \\ \\ 
     \textbf{Wykres wariancji gradientów}
     \begin{figure}[H]
@@ -650,8 +667,7 @@
         \includegraphics[width=\textwidth]{pictures/A2C_grad_var.png}
         \caption{Opis obrazka}
     \end{figure}
-    Wariancja gradientów pokazuje, jak bardzo różnią się gradienty dla różnych partii danych. 
-    Na początku procesu uczenia jest ona bardzo mała, ale później zaczyna rosnąć co oznacza, że polityka ulega zmianie.
+    Wariancja gradientów obrazuje, jak bardzo zróżnicowane są gradienty w kolejnych aktualizacjach. Wzrost wariancji może świadczyć o intensywnym poszukiwaniu nowych, lepszych strategii. Stopniowy wzrost pod koniec treningu oznacza większą pewność modelu co do wypracowanych rozwiązań.
     \\ \\ 
     \textbf{Wykres straty entropii}
     \begin{figure}[H]
@@ -659,7 +675,8 @@
         \includegraphics[width=\textwidth]{pictures/A2C_loss_entropy.png}
         \caption{Opis obrazka}
     \end{figure}
-    Strata entropii mierzy poziom eksploracji w polityce agenta. Zmniejszająca się wartość entropii w procesie treningu modelu
+    Strata entropii mierzy poziom eksploracji w polityce agenta.
+    Zmniejszająca się wartość entropii w procesie treningu modelu
     oznacza, że model staje się bardziej pewny w procesie podejmowania decyzji. Początkowo wysoka entropia wskazuje na eksplorację,
     następnie jej spadek w późniejszych etapach wskazuje na stabilizację polityki.
     Zasadniczo oznacza to, że podczas gdy polityka zaczyna się zmieniać, agent staje się coraz bardziej pewny akcji, które wykonuje.
@@ -670,10 +687,9 @@
         \includegraphics[width=\textwidth]{pictures/A2C_loss_policy.png}
         \caption{Opis obrazka}
     \end{figure}
-    Strata polityki pokazuje jak dostosowują się parametry sieci odpowiedzialne za wybór akcji.
-    Początkowo zmiaany są intensywne, ale ich stabilizacja w późniejszych etapach treningu wskazuje,
-    że agent zbliża się do optymalnej polityki. Generalnie strata plityki zmniejsza się i jest ona skorelowana
-    ze stratą całkowitą. Jest to zjawisko pozytywne.
+    Przedstawia, w jakim tempie i w jakim kierunku dostosowują się parametry sieci aktora. 
+    Znaczne zmiany w początkowej fazie typowe dla etapu intensywnej eksploracji i poszukiwania lepszych akcji.
+    Stabilizacja w późniejszej fazie świadczy o zbliżaniu się do polityki zoptymalizowanej (lub lokalnie zoptymalizowanej). Jest to zjawisko pozytywne.
     \\ \\ 
     \textbf{Wykres straty wartości}
     \begin{figure}[H]
@@ -681,9 +697,8 @@
         \includegraphics[width=\textwidth]{pictures/A2C_loss_value.png}
         \caption{Opis obrazka}
     \end{figure}
-    Strata wartości pokazuje różnicę między przewidywaną a rzeczywistą wartością stanu.
-    Konsekwentnie malejąca wartość stanu tej straty podczas procesu treningu oznacza, że przybliżenie \( V(s) \) poprawia się podczas procesu trenowania.
-    Wskazuje to na skuteczniejsze podejmowanie decyzji przez model
+    Odzwierciedla różnicę między przewidywaną a rzeczywistą wartością stanu. Systematyczny spadek: wskazuje, że sieć krytyka coraz trafniej przewiduje wartość stanu.
+    Poprawa estymacji wskazuje na lepiej wyestymowana wartość stanu umożliwia szybszą i bardziej precyzyjną aktualizację polityki.
     \\ \\ 
     \textbf{Wykres całkowitej straty}
     \begin{figure}[H]
@@ -691,10 +706,10 @@
         \includegraphics[width=\textwidth]{pictures/A2C_loss_total.png}
         \caption{Opis obrazka}
     \end{figure}
-    Łączna strata, która jest sumą strat polityki, wartości oraz entropii.
-    Ma zazadanie ona odzwierciedlić ogólny koszt optymalizacji procesu. Całkowita strata systematycznie maleje,
-    co pokazuje, że model skutecznie minimalizuje wartość błędu funkcji kosztu.
-    Stabilizacja pod koniec procesu uczenia wskazuje na osiągnięcie równowagi między eksploracją a eksploatacją.
+    Łączna strata to kombinacja strat polityki, wartości oraz entropii. Ma za zadanie
+    ona odzwierciedlić ogólny koszt optymalizacji procesu.
+    Malejący trend pokazuje, że algorytm skutecznie minimalizuje błąd funkcji kosztu.
+    Stabilizacja pod koniec sugeruje zbliżanie się do równowagi między eksploracją a eksploatacją.
     \\ \\ 
     \textbf{Wykres średnich wartości nagród}
     \begin{figure}[H]
@@ -703,36 +718,71 @@
         \caption{Opis obrazka}
     \end{figure}
     Wartość nagrody dla każdego kolejnego epizodu procesu uczenia ilustruje efektywność modelu.
-    Początkowe niskie wartości wskazują na fazę eksploracji modelu, a ich systematyczny wzrost sugeruje poprawę strategii wykonywanych przez agenta.
-    Średnia nagroda stopniowo rośnie i osiąga maksymalną wartość (około +21), co sugeruje pełne opanowanie środowiska przez agenta.
-    \subsubsection{Opis implementacji algorytmu A2C}
-    Implementacja modelu składa się z następujących elementów:
+    Niskie wartości na początku są typowe dla fazy eksploracji i braku wyuczonej strategii. Stopniowy wzrost świadczy o ciągłym ulepszaniu polityki, co skutkuje wyższą liczbą punktów zdobywanych przez agenta.
+    Osiągnięcie maksymalnych wartości (ok. +21) oznacza pełne opanowanie środowiska Pong (lub osiągnięcie wyniku zbliżonego do perfekcji).
+    \subsubsection{Struktura projektu}
+    Poniższy diagram UML ilustruje przykładową implementację algorytmu Advantage Actor-Critic (A2C), bazując na analizie załączonych plików. Diagram koncentruje się na głównych klasach i ich wzajemnych relacjach, nie wchodząc w szczegółowe opisy wszystkich metod wewnętrznych. Po przedstawieniu diagramu zamieszczono opis zasadniczych elementów projektu.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/A2C_diagram.png}
+        \caption{Diagram stuktury projektu modelu A2C}
+    \end{figure}
     \begin{itemize}
-        \item Architektura seici neuronowej - Model A2C składa się z następujących elementów:
-        \begin{itemize}
-            \item Warstwy konwolucyjne: \textbf{pierwsza warstwa} składa się z 32 filtrów o rozmiarze 8 x 8, kroku 4 oraz funkcji aktywacji ReLU.
-            Celem tej warstwy jest wykrycie podstawowych cech obrazu, takich jak krawędzie. 
-            \textbf{Druga warstwa} składa się z 64 filtrów o rozmiarze 4 x 4, kroku 2 oraz funkcji aktywacji ReLU.
-            Celem tej warstwy jest wydobycie bardziej zaawansowanych cech, takich jak kształty.
-            \textbf{Trzecia warstwa} składa się z 64 filtrów o rozmiarze 3 x 3, kroku 1 oraz funkcji aktywacji ReLU.
-            Celem tej warstwy jest reprezentacja szczegółowych ceoch obrazu.
-            Wyjście z warstw konwolucyjnych jest spłaszczane do jednowymiarowego wektora za pomocą specjalnie napisanej metody,
-            która oblicza rozmiar wynikowanego tensoru.
-            \item Polityka: odpowiada za generowanie rozkładu prawdopodobieństwa akcji dla danego stanu środowiska. Składa się ona z:
-            \textbf{Pierwsza warstwa w pełni połączona}: liczba neuronów 512, funkcja aktywacji ReLu. Celem jest transformacja cech wejściowych
-            w bardzeij abstrakcyjne reprezentacje.
-            \textbf{Druga warstwa w pełni połączona}: liczba neuronów jest adekwatna do liczby możliwych akcji w środowisku. 
-            Funkcja aktywacji liniowa. Celem tej warstwy jest generowanie wartości akcji, które po zastosowaniu funckji softmax przekształcane są na prawdopodobieństwa.
-            \item Wartość: estymuje wartości stanu \( V(s) \), czyli oczekiwaną wartość nagordy dla danego stanu. składa się ona z:
-            \textbf{Pierwsza warstwa w pełni połączona:} liczba neuronów 512, funkcja aktywacji ReLU. 
-            Celem tej warstwy jest ekstrajca cech dla estymacji wartości stanu.
-            \textbf{Druga warstwa w pełni połączona:} liczba neuronów 1, fukcja aktywacji liniowa. 
-            Celem tej warstwy jest estymacja wartości stanu jako pojedynczej liczby
-        \end{itemize}
-        \item Mechanizm doświadczeń - 
+        \item Main - W tym module inicjalizowane jest środowisko i koordynowany zostaje proces uczenia. Tworzone są tu liczne obiekty (m.in. A2CModel, PolicyAgent, ExperienceSourceFirstLast), a następnie uruchamiana jest główna pętla treningowa. Podczas tej pętli agent iteracyjnie gromadzi doświadczenia, oddziałując ze środowiskiem gry Pong, zaś sieć (A2C) jest regularnie aktualizowana przy użyciu optymalizatora (funkcja Adam). Moduł odpowiada również za zapisywanie wyników oraz ewentualne wczytywanie wytrenowanych modeli.
+        \item A2CModel - Jest to sieć neuronowa łącząca w jednej architekturze funkcje aktora i krytyka. Sieć konwolucyjna służy do przetwarzania surowych obrazów pochodzących z gry. Rozdzielenie wyjść (dla warstwy aktora oraz krytyka) umożliwia równoczesne wyznaczanie prawdopodobieństw akcji i estymację ich oczekiwanej wartości.
+        \item PolicyAgent - Klasa pełniąca rolę pośrednika między środowiskiem a modelem. Na podstawie bieżącej obserwacji otrzymuje z sieci A2C rozkład prawdopodobieństwa wybrania poszczególnych akcji i dokonuje ostatecznego wyboru ruchu, który zostaje wykonany w środowisku.
+        \item ProbabilityActionSelector - Obiekt ten otrzymuje rozkład prawdopodobieństwa akcji wygenerowany przez sieć i na tej podstawie losuje konkretną akcję do wykonania. Rozwiązanie takie wprowadza element stochastyczności, wspierając eksplorację środowiska i redukując ryzyko zbyt wczesnej stabilizacji strategii.
+        \item Experience - Struktura przechowująca informacje dotyczące pojedynczego kroku w środowisku: obserwacji, wybranej akcji oraz otrzymanej nagrody. Upraszcza zarządzanie historią rozgrywki i umożliwia przejrzyste gromadzenie danych.
+        \item ExperienceFirstLast - Rozszerzona wersja rekordu doświadczenia, w której oprócz standardowych informacji przechowywane jest także odniesienie do stanu końcowego. Ułatwia to obliczanie zdyskontowanych sum nagród w podejściu A2C, szczególnie przydatnych do treningu krytyka.
+        \item ExperienceSource - Podstawowy generator strumienia doświadczeń. Scala on dane z wielu środowisk oraz integruje działania agenta, zarządzając uruchamianiem kolejnych epizodów, gromadzeniem sygnałów zwrotnych oraz przygotowywaniem sekwencji kroków niezbędnych do dalszej obróbki.
+        \item ExperienceSourceFirstLast - Specjalizowana wersja generatora, wykorzystująca strukturę ExperienceFirstLast. Pozwala na pobieranie niewielkich sekwencji kroków, jednocześnie automatycznie obliczając zdyskontowane sumy nagród. Zabieg ten wpisuje się w schemat A2C, gdzie istotne jest uwzględnienie wartości przyszłych nagród.
+        \item MaxAndSkipEnv - Mechanizm pozwalający pominąć część klatek i jednocześnie zsumować odpowiadające im nagrody. Wykorzystuje on maksymalne wartości pikseli z dwóch ostatnich obserwacji, co prowadzi do redukcji liczby kroków przetwarzanych podczas treningu i tym samym zwiększa efektywność obliczeń.
+        \item FireResetEnv - odpowiada za inicjalizację rozgrywki przez wymuszenie akcji FIRE (oraz ewentualnie innej) na początku każdego epizodu. Dzięki temu mechanizmowi agent może od razu rozpocząć właściwą interakcję z grą.
+        \item ProcessFrame84 - Ten komponent przetwarza pojedynczą klatkę na obraz w odcieniach szarości oraz skaluje go do rozmiaru 84x84. Pozwala to znacząco zmniejszyć wymiarowość danych wejściowych, co korzystnie wpływa na szybkość i stabilność treningu
+        \item ImageToPyTorch - Zadaniem ImageToPyTorch jest zmiana kolejności wymiarów klatki z postaci (wysokość, szerokość, kanały) na (kanały, wysokość, szerokość).Ułatwia to dalsze przetwarzanie obrazu w bibliotece PyTorch, w której standardem jest inna konwencja wymiarów tensora.
+        \item FrameStack - Utrzymuje stos kilku ostatnich klatek (np. czterech) i traktuje je jako pojedynczą obserwację, co pomaga sieci uchwycić krótkoterminową dynamikę obiektów w grze (ruch piłki czy paletki).
     \end{itemize}
+    Opisana struktura umożliwia agentowi otrzymywanie przetworzonych danych o stanie gry, na podstawie których sieć neuronowa A2C (działająca w roli aktora i krytyka) wyznacza optymalne akcje. Trening polega na iteracyjnym aktualizowaniu wag w celu minimalizacji błędu estymacji wartości oraz maksymalizacji skumulowanej nagrody zdobywanej przez agenta. Połączenie architektury aktor - krytyk ze starannie zorganizowanym mechanizmem gromadzenia obserwacji zapewnia stabilną optymalizację i umożliwia efektywne opanowanie gry Pong.
+    \\ \\ 
+    Pełną implementację kodu można znaleźć na repozytorium github \cite{A2C}
+    Kod został zainspirowany rozwiązaniami przedstawionymi w książce Maxima Lapana \cite{lapan2020deep} i dostosowany do najnowszych wersji bibliotek.
     \subsubsection{Tabela z wynikami dla różnych hiperparametrów}
+    \begin{table}[H]
+        \centering
+        \begin{tabular}{>{\bfseries}l>{\centering\arraybackslash}m{1cm}>{\centering\arraybackslash}m{2cm}>{\centering\arraybackslash}m{2cm}>{\arraybackslash}m{3cm}}
+        \toprule
+        \textbf{Hiperparametr} & \textbf{Zmiana} & \textbf{Czas} & \textbf{Liczba kroków } & \textbf{Uwagi} \\
+        \midrule
+        $\gamma$ & 0.95 & $ \sim 3 $ godziny & $ \sim 8500000 $ & Szybsza konwergencja, mniejsze nagrody. \\
+        \addlinespace
+        BATCH\_SIZE & 64 & $ \sim 2 $ godziny & $ \sim 6000000 $ & Mniej stabilne wyniki, szybsze uczenie. \\
+        \addlinespace
+        BATCH\_SIZE & 32 & $ \sim 1,7 $ godziny & $ \sim 4300000 $ & Mniej stabilne wyniki, szybsze uczenie. \\
+        \addlinespace
+        REPLAY\_SIZE & 50,000 & $ \sim 2,5 $ godziny & $ \sim 1100000$ & Większa różnorodność danych, dłuższy czas treningu. \\
+        \addlinespace
+        LEARNING\_RATE & 0.002 & 5500000 & ~1,8 godziny & Szybsza konwergencja, większe wahania wyników. \\
+        \addlinespace
+        LEARNING\_RATE & 0.003 & N/A & N/A & Brak konwegencji. \\
+        \addlinespace
+        ENDROPY\_BETA & 0.03 & $\sim 4,5 $ godziny & $ \sim 13500000 $  & Większa eksploatacja kosztem eksploracji, dłuższy czas konwergencji. \\
+        \bottomrule
+        \end{tabular}
+        \caption{Wyniki eksperymentów dla różnych hiperparametrów.}
+        \label{tab:wyniki}
+        \end{table}
     \subsubsection{Wnioski}
+    Przedstawiony algorytm A2C pozwala na pomyślne wytrenowanie agenta w środowisku Pong i uzyskanie optymalnej lub zbliżonej do optymalnej polityki gry. W porównaniu z algorytmem DQN, A2C oferuje bardziej stabilny proces treningowy, co w dużej mierze wynika z równoległego wykorzystywania wielu środowisk i regularyzacji entropii. Architektura aktor-krytyk pozwala na efektywniejsze zarządzanie informacjami zwrotnymi, dzięki czemu agent w mniejszym stopniu ulega przetrenowaniu i szybciej przystosowuje się do wymagań zadania.
+    \section{Podsumowanie}
+    Głównym celem przeprowadzonych badań była analiza efektywności wybranych algorytmów uczenia przez wzmacnianie w kontekście gry Pong, która stanowi często stosowane środowisko testowe dla metod sztucznej inteligencji. W ramach pracy przedstawiono kluczowe założenia teoretyczne dotyczące procesów decyzyjnych Markowa (MDP) oraz zaprezentowano znaczenie równań Bellmana w procesie optymalizacji polityki.
+
+    Praktyczna część prac koncentrowała się na porównaniu dwóch podejść: Deep Q-Learning (DQN) oraz Advantage Actor-Critic (A2C). Dokonano szczegółowego omówienia ich architektur i sposobu treningu, a także wpływu doboru hiperparametrów na stabilność i szybkość konwergencji. Wyniki eksperymentów wskazały, że DQN, choć w wielu przypadkach pozwala osiągać zadowalające rezultaty, bywa podatny na przetrenowanie. Z kolei A2C, dzięki architekturze aktor-krytyk, okazał się bardziej stabilny i skuteczny w osiąganiu długoterminowych celów.
+
+    W trakcie badań zidentyfikowano również znaczenie właściwego dostrajania hiperparametrów (takich jak współczynnik uczenia czy entropia), które okazało się niezbędnym warunkiem do uzyskania wysokich wyników. Odpowiednia konfiguracja parametrów bywa równie ważna jak sam wybór algorytmu i często decyduje o ostatecznej efektywności metody.
+
+    Uzyskane rezultaty potwierdzają, że algorytmy uczenia przez wzmacnianie stanowią obiecujące narzędzie do rozwiązywania problemów decyzyjnych, jednak ich wydajność silnie zależy od właściwego przygotowania środowiska, umiejętnego doboru architektury sieciowej oraz przemyślanej selekcji hiperparametrów. Wskazane konkluzje mogą być wykorzystane jako punkt wyjścia do dalszych badań nad bardziej zaawansowanymi podejściami, takimi jak Proximal Policy Optimization (PPO) czy Deep Deterministic Policy Gradient (DDPG), i ich potencjalnym zastosowaniem nie tylko w grach komputerowych, lecz także w robotyce czy analizie danych.
+
+    Dzięki połączeniu wiedzy teoretycznej z weryfikacją praktyczną przedstawione w niniejszej pracy wyniki umożliwiły uzyskanie spójnego obrazu efektywności algorytmów uczenia przez wzmacnianie w środowisku Pong i wskazały najważniejsze kierunki dalszych poszukiwań badawczych.
     \section{Bibliografia}
     \printbibliography
 \end{document} 

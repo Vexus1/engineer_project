@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.13)  22 JAN 2025 03:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.13)  22 JAN 2025 12:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -452,28 +452,60 @@ Package biblatex Info: ... and expl3
 Package: xparse 2024-08-16 L3 Experimental document command parser
 )
 Package: blx-case-expl3 2024/03/21 v3.20 expl3 case changing code for biblatex
-))
-\@quotelevel=\count414
-\@quotereset=\count415
- (./main.aux)
+)) (/usr/local/texlive/2024/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen166
+\lightrulewidth=\dimen167
+\cmidrulewidth=\dimen168
+\belowrulesep=\dimen169
+\belowbottomsep=\dimen170
+\aboverulesep=\dimen171
+\abovetopsep=\dimen172
+\cmidrulesep=\dimen173
+\cmidrulekern=\dimen174
+\defaultaddspace=\dimen175
+\@cmidla=\count414
+\@cmidlb=\count415
+\@aboverulesep=\dimen176
+\@belowrulesep=\dimen177
+\@thisruleclass=\count416
+\@lastruleclass=\count417
+\@thisrulewidth=\dimen178
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/tools/array.sty
+Package: array 2024/10/17 v2.6g Tabular extension package (FMi)
+\col@sep=\dimen179
+\ar@mcellbox=\box58
+\extrarowheight=\dimen180
+\NC@list=\toks29
+\extratabsurround=\skip78
+\backup@length=\skip79
+\ar@cellbox=\box59
+)
+\@quotelevel=\count418
+\@quotereset=\count419
+ (./main.aux
+
+LaTeX Warning: Label `tab:wyniki' multiply defined.
+
+)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OT4/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT4/cmr/m/n on input line 28.
+LaTeX Font Info:    ... okay on input line 28.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -511,17 +543,17 @@ LaTeX Font Info:    ... okay on input line 24.
 
 (/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count416
-\scratchdimen=\dimen166
-\scratchbox=\box58
-\nofMPsegments=\count417
-\nofMParguments=\count418
-\everyMPshowfont=\toks29
-\MPscratchCnt=\count419
-\MPscratchDim=\dimen167
-\MPnumerator=\count420
-\makeMPintoPDFobject=\count421
-\everyMPtoPDFconversion=\toks30
+\scratchcounter=\count420
+\scratchdimen=\dimen181
+\scratchbox=\box60
+\nofMPsegments=\count421
+\nofMParguments=\count422
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count423
+\MPscratchDim=\dimen182
+\MPnumerator=\count424
+\makeMPintoPDFobject=\count425
+\everyMPtoPDFconversion=\toks31
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -541,8 +573,8 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'main.bbl' found.
  (./main.bbl)
-Package biblatex Info: Reference section=0 on input line 24.
-Package biblatex Info: Reference segment=0 on input line 24.
+Package biblatex Info: Reference section=0 on input line 28.
+Package biblatex Info: Reference segment=0 on input line 28.
 
 
 [1
@@ -552,33 +584,33 @@ Package biblatex Info: Reference segment=0 on input line 24.
 [2]
 
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 92--95
+Underfull \hbox (badness 10000) in paragraph at lines 96--99
 
  []
 
-LaTeX Font Info:    Trying to load font information for OML+plm on input line 101.
+LaTeX Font Info:    Trying to load font information for OML+plm on input line 105.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/polski/omlplm.fd
 File: omlplm.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
 )
-LaTeX Font Info:    Trying to load font information for OMS+plsy on input line 101.
+LaTeX Font Info:    Trying to load font information for OMS+plsy on input line 105.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/polski/omsplsy.fd
 File: omsplsy.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
 )
-LaTeX Font Info:    Trying to load font information for OMX+plex on input line 101.
+LaTeX Font Info:    Trying to load font information for OMX+plex on input line 105.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/polski/omxplex.fd
 File: omxplex.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
 )
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <12> on input line 101.
+(Font)              <12> on input line 105.
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <8> on input line 101.
+(Font)              <8> on input line 105.
 LaTeX Font Info:    External font `plex10' loaded for size
-(Font)              <6> on input line 101.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 101.
+(Font)              <6> on input line 105.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 105.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 101.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 105.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
@@ -587,44 +619,44 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 <pictures/Reinforcement_learning_diagram.png, id=21, 891.33pt x 836.12375pt>
 File: pictures/Reinforcement_learning_diagram.png Graphic file (type png)
 <use pictures/Reinforcement_learning_diagram.png>
-Package pdftex.def Info: pictures/Reinforcement_learning_diagram.png  used on input line 120.
+Package pdftex.def Info: pictures/Reinforcement_learning_diagram.png  used on input line 124.
 (pdftex.def)             Requested size: 455.24411pt x 427.04262pt.
 
 
 [5{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/pl/plmi.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/pl/plrm.enc}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/pl/plms.enc}]
 
 [6 <./pictures/Reinforcement_learning_diagram.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 138--140
+Underfull \hbox (badness 10000) in paragraph at lines 146--148
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 155--159
+Underfull \hbox (badness 10000) in paragraph at lines 165--169
 
  []
 
 
 
 [7{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/pl/plme.enc}]
-Underfull \hbox (badness 10000) in paragraph at lines 166--172
+Underfull \hbox (badness 10000) in paragraph at lines 180--186
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 166--172
+Underfull \hbox (badness 10000) in paragraph at lines 180--186
 
  []
 
 
 
 [8]
-Overfull \hbox (24.15611pt too wide) detected at line 205
-\OML/plm/m/it/12 Q[]\OT4/cmr/m/n/12 (\OML/plm/m/it/12 s; a\OT4/cmr/m/n/12 ) = \OML/plm/m/it/12 E[]\OT4/cmr/m/n/12 [\OML/plm/m/it/12 R[] \OT4/cmr/m/n/12 + \OML/plm/m/it/12 ^^MG[]\OMS/plsy/m/n/12 j\OML/plm/m/it/12 S[] \OT4/cmr/m/n/12 = \OML/plm/m/it/12 s; A[] \OT4/cmr/m/n/12 = \OML/plm/m/it/12 a\OT4/cmr/m/n/12 ] = [] \OML/plm/m/it/12 ^^Y\OT4/cmr/m/n/12 (\OML/plm/m/it/12 a\OMS/plsy/m/n/12 j\OML/plm/m/it/12 s\OT4/cmr/m/n/12 ) [] \OML/plm/m/it/12 p\OT4/cmr/m/n/12 (\OML/plm/m/it/12 s[]; r\OMS/plsy/m/n/12 j\OML/plm/m/it/12 s; a\OT4/cmr/m/n/12 )(\OML/plm/m/it/12 r \OT4/cmr/m/n/12 + \OML/plm/m/it/12 ^^M [] ^^Y\OT4/cmr/m/n/12 (\OML/plm/m/it/12 a\OMS/plsy/m/n/12 j\OML/plm/m/it/12 s\OT4/cmr/m/n/12 )\OML/plm/m/it/12 Q[]\OT4/cmr/m/n/12 (\OML/plm/m/it/12 s[]; a[]\OT4/cmr/m/n/12 ))
+Overfull \hbox (24.15611pt too wide) detected at line 223
+[]\OML/plm/m/it/12 Q[]\OT4/cmr/m/n/12 (\OML/plm/m/it/12 s; a\OT4/cmr/m/n/12 ) = \OML/plm/m/it/12 E[]\OT4/cmr/m/n/12 [\OML/plm/m/it/12 R[] \OT4/cmr/m/n/12 + \OML/plm/m/it/12 ^^MG[]\OMS/plsy/m/n/12 j\OML/plm/m/it/12 S[] \OT4/cmr/m/n/12 = \OML/plm/m/it/12 s; A[] \OT4/cmr/m/n/12 = \OML/plm/m/it/12 a\OT4/cmr/m/n/12 ] = [] \OML/plm/m/it/12 ^^Y\OT4/cmr/m/n/12 (\OML/plm/m/it/12 a\OMS/plsy/m/n/12 j\OML/plm/m/it/12 s\OT4/cmr/m/n/12 ) [] \OML/plm/m/it/12 p\OT4/cmr/m/n/12 (\OML/plm/m/it/12 s[]; r\OMS/plsy/m/n/12 j\OML/plm/m/it/12 s; a\OT4/cmr/m/n/12 )(\OML/plm/m/it/12 r \OT4/cmr/m/n/12 + \OML/plm/m/it/12 ^^M [] ^^Y\OT4/cmr/m/n/12 (\OML/plm/m/it/12 a\OMS/plsy/m/n/12 j\OML/plm/m/it/12 s\OT4/cmr/m/n/12 )\OML/plm/m/it/12 Q[]\OT4/cmr/m/n/12 (\OML/plm/m/it/12 s[]; a[]\OT4/cmr/m/n/12 ))
  []
 
 
-Overfull \hbox (5.05121pt too wide) detected at line 215
-\OML/plm/m/it/12 Q[]\OT4/cmr/m/n/12 (\OML/plm/m/it/12 s; a\OT4/cmr/m/n/12 ) = \OML/plm/m/it/12 E\OT4/cmr/m/n/12 [\OML/plm/m/it/12 R[] \OT4/cmr/m/n/12 + \OML/plm/m/it/12 ^^M [] Q[]\OT4/cmr/m/n/12 (\OML/plm/m/it/12 S[]; a[]\OT4/cmr/m/n/12 )\OMS/plsy/m/n/12 j\OML/plm/m/it/12 S[] \OT4/cmr/m/n/12 = \OML/plm/m/it/12 s; A[] \OT4/cmr/m/n/12 = \OML/plm/m/it/12 a\OT4/cmr/m/n/12 ] = [] \OML/plm/m/it/12 p\OT4/cmr/m/n/12 (\OML/plm/m/it/12 s[]; r\OMS/plsy/m/n/12 j\OML/plm/m/it/12 s; a\OT4/cmr/m/n/12 )(\OML/plm/m/it/12 r \OT4/cmr/m/n/12 + \OML/plm/m/it/12 ^^M [] Q[]\OT4/cmr/m/n/12 (\OML/plm/m/it/12 s[]; a[]\OT4/cmr/m/n/12 ))
+Overfull \hbox (5.05121pt too wide) detected at line 239
+[]\OML/plm/m/it/12 Q[]\OT4/cmr/m/n/12 (\OML/plm/m/it/12 s; a\OT4/cmr/m/n/12 ) = \OML/plm/m/it/12 E\OT4/cmr/m/n/12 [\OML/plm/m/it/12 R[] \OT4/cmr/m/n/12 + \OML/plm/m/it/12 ^^M [] Q[]\OT4/cmr/m/n/12 (\OML/plm/m/it/12 S[]; a[]\OT4/cmr/m/n/12 )\OMS/plsy/m/n/12 j\OML/plm/m/it/12 S[] \OT4/cmr/m/n/12 = \OML/plm/m/it/12 s; A[] \OT4/cmr/m/n/12 = \OML/plm/m/it/12 a\OT4/cmr/m/n/12 ] = [] \OML/plm/m/it/12 p\OT4/cmr/m/n/12 (\OML/plm/m/it/12 s[]; r\OMS/plsy/m/n/12 j\OML/plm/m/it/12 s; a\OT4/cmr/m/n/12 )(\OML/plm/m/it/12 r \OT4/cmr/m/n/12 + \OML/plm/m/it/12 ^^M [] Q[]\OT4/cmr/m/n/12 (\OML/plm/m/it/12 s[]; a[]\OT4/cmr/m/n/12 ))
  []
 
 
@@ -634,7 +666,7 @@ Overfull \hbox (5.05121pt too wide) detected at line 215
 [10]
 
 [11]
-Overfull \hbox (1.54112pt too wide) in paragraph at lines 271--271
+Overfull \hbox (1.54112pt too wide) in paragraph at lines 311--311
 |\T1/cmr/bx/n/17.28 4 Im-ple-men-ta-cjia wy-bra-nych al-go-ryt-mów ucze-nia przez
  []
 
@@ -651,6 +683,16 @@ Overfull \hbox (1.54112pt too wide) in paragraph at lines 271--271
 [16]
 
 [17]
+Overfull \hbox (7.05751pt too wide) in paragraph at lines 515--516
+[]\T1/cmr/m/n/12 Gªównym ce-lem ba-da« jest prze-te-sto-wa-nie wy-bra-nych al-go-ryt-mów ucze-nia przez wzmac-
+ []
+
+
+Overfull \hbox (5.71683pt too wide) in paragraph at lines 517--520
+\T1/cmr/m/n/12 wo-±ci te-sto-wych po-przez gre Pong. W pro-jek-cie wy-krzy-sta-no ±ro-do-wi-sko PongNoFrameskip-
+ []
+
+
 
 [18]
 
@@ -660,160 +702,312 @@ Overfull \hbox (1.54112pt too wide) in paragraph at lines 271--271
 <pictures/DQL_reward.png, id=85, 1235.61626pt x 488.82625pt>
 File: pictures/DQL_reward.png Graphic file (type png)
 <use pictures/DQL_reward.png>
-Package pdftex.def Info: pictures/DQL_reward.png  used on input line 520.
+Package pdftex.def Info: pictures/DQL_reward.png  used on input line 548.
 (pdftex.def)             Requested size: 455.24411pt x 180.10207pt.
-
-Overfull \hbox (0.66264pt too wide) in paragraph at lines 547--548
-[]\T1/cmr/m/n/12 Warstwa wyj-±cio-wa od-po-wia-da-j¡-ca za ge-ne-ra-cje Q-warto±ci dla ka»-dej mo»-
- []
-
+<pictures/DQN_diagram.png, id=86, 1330.9725pt x 760.8425pt>
+File: pictures/DQN_diagram.png Graphic file (type png)
+<use pictures/DQN_diagram.png>
+Package pdftex.def Info: pictures/DQN_diagram.png  used on input line 564.
+(pdftex.def)             Requested size: 455.24411pt x 260.22708pt.
 
 
 [21 <./pictures/DQL_reward.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 566--570
+
+[22 <./pictures/DQN_diagram.png>]
+Overfull \hbox (10.76033pt too wide) in paragraph at lines 576--577
+\T1/cmr/m/n/12 klat-ki z po-sta-ci (wy-so-ko±¢, sze-ro-ko±¢, ka-na-ªy) na (ka-na-ªy, wy-so-ko±¢, sze-ro-ko±¢).Uªatwia
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 580--584
 
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 585--587
 
-[22]
+ []
+
+
 
 [23]
-<pictures/A2C_advantage.png, id=96, 1329.96875pt x 424.58624pt>
+Overfull \hbox (15.41154pt too wide) in paragraph at lines 603--603
+ []|\T1/cmr/bx/n/12 Zmiana| 
+ []
+
+
+Underfull \hbox (badness 6708) in paragraph at lines 607--608
+\T1/cmr/m/n/12 ni-ki, wol-niej-sze
+ []
+
+
+Overfull \hbox (4.17816pt too wide) in paragraph at lines 609--609
+ []|\T1/cmr/m/n/12 50,000| 
+ []
+
+
+Underfull \hbox (badness 4531) in paragraph at lines 609--610
+[]|\T1/cmr/m/n/12 Wi¦ksza ró»-no-
+ []
+
+
+Overfull \hbox (4.17816pt too wide) in paragraph at lines 611--611
+ []|\T1/cmr/m/n/12 0.0002| 
+ []
+
+
+Overfull \hbox (10.05173pt too wide) in paragraph at lines 613--613
+ []|\T1/cmr/m/n/12 0.00015| 
+ []
+
+
+Overfull \hbox (10.05173pt too wide) in paragraph at lines 615--615
+ []|\T1/cmr/m/n/12 300,000| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 615--616
+\T1/cmr/m/n/12 ra-cja, dªu»-szy
+ []
+
+
+Overfull \hbox (6.26595pt too wide) in paragraph at lines 601--620
+ [][] 
+ []
+
+
+
+[24]
+
+[25]
+<pictures/A2C_advantage.png, id=105, 1329.96875pt x 424.58624pt>
 File: pictures/A2C_advantage.png Graphic file (type png)
 <use pictures/A2C_advantage.png>
-Package pdftex.def Info: pictures/A2C_advantage.png  used on input line 611.
+Package pdftex.def Info: pictures/A2C_advantage.png  used on input line 633.
 (pdftex.def)             Requested size: 455.24411pt x 145.33568pt.
-<pictures/A2C_batch_rewards.png, id=97, 1329.96875pt x 424.58624pt>
+<pictures/A2C_batch_rewards.png, id=106, 1329.96875pt x 424.58624pt>
 File: pictures/A2C_batch_rewards.png Graphic file (type png)
 <use pictures/A2C_batch_rewards.png>
-Package pdftex.def Info: pictures/A2C_batch_rewards.png  used on input line 621.
+Package pdftex.def Info: pictures/A2C_batch_rewards.png  used on input line 642.
 (pdftex.def)             Requested size: 455.24411pt x 145.33568pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 614--623
+Underfull \hbox (badness 10000) in paragraph at lines 636--644
 
  []
 
 
 
-[24 <./pictures/A2C_advantage.png>]
-<pictures/A2C_grad_l2.png, id=102, 1329.96875pt x 424.58624pt>
+[26 <./pictures/A2C_advantage.png>]
+<pictures/A2C_grad_l2.png, id=111, 1329.96875pt x 424.58624pt>
 File: pictures/A2C_grad_l2.png Graphic file (type png)
 <use pictures/A2C_grad_l2.png>
-Package pdftex.def Info: pictures/A2C_grad_l2.png  used on input line 631.
+Package pdftex.def Info: pictures/A2C_grad_l2.png  used on input line 651.
 (pdftex.def)             Requested size: 455.24411pt x 145.33568pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 624--633
+Underfull \hbox (badness 10000) in paragraph at lines 645--653
 
  []
 
-<pictures/A2C_grad_max.png, id=103, 1329.96875pt x 424.58624pt>
+<pictures/A2C_grad_max.png, id=112, 1329.96875pt x 424.58624pt>
 File: pictures/A2C_grad_max.png Graphic file (type png)
 <use pictures/A2C_grad_max.png>
-Package pdftex.def Info: pictures/A2C_grad_max.png  used on input line 641.
+Package pdftex.def Info: pictures/A2C_grad_max.png  used on input line 659.
 (pdftex.def)             Requested size: 455.24411pt x 145.33568pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 634--643
+Underfull \hbox (badness 10000) in paragraph at lines 654--661
 
  []
 
 
 
-[25 <./pictures/A2C_batch_rewards.png> <./pictures/A2C_grad_l2.png>]
-<pictures/A2C_grad_var.png, id=110, 1329.96875pt x 424.58624pt>
+[27 <./pictures/A2C_batch_rewards.png> <./pictures/A2C_grad_l2.png>]
+<pictures/A2C_grad_var.png, id=118, 1329.96875pt x 424.58624pt>
 File: pictures/A2C_grad_var.png Graphic file (type png)
 <use pictures/A2C_grad_var.png>
-Package pdftex.def Info: pictures/A2C_grad_var.png  used on input line 650.
+Package pdftex.def Info: pictures/A2C_grad_var.png  used on input line 667.
 (pdftex.def)             Requested size: 455.24411pt x 145.33568pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 644--652
+Underfull \hbox (badness 10000) in paragraph at lines 662--669
 
  []
 
-<pictures/A2C_loss_entropy.png, id=111, 1329.96875pt x 424.58624pt>
+<pictures/A2C_loss_entropy.png, id=119, 1329.96875pt x 424.58624pt>
 File: pictures/A2C_loss_entropy.png Graphic file (type png)
 <use pictures/A2C_loss_entropy.png>
-Package pdftex.def Info: pictures/A2C_loss_entropy.png  used on input line 659.
+Package pdftex.def Info: pictures/A2C_loss_entropy.png  used on input line 675.
 (pdftex.def)             Requested size: 455.24411pt x 145.33568pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 653--661
+Underfull \hbox (badness 10000) in paragraph at lines 670--677
 
  []
 
 
 
-[26 <./pictures/A2C_grad_max.png> <./pictures/A2C_grad_var.png>]
-<pictures/A2C_loss_policy.png, id=117, 1329.96875pt x 424.58624pt>
+[28 <./pictures/A2C_grad_max.png> <./pictures/A2C_grad_var.png>]
+<pictures/A2C_loss_policy.png, id=125, 1329.96875pt x 424.58624pt>
 File: pictures/A2C_loss_policy.png Graphic file (type png)
 <use pictures/A2C_loss_policy.png>
-Package pdftex.def Info: pictures/A2C_loss_policy.png  used on input line 670.
+Package pdftex.def Info: pictures/A2C_loss_policy.png  used on input line 687.
 (pdftex.def)             Requested size: 455.24411pt x 145.33568pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 662--672
+Underfull \hbox (badness 10000) in paragraph at lines 678--689
 
  []
 
-<pictures/A2C_loss_value.png, id=118, 1329.96875pt x 424.58624pt>
+<pictures/A2C_loss_value.png, id=126, 1329.96875pt x 424.58624pt>
 File: pictures/A2C_loss_value.png Graphic file (type png)
 <use pictures/A2C_loss_value.png>
-Package pdftex.def Info: pictures/A2C_loss_value.png  used on input line 681.
+Package pdftex.def Info: pictures/A2C_loss_value.png  used on input line 697.
 (pdftex.def)             Requested size: 455.24411pt x 145.33568pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 673--683
+Underfull \hbox (badness 10000) in paragraph at lines 690--699
 
  []
 
 
 
-[27 <./pictures/A2C_loss_entropy.png> <./pictures/A2C_loss_policy.png>]
-<pictures/A2C_loss_total.png, id=124, 1329.96875pt x 424.58624pt>
+[29 <./pictures/A2C_loss_entropy.png> <./pictures/A2C_loss_policy.png>]
+<pictures/A2C_loss_total.png, id=132, 1329.96875pt x 424.58624pt>
 File: pictures/A2C_loss_total.png Graphic file (type png)
 <use pictures/A2C_loss_total.png>
-Package pdftex.def Info: pictures/A2C_loss_total.png  used on input line 691.
+Package pdftex.def Info: pictures/A2C_loss_total.png  used on input line 706.
 (pdftex.def)             Requested size: 455.24411pt x 145.33568pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 684--693
+Underfull \hbox (badness 10000) in paragraph at lines 700--708
 
  []
 
-<pictures/A2C_reward.png, id=125, 1329.96875pt x 424.58624pt>
+<pictures/A2C_reward.png, id=133, 1329.96875pt x 424.58624pt>
 File: pictures/A2C_reward.png Graphic file (type png)
 <use pictures/A2C_reward.png>
-Package pdftex.def Info: pictures/A2C_reward.png  used on input line 702.
+Package pdftex.def Info: pictures/A2C_reward.png  used on input line 717.
 (pdftex.def)             Requested size: 455.24411pt x 145.33568pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 694--704
+Underfull \hbox (badness 10000) in paragraph at lines 709--719
 
  []
 
 
 
-[28 <./pictures/A2C_loss_value.png> <./pictures/A2C_loss_total.png>]
+[30 <./pictures/A2C_loss_value.png> <./pictures/A2C_loss_total.png>]
+<pictures/A2C_diagram.png, id=139, 1567.8575pt x 757.83125pt>
+File: pictures/A2C_diagram.png Graphic file (type png)
+<use pictures/A2C_diagram.png>
+Package pdftex.def Info: pictures/A2C_diagram.png  used on input line 727.
+(pdftex.def)             Requested size: 455.24411pt x 220.04295pt.
 
-[29 <./pictures/A2C_reward.png>]
 
-[30] (./main.aux)
+[31 <./pictures/A2C_reward.png> <./pictures/A2C_diagram.png>]
+Overfull \hbox (6.64703pt too wide) in paragraph at lines 738--739
+[]\T1/cmr/m/n/12 ExperienceSourceFirstLast - Spe-cja-li-zo-wa-na wer-sja ge-ne-ra-to-ra, wy-ko-rzy-stu-j¡-ca struk-
+ []
+
+
+Overfull \hbox (10.76033pt too wide) in paragraph at lines 742--743
+\T1/cmr/m/n/12 klat-ki z po-sta-ci (wy-so-ko±¢, sze-ro-ko±¢, ka-na-ªy) na (ka-na-ªy, wy-so-ko±¢, sze-ro-ko±¢).Uªatwia
+ []
+
+
+
+[32]
+Underfull \hbox (badness 10000) in paragraph at lines 745--749
+
+ []
+
+
+Overfull \hbox (15.41154pt too wide) in paragraph at lines 754--754
+ []|\T1/cmr/bx/n/12 Zmiana| 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 758--759
+[]|\T1/cmr/m/n/12 Mniej sta-bil-ne
+ []
+
+
+Underfull \hbox (badness 3803) in paragraph at lines 758--759
+\T1/cmr/m/n/12 wy-ni-ki, szyb-sze
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 760--761
+[]|\T1/cmr/m/n/12 Mniej sta-bil-ne
+ []
+
+
+Underfull \hbox (badness 3803) in paragraph at lines 760--761
+\T1/cmr/m/n/12 wy-ni-ki, szyb-sze
+ []
+
+
+Overfull \hbox (4.17816pt too wide) in paragraph at lines 762--762
+ []|\T1/cmr/m/n/12 50,000| 
+ []
+
+
+Underfull \hbox (badness 4531) in paragraph at lines 762--763
+[]|\T1/cmr/m/n/12 Wi¦ksza ró»-no-
+ []
+
+
+Underfull \hbox (badness 5908) in paragraph at lines 764--765
+\T1/cmr/m/n/12 gen-cja, wi¦k-sze
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 764--765
+\T1/cmr/m/n/12 wa-ha-nia wy-ni-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 768--769
+\T1/cmr/m/n/12 ata-cja kosz-tem
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 768--769
+\T1/cmr/m/n/12 eks-plo-ra-cji,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 768--769
+\T1/cmr/m/n/12 dªu»-szy czas
+ []
+
+
+
+[33]
+
+[34]
+
+[35]
+
+[36] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-25>
  ***********
+
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 12305 strings out of 473207
- 223275 string characters out of 5716288
- 1047888 words of memory out of 5000000
- 35404 multiletter control sequences out of 15000+600000
+ 12492 strings out of 473207
+ 227141 string characters out of 5716288
+ 1051720 words of memory out of 5000000
+ 35585 multiletter control sequences out of 15000+600000
  573004 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,9n,81p,853b,1520s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 66i,11n,81p,853b,1520s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/pl/plex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/pl/plmi12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/pl/plmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/pl/plmi8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/pl/plr12.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/pl/plr8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/pl/plsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/pl/plsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/pl/plsy8.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfbx1440.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfbx2074.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfcc1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfrm1728.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sfti1200.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on main.pdf (30 pages, 896004 bytes).
+Output written on main.pdf (36 pages, 973517 bytes).
 PDF statistics:
- 225 PDF objects out of 1000 (max. 8388607)
- 130 compressed objects within 2 object streams
+ 248 PDF objects out of 1000 (max. 8388607)
+ 143 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 61 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 71 words of extra memory for PDF output out of 10000 (max. 10000000)
 

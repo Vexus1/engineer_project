@@ -375,6 +375,244 @@
       \verb https://en.wikipedia.org/wiki/Reinforcement_learning
       \endverb
     \endentry
+    \entry{stable_baselines_a2c}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=467220c080807fb017a94afdd2c1fd42}{%
+           family={{Stable-Baselines contributors}},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{467220c080807fb017a94afdd2c1fd42}
+      \strng{fullhash}{467220c080807fb017a94afdd2c1fd42}
+      \strng{fullhashraw}{467220c080807fb017a94afdd2c1fd42}
+      \strng{bibnamehash}{467220c080807fb017a94afdd2c1fd42}
+      \strng{authorbibnamehash}{467220c080807fb017a94afdd2c1fd42}
+      \strng{authornamehash}{467220c080807fb017a94afdd2c1fd42}
+      \strng{authorfullhash}{467220c080807fb017a94afdd2c1fd42}
+      \strng{authorfullhashraw}{467220c080807fb017a94afdd2c1fd42}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed: 2025-01-21}
+      \field{title}{A2C (Advantage Actor Critic) - Stable-Baselines Documentation}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://stable-baselines.readthedocs.io/en/master/modules/a2c.html
+      \endverb
+      \verb{url}
+      \verb https://stable-baselines.readthedocs.io/en/master/modules/a2c.html
+      \endverb
+    \endentry
+    \entry{bellemare2013ale}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=eae3aa0ab9cb8b33a1ade80739e79e57}{%
+           family={Bellemare},
+           familyi={B\bibinitperiod},
+           given={Marc\bibnamedelima G.},
+           giveni={M\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=07c80c48e7c42d8390ac0ad0513cbed3}{%
+           family={Naddaf},
+           familyi={N\bibinitperiod},
+           given={Yavar},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=1cbd91f7404b2298b46bb46c47c08251}{%
+           family={Veness},
+           familyi={V\bibinitperiod},
+           given={Joel},
+           giveni={J\bibinitperiod}}}%
+        {{hash=3318cb7968ff83b0f4b5a04d8f9ec318}{%
+           family={Bowling},
+           familyi={B\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {AI Access Foundation}%
+      }
+      \strng{namehash}{6053df28940389b0a23ac429c3b0634d}
+      \strng{fullhash}{49395aa0bfa961c14ab74a906578e3ee}
+      \strng{fullhashraw}{49395aa0bfa961c14ab74a906578e3ee}
+      \strng{bibnamehash}{6053df28940389b0a23ac429c3b0634d}
+      \strng{authorbibnamehash}{6053df28940389b0a23ac429c3b0634d}
+      \strng{authornamehash}{6053df28940389b0a23ac429c3b0634d}
+      \strng{authorfullhash}{49395aa0bfa961c14ab74a906578e3ee}
+      \strng{authorfullhashraw}{49395aa0bfa961c14ab74a906578e3ee}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Artificial Intelligence Research}
+      \field{title}{The Arcade Learning Environment: An Evaluation Platform for General Agents}
+      \field{volume}{47}
+      \field{year}{2013}
+      \field{pages}{253\bibrangedash 279}
+      \range{pages}{27}
+      \verb{urlraw}
+      \verb https://github.com/mgbellemare/Arcade-Learning-Environment
+      \endverb
+      \verb{url}
+      \verb https://github.com/mgbellemare/Arcade-Learning-Environment
+      \endverb
+    \endentry
+    \entry{python}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=c7b5508dc5e59a2846d22617276cc27c}{%
+           family={{Python Software Foundation}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{c7b5508dc5e59a2846d22617276cc27c}
+      \strng{fullhash}{c7b5508dc5e59a2846d22617276cc27c}
+      \strng{fullhashraw}{c7b5508dc5e59a2846d22617276cc27c}
+      \strng{bibnamehash}{c7b5508dc5e59a2846d22617276cc27c}
+      \strng{authorbibnamehash}{c7b5508dc5e59a2846d22617276cc27c}
+      \strng{authornamehash}{c7b5508dc5e59a2846d22617276cc27c}
+      \strng{authorfullhash}{c7b5508dc5e59a2846d22617276cc27c}
+      \strng{authorfullhashraw}{c7b5508dc5e59a2846d22617276cc27c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://www.python.org}}
+      \field{note}{[Online; accessed 22-January-2025]}
+      \field{title}{{Python Language Reference, version 3.12}}
+      \field{year}{2023}
+    \endentry
+    \entry{gymnasium2025}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=2eac0870049c106fdf7b2cee69b7196a}{%
+           family={{Gymnasium contributors}},
+           familyi={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{2eac0870049c106fdf7b2cee69b7196a}
+      \strng{fullhash}{2eac0870049c106fdf7b2cee69b7196a}
+      \strng{fullhashraw}{2eac0870049c106fdf7b2cee69b7196a}
+      \strng{bibnamehash}{2eac0870049c106fdf7b2cee69b7196a}
+      \strng{authorbibnamehash}{2eac0870049c106fdf7b2cee69b7196a}
+      \strng{authornamehash}{2eac0870049c106fdf7b2cee69b7196a}
+      \strng{authorfullhash}{2eac0870049c106fdf7b2cee69b7196a}
+      \strng{authorfullhashraw}{2eac0870049c106fdf7b2cee69b7196a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed: 2025-01-21}
+      \field{title}{Gymnasium: A Standard API for Reinforcement Learning Environments}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://gymnasium.farama.org/
+      \endverb
+      \verb{url}
+      \verb https://gymnasium.farama.org/
+      \endverb
+    \endentry
+    \entry{pytorch2025}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=c27c821223528080796a27ff4a7f3626}{%
+           family={{PyTorch contributors}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{c27c821223528080796a27ff4a7f3626}
+      \strng{fullhash}{c27c821223528080796a27ff4a7f3626}
+      \strng{fullhashraw}{c27c821223528080796a27ff4a7f3626}
+      \strng{bibnamehash}{c27c821223528080796a27ff4a7f3626}
+      \strng{authorbibnamehash}{c27c821223528080796a27ff4a7f3626}
+      \strng{authornamehash}{c27c821223528080796a27ff4a7f3626}
+      \strng{authorfullhash}{c27c821223528080796a27ff4a7f3626}
+      \strng{authorfullhashraw}{c27c821223528080796a27ff4a7f3626}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed: 2025-01-21}
+      \field{title}{PyTorch: An Open Source Machine Learning Framework}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://pytorch.org/
+      \endverb
+      \verb{url}
+      \verb https://pytorch.org/
+      \endverb
+    \endentry
+    \entry{opencv2025}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=b2634160a095f6a7028f24274f0fd738}{%
+           family={{OpenCV contributors}},
+           familyi={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{b2634160a095f6a7028f24274f0fd738}
+      \strng{fullhash}{b2634160a095f6a7028f24274f0fd738}
+      \strng{fullhashraw}{b2634160a095f6a7028f24274f0fd738}
+      \strng{bibnamehash}{b2634160a095f6a7028f24274f0fd738}
+      \strng{authorbibnamehash}{b2634160a095f6a7028f24274f0fd738}
+      \strng{authornamehash}{b2634160a095f6a7028f24274f0fd738}
+      \strng{authorfullhash}{b2634160a095f6a7028f24274f0fd738}
+      \strng{authorfullhashraw}{b2634160a095f6a7028f24274f0fd738}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed: 2025-01-21}
+      \field{title}{OpenCV: Open Source Computer Vision Library}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://opencv.org/
+      \endverb
+      \verb{url}
+      \verb https://opencv.org/
+      \endverb
+    \endentry
+    \entry{DQN}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=4e965aa44bbbb377d4b2170fd553b42b}{%
+           family={Galik},
+           familyi={G\bibinitperiod},
+           given={Adrian},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{fullhash}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{fullhashraw}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{bibnamehash}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{authorbibnamehash}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{authornamehash}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{authorfullhash}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{authorfullhashraw}{4e965aa44bbbb377d4b2170fd553b42b}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://github.com/Vexus1/engineer_project/tree/main/pong_ai/deep_q_learning_model}}
+      \field{note}{dostęp: styczeń 2025}
+      \field{title}{Repozytorium z implementacją DQN dla Pong}
+      \field{year}{2025}
+    \endentry
+    \entry{A2C}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=4e965aa44bbbb377d4b2170fd553b42b}{%
+           family={Galik},
+           familyi={G\bibinitperiod},
+           given={Adrian},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{fullhash}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{fullhashraw}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{bibnamehash}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{authorbibnamehash}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{authornamehash}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{authorfullhash}{4e965aa44bbbb377d4b2170fd553b42b}
+      \strng{authorfullhashraw}{4e965aa44bbbb377d4b2170fd553b42b}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://github.com/Vexus1/engineer_project/tree/main/pong_ai/A2C_model}}
+      \field{note}{dostęp: styczeń 2025}
+      \field{title}{Repozytorium z implementacją A2c dla Pong}
+      \field{year}{2025}
+    \endentry
   \enddatalist
 \endrefsection
 \endinput

@@ -115,6 +115,10 @@ INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
 INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/booktabs/booktabs.sty
+INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/booktabs/booktabs.sty
+INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/tools/array.sty
+INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/tools/array.sty
 INPUT ./main.aux
 INPUT ./main.aux
 INPUT main.aux
@@ -193,6 +197,11 @@ INPUT ./pictures/DQL_reward.png
 INPUT ./pictures/DQL_reward.png
 INPUT ./pictures/DQL_reward.png
 INPUT ./pictures/DQL_reward.png
+INPUT ./pictures/DQN_diagram.png
+INPUT ./pictures/DQN_diagram.png
+INPUT ./pictures/DQN_diagram.png
+INPUT ./pictures/DQN_diagram.png
+INPUT ./pictures/DQN_diagram.png
 INPUT ./pictures/A2C_advantage.png
 INPUT ./pictures/A2C_advantage.png
 INPUT ./pictures/A2C_advantage.png
@@ -243,6 +252,11 @@ INPUT ./pictures/A2C_reward.png
 INPUT ./pictures/A2C_reward.png
 INPUT ./pictures/A2C_reward.png
 INPUT ./pictures/A2C_reward.png
+INPUT ./pictures/A2C_diagram.png
+INPUT ./pictures/A2C_diagram.png
+INPUT ./pictures/A2C_diagram.png
+INPUT ./pictures/A2C_diagram.png
+INPUT ./pictures/A2C_diagram.png
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/jknappen/ec/ecti1200.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/jknappen/ec/eccc1200.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/jknappen/ec/ectt1200.tfm

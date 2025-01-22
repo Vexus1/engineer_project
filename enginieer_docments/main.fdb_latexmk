@@ -1,13 +1,13 @@
 # Fdb version 4
-["biber main"] 1737511555.44919 "main.bcf" "main.bbl" "main" 1737511558.71006 0
-  "bibliography.bib" 1737455896.65847 2531 4b45e9894d57d10165cfdeeefd7fdab2 ""
-  "main.bcf" 1737511558.60218 108616 e6bf0e9ba21dfe0511ff8b18f378abaa "pdflatex"
+["biber main"] 0 "main.bcf" "main.bbl" "main" 1737545858.37439 -1
+  "bibliography.bib" 1737538378.04124 4775 286c4d87ef0300b8d2ec01a7bc768c61 ""
+  "main.bcf" 1737545858.27301 109627 a3974fb60968be29220ca9f2c535312d "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1737511556.71049 "/home/adrian/Desktop/programing/python/engineer_project/enginieer_docments/main.tex" "main.pdf" "main" 1737511558.71044 0
-  "/home/adrian/Desktop/programing/python/engineer_project/enginieer_docments/main.tex" 1737511553.18521 63284 62ef637c257bc7fc6eadc9c6c57a291c ""
+["pdflatex"] 1737545856.21142 "/home/adrian/Desktop/programing/python/engineer_project/enginieer_docments/main.tex" "main.pdf" "main" 1737545858.37474 0
+  "/home/adrian/Desktop/programing/python/engineer_project/enginieer_docments/main.tex" 1737545856.01402 76013 1425d9c1b4f9f21b071107c6d8506a40 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/pl/plme.enc" 1136849721 3126 59f33ff3e396436ebc36f4e7b444d5c4 ""
@@ -92,6 +92,7 @@
   "/usr/local/texlive/2024/texmf-dist/tex/latex/biblatex/blx-dm.def" 1711143581 32761 18d14e3b502c120f79b2184de4e21d14 ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/biblatex/cbx/numeric.cbx" 1678141846 4629 cda468e8a0b1cfa0f61872e171037a4b ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/biblatex/lbx/english.lbx" 1711143581 40021 daa5a82ed0967f3ac4b77cb8384cac55 ""
+  "/usr/local/texlive/2024/texmf-dist/tex/latex/booktabs/booktabs.sty" 1579038678 6078 f1cb470c9199e7110a27851508ed7a5c ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty" 1579991033 13886 d1306dcf79a944f6988e688c1785f9ce ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/etoolbox/etoolbox.sty" 1601931149 46845 3b58f70c6e861a13d927bff09d35ecbc ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/float/float.sty" 1137110151 6749 16d2656a1984957e674b149555f1ea1d ""
@@ -116,18 +117,20 @@
   "/usr/local/texlive/2024/texmf-dist/tex/latex/polski/ot4cmr.fd" 1629921906 2605 fe3d35a54ea9c9b798eb3aa21b9ef2f6 ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/polski/polski.sty" 1629921906 13344 a993928ba746ec4e012bfd315bcc48d8 ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/titlesec/titlesec.sty" 1736023606 48766 87a17a4ef312a39cd43896e34a679a56 ""
+  "/usr/local/texlive/2024/texmf-dist/tex/latex/tools/array.sty" 1730496337 14552 27664839421e418b87f56fa4c6f66b1a ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/tools/indentfirst.sty" 1717359999 1618 d81d7e8646081fd4049b99a8cd8a91df ""
   "/usr/local/texlive/2024/texmf-dist/tex/latex/url/url.sty" 1388531844 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "/usr/local/texlive/2024/texmf-dist/web2c/texmf.cnf" 1727217670 42021 a58d36c7ede3d2fc9f93da62d691ddff ""
   "/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1736746758 5465169 84f99b436d55b199b676d29fadb92a6c ""
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1736746889 3352332 881a48b5332b1b4b2e2976c9aba048ea ""
   "/usr/local/texlive/2024/texmf.cnf" 1736746751.75975 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
-  "main.aux" 1737511558.60018 10432 00ab898b69a0db5b5a233d388633eaa5 "pdflatex"
-  "main.bbl" 1737511556.67019 15666 96936720c1126e2a62fd1c6d20e25634 "biber main"
-  "main.run.xml" 1737511558.60318 2307 fa280d158a7733084a6a66e2106e4193 "pdflatex"
-  "main.tex" 1737511553.18521 63284 62ef637c257bc7fc6eadc9c6c57a291c ""
+  "main.aux" 1737545858.27101 12761 ca309e1eb77f09754478610930403e2e "pdflatex"
+  "main.bbl" 1737538383.4012 25912 37e4965d0c5704cfa4cf8fac08e00b23 "biber main"
+  "main.run.xml" 1737545858.27401 2307 fa280d158a7733084a6a66e2106e4193 "pdflatex"
+  "main.tex" 1737545856.01402 76013 1425d9c1b4f9f21b071107c6d8506a40 ""
   "pictures/A2C_advantage.png" 1737388252.44346 59612 80938f96b03e0ab28bf76e96cfe21d71 ""
   "pictures/A2C_batch_rewards.png" 1737388269.99532 75979 db9965ec7f2f34b3bb8576762c35330e ""
+  "pictures/A2C_diagram.png" 1737537569.09108 34973 a7d41fd5bdc03ea47c3257e0190ee27a ""
   "pictures/A2C_grad_l2.png" 1737388289.25017 63426 b1696d033652b3d977625b1efc34983d ""
   "pictures/A2C_grad_max.png" 1737388307.13804 66480 cab92a33e0ec9ac351b02791a0bf3e8d ""
   "pictures/A2C_grad_var.png" 1737388354.16369 60046 4df3035f0d06e0e0acfebc9ddcf805bb ""
@@ -137,6 +140,7 @@
   "pictures/A2C_loss_value.png" 1737388466.31892 57110 0433a798be9dd1d94409a689ba2aa037 ""
   "pictures/A2C_reward.png" 1737388497.81971 53548 de200a1c3b5b1668b018d4184e2b2a80 ""
   "pictures/DQL_reward.png" 1736864037.61202 52421 3afe2c692fdef9516d42b5712bab7ad0 ""
+  "pictures/DQN_diagram.png" 1737516933.7169 26255 efe37b16f4160a81dfa38c61bc133e14 ""
   "pictures/Reinforcement_learning_diagram.png" 1737455766.08606 80947 d1132e766d561e36eab5fa3544c2ef23 ""
   (generated)
   "main.aux"

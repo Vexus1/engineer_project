@@ -2385,6 +2385,21 @@
     <bcf:citekey order="11" intorder="1">sutton2018rl</bcf:citekey>
     <bcf:citekey order="12" intorder="1">sutton2018rl</bcf:citekey>
     <bcf:citekey order="13" intorder="1">lapan2020deep</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">sutton2018rl</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">mnih2015nature</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">lapan2020deep</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">mnih2016a3c</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">stable_baselines_a2c</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">lapan2020deep</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">bellemare2013ale</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">python</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">gymnasium2025</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">pytorch2025</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">opencv2025</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">DQN</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">lapan2020deep</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">A2C</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">lapan2020deep</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">
