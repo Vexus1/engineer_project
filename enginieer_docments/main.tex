@@ -8,8 +8,10 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{float}
-\usepackage[backend=biber,style=numeric]{biblatex}
-\addbibresource{bibliography.bib} 
+\usepackage{amssymb}
+\usepackage[style=numeric,sorting=none]{biblatex}
+\addbibresource{bibliography.bib}
+
 
 \geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
 
@@ -46,152 +48,130 @@
 
     \newpage
     \section{Wstęp}
-    \indent Rozwój technologii w tempie przekraczającym wszelkie oczekiwania oraz zwiększająca się dostępnosć mocy
-    obliczeniowej doprowadziły do tego że algorytmy uczenia maszynowego stanowią nieoderwalną część życia codziennego
-    każdego z nas. Zastosowanie ich można znaleść w dziedzinach robotyki, rozpoznawania obrazów, przetwarzania
-    języka naturalnego, klasyfikacja spamu, systemy nawigacyjne, diagnostyka chorób, sztuczna inteligencja w grach oraz
-    wiele innych gałęzi technologii które oddziałują na nas w sposób pośredni lub bezpośredni. Jedną z najbardziej 
-    fascynujących, a zarazem najstarszych dziedzin uczenia maszynowego jest uczenie przez wzmacnianie. Znana już od lat 50 ubiegłego wieku
-    będzie ona kluczowym działem z którego algorymy będą stanowiły fundament mojej pracy.
-    \newline
-    \indent Celem niniejszej pracy inżynierskiej jest analiza efektywności wybranych metod uczenia
-    przez wzmacnianie w grach komputerowych. Przede wszystkim badania oraz porównania algorytmów zarówno jeśli chodzi o czas uczenia
-    oraz efektywność zostały przeprowacone na przykładzie gry Pong, która jest bardzo często wykorzystywana jako dobry przykład środowiska testowego
-    do badań nad algorytmami sztucznej inteligencji. W ramach pracy zaimplementowałem trzy popularne metody uczenia przez wzmacnianie:
-    Deep Q-Learning (DQN), Advantage Actor-Critic (A2C) oraz Asynchronous Advantage Actor-Critic (A3C), a w następnym kroku zbadałem ich efektywność
-    na zasadzie różnych parametrów m. in. prędkość uczenia oraz skuteczność gry.
+    W ostatnich dekadach obserwuje się dynamiczny rozwój technologii, który przekracza pierwotne oczekiwania specjalistów.
+    Zwiększona dostępność mocy obliczeniowej spowodowała, że algorytmy uczenia maszynowego stały się nieodłączną częścią codziennej aktywności.
+    Zastosowania tych algorytmów można odnaleźć w robotyce, rozpoznawaniu obrazów, przetwarzaniu języka naturalnego, klasyfikacji spamu, systemach nawigacyjnych, diagnostyce chorób czy w sztucznej inteligencji dedykowanej grom komputerowym. 
+    Każda z wymienionych dziedzin oddziałuje na społeczeństwo zarówno pośrednio, jak i bezpośrednio.
+    \\
+    \indent Jedną z najciekawszych, a zarazem najdłużej rozwijanych poddziedzin uczenia maszynowego jest uczenie przez wzmacnianie. 
+    Metody tego typu, znane już od lat 50. ubiegłego wieku, stanowią centralny punkt rozważań niniejszej pracy.
+    \\
+    \indent Celem poniższej pracy inżynierskiej jest zbadanie efektywności wybranych metod uczenia przez wzmacnianie w grach komputerowych. 
+    Analiza skupia się w szczególności na porównaniu popularnych algorytmów pod kątem czasu uczenia oraz osiąganych wyników.
+    W eksperymentach wykorzystano klasyczną grę Pong, często stosowaną w roli środowiska testowego do oceny zachowania agentów sztucznej inteligencji. 
+    Zaimplementowano dwie powszechnie używane metody: Deep Q-Learning (DQN), zaproponowaną przez Mnhia et al. \cite{mnih2015dqn}, Advantage Actor-Critic (A2C),
+    będącą uporoszczoną wersją asynchronicznych metod aktor-krytyk zaprezentowanych przez Mniha et al. \cite{mnih2016a3c} 
+    W kolejnych rozdziałach przedstawiono charakterystykę badanych algorytmów, omówiono przebieg eksperymentu oraz przeanalizowano otrzymane rezultaty.
+
     \section{Wprowadzenie do uczenia maszynowego}
-    \indent Uczenie maszynowe jest jedną z kluczowych gałęzi sztucznej inteligencji, której celem jest tworzenie algorytmów zdolnych
-    do uczenia się na podstawie danych i podejmowania decyzji bez konieczności programowania reguł działania. 
-    Oto nieco ogólniejsza definicja: Uczenie maszynowe to "dziedzina nauki dająca komputerom możliwość uczenia się
-    bez konieczności ich jawnego programowania". - Arthur Samuel, 1959. A tu bardziej techniczna:
-    "Mówimy, że program komputerowy uczy się na podstawie doświadczenia E w odniesieniu do jakiegoś zadania T
-    i pewnej miary wydajności P, jeśli jego wydajność (mierzona przez P) wobec zadania T wzrasta wraz z nabywaniem
-    doświadczenia E". - Tom Mitchell, 1997. Przykładowe dane używane do trenowania systemu noszą nazwę
-    \textbf{zbioru/zestawu uczącego} (ang. training set). Każdy taki element uczący jest nazywany 
-    \textbf{przykładem uczącym (próbką uczącą)}. Część systemu uczenia maszynowego odpowiedzialna za uczenie się i uzyskiwanie 
-    przwidywań nazywana jest modelem. Przykładowymi modelami są sieci neuronowe i lasy losowe. Dla przykładu klasyfikacji spamu to zgodnie z definicją Toma Mitchella: naszym
-    zadaniem T jest oznaczenie spamu, doświadczeniem E - dane uczące a do wyznaczenia pozostaje miara wydajności P.
-    Może być nią na przykład stosunek prawidłowo oznaczonych wiadomości do przykjładów nieprawidłowo zaklasyfikowanych.
-    (książka uczenie maszynowe z użyciem Scikit-Learn, Keras i TensorFlow (5 zdań ostatnich))
+    Uczenie maszynowe jest jedną z najważniejszych gałęzi sztucznej inteligencji.
+    Jego istotę stanowi tworzenie algorytmów zdolnych do samodzielnego nabywania wiedzy na podstawie przetwarzanych danych, bez konieczności programowania konkretnych reguł. 
+    Według klasycznej definicji Arthura Samuela z 1959 roku, uczenie maszynowe to „dziedzina nauki dająca komputerom możliwość uczenia się bez konieczności ich jawnego programowania” \cite{samuel1959checkers}.
+    Z kolei Tom Mitchell (1997) zwraca uwagę, że „program komputerowy uczy się na podstawie doświadczenia E w odniesieniu do zadania T i pewnej miary wydajności P, jeśli wydajność tego programu (mierzona za pomocą P) wobec zadania T poprawia się wraz z kolejnymi doświadczeniami E” \cite{mitchell1997machinelearning}.
+    \\ 
+    \indent W praktyce uczenie maszynowe opiera się na zbiorze danych uczących (ang. training set), którego elementy określa się mianem próbek lub przykładów uczących. 
+    Modelem zaś nazywa się część systemu odpowiedzialną za wyciąganie wniosków, w oparciu o dostarczone dane oraz proces uczenia. 
+    Przykładami modeli mogą być między innymi sieci neuronowe czy lasy losowe.
+    \\
+    \indent W przypadku zagadnienia klasyfikacji spamu, zadanie T polega na rozróżnianiu, czy dana wiadomość e-mail powinna zostać zakwalifikowana jako „spam” czy „nie spam”. 
+    Doświadczeniem E jest tutaj zbiór wiadomości z odpowiednimi etykietami, a miarą wydajności P może być odsetek poprawnie zaklasyfikowanych wiadomości \cite{HandsOnMachineLearning}.
     
-    \subsection{Podział uczenia maszynowego} (Można dodać do każdego jakieś wykresy)
-    Algorytmy uczenia maszynowego można podzielić na cztery ogólne kategorie:
+    \subsection{Podział uczenia maszynowego}
+    Istnieje kilka kategorii uczenia maszynowego, wyróżnianych w zależności od rodzaju dostępnych danych i celu analizy. Najczęściej spotykanymi są:
     
     \subsubsection{Uczenie nadzorowane}
-    To najczęstszy przypadek uczenia maszynowego. W tym przypadku algorytm uczy się na podstawie
-    oznaczonych danych wejściowych które są opisane przez człowieka oraz odpowiadających im wyników.
-    Głównymi zastosowaniami algorytmów uczenia nadzorowanego to klasyfikicja i regresja. Klasycznym przykładem
-    jest klasyfikacja spamu, polega ona na analizie przez algorytm e-maila i przypisanie do niego kategorii "spam" 
-    lub "nie spam". Przykład algorytmów: regresja liniowa, drzewa decyzyjne, SVM
+    Uczenie nadzorowane zakłada wykorzystanie zbioru danych z oznaczonymi przez człowieka etykietami. Metoda ta jest szeroko stosowana w zadaniach klasyfikacji (np. klasyfikacja spamu) oraz regresji (np. przewidywanie wartości liczbowych). Do popularnych algorytmów należą między innymi: regresja liniowa, drzewa decyzyjne oraz maszyny wektorów nośnych (SVM).
 
     \subsubsection{Uczenie nienadzorowane}
-    Algorytm analizuje dane bez użycia jakichkolwiek oznacznień w celu znalezienie grup lub ukrytych wzorców.
-    Kluczowymi zadaniami uczenia nienadzorowanego są między innymi: wizualizacja danych,
-    redukcja wymiarowości, analiza skupień, wyrywanie anomalii, wykrywanie nowości, usuwanie szumu
-    oraz uczenie przy użyciu reguł asocjacyjnych. Przykład algorytmów: K-Means DBSCAN
+    W uczeniu nienadzorowanym algorytm otrzymuje dane bez dodatkowych etykiet, a celem jest odnajdywanie ukrytych wzorców i struktur. Główne zadania obejmują wizualizację danych, redukcję wymiarowości, analizę skupień (klastrów) oraz wykrywanie anomalii. Do typowych algorytmów zaliczają się K-Means oraz DBSCAN.
 
     \subsubsection{Uczenie częściowo nadzorowane}
-    Jest to specyficzny przypadek uczenia nadzorowanego, lecz ma ono na tyle odmienne zasady działania że tworzy
-    odzielną kategorię. W uczeniu częściowo nadzorowanym algorytm nie używa oznaczeń nadanych przez człowieka, lecz są one 
-    wygenerowane na podstawie danych wejściowych (zazwyczaj stosowane są do tego algorytmy heurystyczne).
-    Jest to szczególnie przydatne w sytuacjach, gdy oznaczanie danych jest kosztowne lub czasochłonne jak przykładowo
-    w diagnos~tyce medycznej. 
+    Uczenie częściowo nadzorowane stanowi wariant podejścia nadzorowanego, w którym etykiety nie są nadane ręcznie, lecz automatycznie wyznaczane na podstawie określonych heurystyk lub dodatkowych algorytmów. Metoda ta znajduje zastosowanie w sytuacjach, gdy proces ręcznego oznaczania danych jest kosztowny bądź czasochłonny, co często ma miejsce w diagnozach medycznych.
 
     \subsubsection{Uczenie przez wzmacnianie}
-    Dziedzina która była zaniedbywana do momentu w którym autorzy projektu Google DeepMind wykorzystali ją w celu nauki komputerów 
-    gier Atari. Jest to specyficzna forma uczenia maszynowego gdyż w zasadniczy sposób różni się od wszystkich poprzednich metod gdyż
-    alogrytm nie uczy się za pomocą danych lecz na podstawię interakcji z dynamicznym środowiskiem stąd nazwa "wzmacnianie". 
-    Agentem nazywamy element który jest odpowiedzialny za interakcję ze środowiskiem, a same interakcje nazywamy akcjami.
-    Algorytm za wykonanie każdej akcji definiowanej przez autora otrzymuje adekwatnie do oczekiwań nagrodę i karę. Na podstawię 
-    tej metody algorytm uczy się strategii która pozwala mu maksymalizować nagrodę na podstawię konkretnego stanu środowiska.
+    Uczenie przez wzmacnianie (ang. reinforcement learning) było przez długi czas mniej popularne niż inne formy, jednak nabrało rozpędu dzięki sukcesom autorów projektu Google DeepMind \cite{mnih2015nature}, którzy zaprezentowali jego skuteczność w grach Atari. Charakteryzuje się tym, że algorytm (zwany agentem) uczy się optymalnych akcji poprzez interakcję z dynamicznym środowiskiem. Po wykonaniu każdej akcji agent otrzymuje nagrodę lub karę, co umożliwia stopniowe dopasowywanie strategii działania w celu maksymalizacji długoterminowego zysku. W ramach niniejszej pracy analizie zostały poddane właśnie takie algorytmy, z naciskiem na ich zastosowanie w środowisku gry Pong.
+    \\ \\ 
+    Podział uczenia maszynowego na te cztery kategorie jest szeroko akceptowany w literaturze i szczegółowo opisany w \cite{sutton2018rl}.
+
     
     \section{Teoretyczne podstawy uczenia przez wzmacnianie}
 
     \subsection{Podstawowe pojęcia i definicje}
+    W tej części pracy zastosowano standardowe oznaczenia i definicje stosowane w literaturze dotyczącej uczenia przez wzmacnianie. 
+    W szczególności terminologia i symbole (np. \( s, a, r_t, \pi \)) \cite{lapan2020deep}
     \begin{itemize}
-        \item \textbf{Agent} - Podmiot który wchodzi w interakcje ze środowiskiem wykonując podane akcje/decyzje oraz obserwacje i otrzymując za to nagrody.
-        Zadaniem agenta jest maksymalizacja długoterminowej nagrody. Na przykład w szachach agentem jest gracz lub program komputerowy.
-        \item \textbf{Środowisko} - Jest to wszystko co oddziałuje na agenta i z czym wchodzi on w interakcję. Komunikacja środowiska
-        z agentem ogranicza się do obserwacji i nagrody. Na przykład środowiskiem w szachach jest plansza szachowa.
+        \item \textbf{Agent} - Element systemu wchodzący w interakcje ze środowiskiem poprzez wykonywanie akcji (decyzji) oraz obserwowanie konsekwencji w postaci nagród i stanów.
+        Głównym celem agenta jest maksymalizacja długoterminowej nagrody. 
+        Przykładowo w szachach agentem może być gracz lub program komputerowy.
+        \item \textbf{Środowisko} - Otoczenie, z którym agent ma styczność. 
+        Wymiana informacji ze środowiskiem obejmuje jedynie obserwacje (stany) i nagrody.
+        Dla gry w szachy środowiskiem jest plansza szachowa wraz z aktualnym układem figur.
         \item \textbf{Stan (\( s \))} - Informacje które środowisko dostarcza agentowi. Dają one wiadomości na temat tego co dzieje się wokół niego.
-        \item \textbf{Akcje (\( a \))} - Wszystkie czynności które agent może wykonywać w środowisku. Na przykład przesunięcie
-        pionka o jedno pole do przodu.
-        \item \textbf{Nagroda (\( r_t \))} - informacja zwrodna od środowiska wskazująca na to czy akcja była korzystna.
-        Nagroda ma charakter lokalny czyli odzwierciedla niedawną działalność agenta, a nie wszystkie jego sukcesy. Celem agenta jest maksymalizacja
-        skumulowanej nagrody.
+        \item \textbf{Akcje (\( a \))} - Wszystkie czynności, które agent może podjąć w danym środowisku. 
+        Przykładową akcją w szachach jest przesunięcie pionka o jedno pole do przodu.
+        \item \textbf{Nagroda (\( r_t \))} - Informacja zwrotna otrzymywana od środowiska, wskazująca na korzystność (bądź niekorzystność) podjętej akcji. 
+        Nagroda ma z reguły charakter lokalny, czyli dotyczy wyłącznie niedawno wykonanej akcji, a nie całej historii działań agenta. 
+        Zadanie agenta polega na maksymalizacji skumulowanej nagrody w dłuższej perspektywie.
         \item \textbf{Polityka (\( \pi \))} - Strategia agenta, która pomaga mu podejmować akcje w danych stanach. Polityka może być deterministyczna
-        (\( \pi(s) - a \)) albo stochastyczna (\( \pi(a|s) \))
+        (\( \pi(s) = a \)) albo stochastyczna (\( \pi(a|s) \))
     \end{itemize}
-    (jakiś rysunek można dodać)
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\textwidth]{pictures/Reinforcement_learning_diagram.png}
+        \caption{Typowa struktura scenariusza uczenia przez wzmacnianie \cite{wikipedia_reinforcement_learning}}
+    \end{figure}
 
     \subsection{Modele Markowa (MDP)}
-    Procesy decyzyjne Markowa (Markov Decision Processes, MDP) są podstawą matematyczną uczenia przez wzmacnianie. Dzięki MPD możemy zdefiniować
-    środowisko uczenia przez wzmacnianie jako pięciokrotkę:
-    \[ M = (S,A, P(s'|s,a), R(s,a), \gamma) \] (wzór do sprawdzenia)
-    gdzie:
+    Wzory i definicje użyte w tej sekcji zostały zaczerpnięte z książki „Reinforcement Learning: An Introduction” autorstwa Suttona i Barto \cite{sutton2018rl}.
+    Markowskie procesy decyzyjne (MDP) są formalizacją problemów decyzyjnych w warunkach niepewności, które zakładają spełnienie własności markowskiej: przyszłość (kolejny stan i otrzymana nagroda) zależy jedynie od bieżącego stanu i akcji, a nie od pełnej historii.
+    W modelu MDP kluczowymi elementami są:
     \begin{itemize}
-        \item \( S \)  - zbiór możliwych stanów \( (s \in S ) \).
-        \item \( A \)- zbiór możliwych akcji \( (a \in A ) \).
-        \item \( P(s'|s,a) \) - Funkcja prawdopodobieństwa przejścia ze stanu \( s \) do stanu \( s' \) po wykonaniu po wykonaniu akcji \( a \).
-        \item \( R(s,a) \) - Funkcja nagrody, określa wartość nagordy otrzymanej po wykonaniu akcji \( a \) w stanie \( s \).
-        \item \( \gamma \) - Wpółczynnik dyskontowania, określa istotność przyszłych nagród \( (0 \leq \gamma \leq 1) \).
+        \item Stany i akcje - Agent w chwili \( t \) obserwuje stan \( S_t \) ze zbiorów stanów \( S \), a następnie wybiera akcję \( A_t \) z dostępnego zbioru akcji \( A \).
+        \item Funkcja przejścia i nagród - Po wykonaniu akcji \( A_t \) w stanie \( S_t \) agent przechodzi do stanu \( S_{t+1} \) i otrzymuje nagrodę \( R_{t+1} \). Oba te elemenety opisuje funkcja:
+        \[ p(s',r|s,a) = P(S_{t+1} = s', R_{t+1} = r | S_t = s, A_t = a)\]
+        dzięki temu wiadomo z jakim prawdopodobieństwem przy danej akcji w stanie \( s \) agent znajdzie się w stanie \( s' \) oraz jaką otrzyma wtedy nagrodę \( r \).
+        \item Oczekiwana nagorda - Bardzo często zamiast śledzić cały rozkład nagród, pracuje się z wartością oczekiwaną natychmiastowej nagrody:
+        \[ r(s,a) = E[R_{t+1} | S_t = s, A_t = a] = \sum_{s',r} r p(s',r|s,a)\]
+        Innymi słowy, jest to średnia nagroda, jakiej agent może oczekiwać w momencie przejścia ze stanu \( s \) do \( s' \) przy akcji \( a \).
+        \item Współczynnik dyskontowania - Aby modelować długofalowe konsekwencje podejmowanych decyzji, wprowadza się współczynnik \( \gamma \in [0,1] \). Określa on, jak silnie agent ceni przyszłe nagrody w porównaniu z bieżącymi. Gdy \( \gamma = 0 \), agent skupia się wyłącznie na nagrodach natychmiastowych, a gdy \( \gamma \) jest bliskie 1, uwzględnia głównie wpływ aktualnej decyzji na dalszą przyszłość.
     \end{itemize}
-    Cechą kluczową w procesie decyzyjnym Markowa jest własność Markowa, która zakłada iż przyszył stan środowiska, zależy jedynie od obecnego
-    stanu i podjętej akcji, a nie od historii wcześniejszych stanów:
-    \[ P(s_{t+1}|s_t,a_t,s_{t-1},a_{t-1},...) = P(s_{t+1}|s_t, a_t) \]
-    Dzięki właściwości Markowa jesteśmi w stanie uprościć modelowanie środowiska, pozwalając określić prawdopodobieństwa przejścia między stanami dzięki funkcji przejścia
-    \( P(s'|s,a) \).
-
-    \subsubsection{Proces Markowa z nagrodami}
-    Abyśmy mogli użyć nagrody, trzeba rozszerzyć klasyczny model procesu Markowa o mechanizm przyznawania nagród.
-    Zatem dla naszego przypadku każda para \( (s,a) \) jest skojarzona z funkcją nagrody \( R(s,a) \), która określa średnią wartrość oczekiwaną nagrody po wykonaniu
-    akcji a w stanie s:
-    \[ R(s,a) = E[r_{t+1}|s_t = s_t, a_t = a] \]
-    Nagorda może występować w różnych formach, może być ona pozytywna lub negatywna czy też duża lub mała. Jeżeli nagroda jest
-    przyznawana niezależnie od poprzedniego stanu lub za osiągnięcie danego stanu, wtedy można zachować tylko pary stan -> nagroda, co znacząco
-    pomaga w uproszczeniu zapisu nagrody. Ma to zastosowanie tylko i wyłącznie wtedy, gdy wartość nagrody zależy wyłącznie 
-    od stanu docelowego.
-    \\ \\
-    Dla każdego epizodu definiujemy wartość wynikową w czasie \( t \) w poniższy sposób:
+    \textbf{Skumulowana nagroda} \\ \\ 
+    Dla każdego epizodu w uczeniu przez wzmacnianie definiuje się skumulowaną nagrodę w chwili \( t \) następująco:
     \[ G_t = R_{t+1} + \gamma R_{t+2} + ... = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \]
     Gdzie:
     \begin{itemize}
-        \item \( G_t \) - Skumulowana nagroda, która jest całkowitą wartością nagród jakie otrzyma agent od momentu t w przyszłości.
-        Jest to miara, która oceania, jak dobrze agent postępuje, biorąc pod uwagę zarówno natychmastowa, jak i przyszłe nagrody.
-        \item \( \gamma \) - Współczynnik dyskontowania z zakresu \( [0, 1] \) który jest miarą tego jak agent ocenia przyszłe nagrody w porównaniu z 
-        nagrodami natychmiastowymi. na przykład:
+        \item \( G_t \) - całkowita (skumulowana) wartość nagród, którą agent otrzymuje od chwili \( t \) aż do zakończenia epizodu,
+        \item \( \gamma \) - współczynnik dyskontowania z przedziału \( [0,1] \), który wyznacza, jak bardzo agent ceni przyszłe nagrody w stosunku do natychmiastowych,
+        Na przykład:
         \begin{itemize}
-            \item Dla \( \gamma = 0 \), agent skupia się wyłącznie na nagrodach natychmiastowych.
-            \item Gdy \( \gamma \) jest blisko 1, agent korzysta z długoterminowych strategii co może przyniać się do bardziej sensownych akcji. 
+            \item Dla \( \gamma = 0 \), agent skupia się wyłącznie na nagrodach natychmiastowych,
+            \item Gdy \( \gamma \) jest blisko 1, agent korzysta z długoterminowych strategii co może przyniać się do bardziej sensownych akcji,
         \end{itemize}
-        \item \( r_{t+k+1} \) - Nagroda otrzymana przez agenta w kroku czasowym \( t + k + 1 \). Są to nagrody będące sygnałami zwrotnymi otrzymanymi
-        od środowiska, mające na celu informowanie agenta o jakości jego działań.
+        \item \( R_{t+k+1} \) - Nagroda otrzymana przez agenta w kroku czasowym \( t + k + 1 \). Są to nagrody będące sygnałami zwrotnymi otrzymanymi
+        od środowiska, mające na celu informowanie agenta o jakości jego działań,
         \item \( k \) - indeks czasowy który określa zasięg możliwości przyszłych decyzji agenta, dzięki któremu jest w stanie obliczyć skumulowaną nagrodę.
-        Sumowanie zaczyna się od \( k = 0 \) co wskazuje nagrodzie otrzymanej po wykonaniu akcji w stanie \( s_t \).
+        Sumowanie zaczyna się od \( k = 0 \) co wskazuje nagrodzie otrzymanej po wykonaniu akcji w stanie \( S_t \).
     \end{itemize}
     Skumulowana nagroda \( G_t \) jest ma kluczowe znaczenie w uczeniu przez wzmacnianie ponieważ określa ocenę jakości działań agenta. Stanowi ona podstawyw cel, który agent stara się 
-    maksymalizować poprzez optymalny wybór akcji. Istnieją dwa kluczowe zastosowania \( G_t \) w uczeniu przez wzmacnianie:
+    maksymalizować poprzez optymalny wybór akcji.
+    \\ \\ 
+    \textbf{Funkcje wartości i algorytmy uczenia}
     \begin{itemize}
-        \item Funkcje wartości:
-        \begin{itemize}
-            \item Funckja wartości stanu \( V^\pi(s) \) - Oczekiwana skumulowana nagroda, którą agent może uzyskać, zaczynając od stanu s i postępując zgodnie z polityką \( \pi \).
-            \[ V^\pi(s) = E_\pi[G_t|s_t=s] \]
-            \item Funkcja wartości akcji \( Q^\pi(s,a) \) - Oczekiwana skumulowana nagroda, którą agent może uzyskać, wykonując akcję \( a \) w stanie \( s \),
-            a następnie postępując zgodnie z polityką \( \pi \).
-            \[ Q^\pi(s,a) = E_\pi[G_t|s_t=s,a_t=a] \]
-        \end{itemize}
-        \item Algorytmy uczenia:
-        \begin{itemize}
-            \item W algorymach takich jak Q-learning, funkcja wartości \( Q \) działa na zasadzie aktualizacji skumulowanej nagrody \( G_t \) w celu znalezienia odpowiedniej polityki.
-            \item W metodach takich jak aktor-krytyk (A2C) aktor (polityka) oraz krytyk (funkcja wartości) są aktualizwoane w celu maksymalizacji oczekiwanej skumulowanej nagrody.
-        \end{itemize}
+        \item Funckja wartości stanu \( V_\pi(s) \) - Oczekiwana skumulowana nagroda przy założeniu, że agent znajduje się w stanie \( s \) i przestrzega polityki \( \pi \):
+        \[ V_\pi(s) = E_\pi[G_t|S_t=s] \]
+        \item Funkcja wartości akcji \( Q_\pi(s,a) \) - Oczekiwana skumulowana nagroda przy wykonaniu akcji \( a \) w stanie \( s \), a następnie kontynuacji zgodnie z polityką \( \pi \):
+        a następnie postępując zgodnie z polityką \( \pi \).
+        \[ Q_\pi(s,a) = E_\pi[G_t|S_t=s,A_t=a] \]
     \end{itemize}
-    \textbf{Przykład zastosowania skumulowanej nagrody \( G_t \) w grze pong:}
-    Niech agent będzie graczem który otrzumuje następujące nagrody w kolejnych krokach czasowych:
-    \begin{itemize}
-        \item \( r_1 = +1 \) - zdobycie punktu
-        \item \( r_2 = -1 \) - utrata punktu
+    Funkcje te są kluczowe w wielu algorytmach uczenia przez wzmacnianie. 
+    W podejściu Q-learning następuje iteracyjna aktualizacja wartości \( Q \) w celu wyznaczenia optymalnej polityki,
+    natomiast w metodach typu aktor-krytyk (np. A2C) równocześnie modyfikuje się politykę (aktor) i funkcję wartości (krytyk).
+    \\ \\ 
+    \textbf{Przykład dla gry Pong}
+    \\ \\ 
+    W celu zilustrowania pojęcia skumulowanej nagrody można rozważyć epizod w grze Pong, gdzie agent otrzymuje w kolejnych krokach czasowych następujące nagrody:    \begin{itemize}
+        \item \( r_1 = +1 \) (zdobycie punktu)
+        \item \( r_2 = -1 \) (utrata punktu)
         \item \( r_3 = +1 \)
         \item \( r_4 = +1 \)
         \item \( r_5 = -1 \)
@@ -200,74 +180,67 @@
     \[ G_0 = \gamma^0r_1 + \gamma^1r_2 + \gamma^2r_3 + \gamma^3r_4 + \gamma^4r_5 + ... \]
     \[ G_0 = 1 * 1 + 0.9 * (-1) + 0.9^2 * 1 + 0.9^3 * 1 + 0.9^4 * (-1) + ... \]
     \[ G_0 = 1 - 0.9 + 0.81 + 0.729 - 0.6561 + ... \]
-    Agent będzię skupiał się na maksymalizacji sumy tych wartości, dzięki czemu sprawi to zachętę do podejmowania działań prowadzących do długoterminowych korzyści. \\
-    (Jakiś rysunek by się przydał)
+    Maksymalizacja tej sumy wymusza na agencie podejmowanie decyzji zapewniających możliwie największy zysk nie tylko w bieżącym kroku, lecz także w dalszych etapach rozgrywki.
     \subsection{Równanie Bellmana}
-    Jednym z fundamendalnych narzędzi w teorii uczenia przez wzmacnianie jest równanie Bellmana.
-    Umożliwia ono formalizację relacji między wartością stanów a akcjami, co jest niezbędne do optymalizacji polityk agenta.
-    Równanie to pozwala na rekurencyjne obliczanie wartości funkcji, co jest kluczowe dla wielu algorytmów uczenia przez wzmacnianie.
-    "Równanie Bellmana stanowi podstawę dla większości algorytmów uczenia przez wzmacnianie, ponieważ pozwala na efektywne obliczanie wartości stanów i akcji poprzez iteracyjne aktualizacje"
-    - Sutton i Barto, 2018.
-    \subsubsection{Równanie Bellmana dla funkcji wartości stanu \( V^\pi(s) \)}
-    Funkcja wartości stanu \( V^\pi(s) \) określa oczekiwaną sumę zdyskontowanych nagród które agent może uzyskać zaczynając od stanu s
-    i postępując zgodnie z polityką \( \pi \). Wzór na równanie Bellmana dla wartości stanu:
-    \[ V^\pi(s) = E_\pi[R_{t+1}  \gamma V^\pi(S_{t_1})|S_t = s] \],
+    Wzory i definicje użyte w tej sekcji zostały zaczerpnięte z książki „Reinforcement Learning: An Introduction” autorstwa Suttona i Barto \cite{sutton2018rl}.
+    Równanie Bellmana pełni kluczową rolę w teorii uczenia przez wzmacnianie, umożliwiając sformalizowanie zależności między wartościami stanów a podejmowanymi akcjami.
+    Używane jest głównie do iteracyjnego obliczania wartości funkcji stanów i akcji, co stanowi fundament wielu algorytmów. 
+    Jak zauważyli Sutton i Barto (2018), Równanie Bellmana stanowi podstawę dla większości algorytmów uczenia przez wzmacnianie, ponieważ pozwala na efektywne obliczanie wartości stanów i akcji poprzez iteracyjne aktualizacje \cite{sutton2018rl}.
+    \subsubsection{Równanie Bellmana dla funkcji wartości stanu \( V_\pi(s) \)}
+    Funkcja wartości stanu \( V_\pi(s) \) wyraża oczekiwaną sumę zdyskontowanych nagród, jakie agent może uzyskać, rozpoczynając od stanu \( s \) i postępując zgodnie z polityką \( \pi \). 
+    Równanie Bellmana w tym kontekście ma postać:
+    \[ V_\pi(s) = E_\pi[R_{t+1} + \gamma G_{t+1}|S_t = s] = \sum_{a} \pi(a|s) \sum_{s',r} p(s',r|s,a) (r + \gamma V_\pi(s')) \],
     gdzie:
     \begin{itemize}
-        \item \( V^\pi(s) \) - Funckja stanu wartości dla polityki \( \pi \), określająca sumę zdyskontowanych nagród od stanu \( s \).
-        \item \( E_\pi \) - Oczekiwana wartrość przy użyciu plityki \( \pi \).
-        \item \( R_{t+1} \) - Nagroda otrzymywana po przejściu ze stanu \( s \) do stanu \( s_{t+1} \) która jest wynikiem podjęcia kacji zgodnych z polityką \( \pi \).
-        \item \( \gamma \) - Współczynnik dyskonotwania \( (0 \leq \gamma \leq 1) \).
+        \item \( V_\pi(s) \) - Funckja stanu wartości dla polityki \( \pi \), określająca sumę zdyskontowanych nagród od stanu \( s \),
+        \item \( E_\pi \) - wartość oczekiwana względem rozkładu wyznaczonego przez politykę \( \pi \),
+        \item \( R_{t+1} \) - nagroda otrzymywana po przejściu do stanu \( S_{t+1} \) w wyniku podjęcia akcji zgodnej z \( \pi \), 
+        \item \( \gamma \) - Współczynnik dyskonotwania z przedziału \( [0,1] \),
         \item \( S_{t+1} \) - Stan osiągnięty po wykonaniu akcji w stanie \( s \).
     \end{itemize}
     Równanie to można interpretować poprzez równość wartości stanu s a oczekiwanej nagrodzie otrzymanej po przejściu do kolejnego stanu plus zdyskontowanej wartości nowego stanu,
     zakładając, iż agent działa zgodnie z polityką \( \pi \).
-    \subsubsection{Równanie Bellmana dla funkcji wartości akcji \( Q^\pi(s,a) \)}
-    Funkcja wartości akcji \( Q^\pi(s,a) \) określa oczekiwaną sumę zdyskontowanych nagród, które agent może uzyskać, wykonując akcję \( a \) w stanie \( s \), zgodnie z polityką \( \pi \).
-    Równanie jest wyrażone poprzez wzór:
-    \[ Q^\pi(s,a) = E_\pi[R_{t+1} + \gamma Q^\pi(S_{t+1}, A_{t+1})|S_t = s, A_t = a] \]
-    Gdzie:
+    \subsubsection{Równanie Bellmana dla funkcji wartości akcji \( Q_\pi(s,a) \)}
+    Funkcja wartości akcji \( Q_\pi(s,a) \) reprezentuje oczekiwaną sumę zdyskontowanych nagród, uzyskiwanych przez agenta w sytuacji, gdy w stanie ss podjęta zostanie akcja \( a \), a w kolejnych krokach zastosowana zostanie polityka \( \pi \). Odpowiednie równanie Bellmana ma postać:
+    \[ Q_\pi(s,a) = E_\pi[R_{t+1} + \gamma G_{t+1}|S_t = s, A_t = a] = \sum_{a} \pi(a|s) \sum_{s',r} p(s',r|s,a)(r + \gamma \sum_{a} \pi(a|s)Q_\pi(s',a')) \]
+    Zgodnie z tym równaniem wartość akcji \( a \) w stanie \( s \) zależy od natychmiastowej nagrody oraz zdyskontowanej wartości przyszłych akcji, które zostaną wybrane zgodnie z polityką \( \pi \).
+    \subsubsection{Równanie Bellmana dla polityki optymalnej \( V_*(s) \) i \( Q_*(s,a) \)}
+    Polityka optymalna \( \pi_* \) maksymalizuje funkcję wartości stanu. Oznacza to, że:
+    \[ V_*(s) = \max_{\pi} V_{\pi}(s), \]
+    Równanie Bellmana dla optymalnej funkcji wartości stanu może zostać zapisane w postaci:
+    \[ V_*(s) = \max_{a} E[R_{t+1} + \gamma V_*(S_{t+1})|S_t = s, A_t = a] = 
+    \max_{a} \sum_{s',r} p(s',r|s,a)(r + \gamma V_*(s'))\]
+    Analogicznie, optymalna funkcja wartości akcji wyraża się wzorem:
+    \[ Q_*(s,a) = E[R_{t+1} + \gamma \max_{a'} Q_*(S_{t+1},a')|S_t = s, A_t = a] =
+    \sum_{s',r} p(s',r|s,a)(r + \gamma \max_{a'} Q_*(s',a')) \]
+    Powyższe równania można interpretować następująco:
     \begin{itemize}
-        \item \( A_{t+1} \) - Akcja podjęta w stanie \( S_{t+1} \) zgodnie z polityką \( \pi \).
+        \item \( V_*(s) \) - Najlepsza możliwa wastość stanu \( s \), uzyskana poprzez wybór najlepszej akcji.
+        \item \( Q_*(s,a) \) - Najlepsza możliwa wartość akcji \( a \) w stanie \( s \), przy założeniu dalszego postępowania według optymalnych decyzji.
     \end{itemize}
-    Równanie to mówi, że wartośc akcji \( a \) w stanie \( s \) jest równa oczekiwanej nagrodzie otrzymanej po wykonani akcji \( a \) plus zdystkontowaniej wartości
-    \( A_{t+1} \) w nowym stanie \( S_{t+1} \), zakładając, że agent działa zgodnie z polityką \( \pi \).
-    \subsubsection{Równanie Bellmana dla polityki optymalnej \( V^*(s) \) i \( Q^*(s,a) \)}
-    Polityka optymalna \( \pi^* \) maksymalizuje funkcję wartości: \( V^*(s) = max_\pi V^\pi(s) \).
-    Równanie Bellmana dla funkcji wartości stanu w optymalnej poltyce wyraża się poniższym wzorem:
-    \[ V^*(s) = max_a E[R_{t+1} + \gamma V^*(S_{t+1})|S_t = s, A_t = a] \]
-    Analogicznie poniżej równanie dla funkcji wartości akcji w polityce optymalnej:
-    \[ Q^*(s,a) = E[R_{t+1} + \gamma max_a' Q^*(S_{t+1},a')|S_t = a, A_t = a] \]
-    Równania można interpretować jako:
-    \begin{itemize}
-        \item \( V^*(s) \) - Najlepsza możliwa wastość stanu \( s \), uzyskana poprzez wybur najlepszej akcji.
-        \item \( Q^*(s,a) \) - Najlepsza możliwa wartość akcji \( a \) w stanie \( s \), uwzględniająca przyszłe optymalne decyzje.
-    \end{itemize}
-    Równania te stanowią podstawę dla optymalnej polityki algorytmów takich jak Value iteration i Q-learning.
+    Opisane zależności leżą u podstaw algorytmów takich jak Value Iteration czy Q-learning, które dążą do znalezienia polityki maksymalizującej skumulowaną nagrodę.
     \subsubsection{Metoda iteracji wartości}
     Algorytm, który pozwala na uteracyjną aktualizację funkcji wartości stanu \( V(s) \) zgodnie z rówaniem Bellmana dla optymalnej polityki, do momentu osiągnięcia zbieżności.
     \\ Składa się ona z poniższych kroków:
     \begin{itemize}
-        \item Zainicjalizuj wszystkie stany \( V_i \) z pewnymi wartościami początkowymi. Zawyczaj \( V(s) = 0 \) dla wszsytkich \( s \in S \).
-        \item Dla każdego stanu \( s in S \) w procesie decyzyjnym Markowa wykonaj aktualizacje:
-        \[ V(s) \leftarrow max_a \sum_{s'} P(s'|s,a)[R(s,a) + \gamma V(s')] \]
+        \item Zainicjalizuj wszystkie stany \( V_i \) z pewnymi wartościami początkowymi. Zawyczaj \( V(s) = 0 \) dla wszystkich \( s \in S \).
+        \item Dla każdego stanu \( s \in S \) w procesie decyzyjnym Markowa wykonaj aktualizacje:
+        \[ V(s) \leftarrow \max_a \sum_{s',r} p(s',r|s,a)[r + \gamma V(s')] \]
         \item Powtarzaj poprzedni krok poprzez wykonanie wielu iteracji do momentu gdy maksymalna zmiana \( V(s) \) jest mniejsza niż zadany próg. 
     \end{itemize}
     \subsubsection{Metoda iteracji polityki}
     Algorytm składający się z dwóch głównych kroków: ewaluacji polityki i jej ulepszania. Składa się on z poniższych kroków:
     \begin{itemize} 
-        \item Zainicjalizuj początkową politykę \( \pi_0 \) oraz \( V(s) \)
-        \item Oblicz wartość \( V^\pi (s) \) dla bierzącej polityki \( \pi \) za pomocą poniższego wzoru:
-        \[ V^\pi = \sum_{a} \pi(a|s) \sum_{s'} P(s'|s,a) [R(s,a) + \gamma V^\pi(s')] \]
-        \item ulepszenie polityki poprzez wybur akcji \( a \) maksymalizującej wartość oczekiwaną dla każdego stanu \( s \) za pomocą poniższego wzoru:
-        \[ \pi'(s) = argmax_a \sum_{s'} P(s'|s,a) [R(s,a) + \gamma V^\pi(s')] \]
-        \item Sprawdzenie zbieżności. Jeżeli polityka \( \pi' \) jest taka sama jak \( \pi \), algorytm kończy działanie.
-        W przeciwnym wypadku, ustaw \( \pi = \pi' \) i powtórz poprzednie 2 kroki. 
+        \item Zainicjalizuj początkową politykę \( \pi(s) \) oraz \( V(s) \)
+        \item Oblicz wartość \( V(s) \) dla bierzącej polityki \( \pi \) za pomocą poniższego wzoru:
+        \[ V(s) \leftarrow \sum_{s',r} p(s',r|s,\pi(s))(r + \gamma V(s'))\]
+        \item ulepszenie polityki poprzez wybór akcji \( a \) maksymalizującej wartość oczekiwaną dla każdego stanu \( s \) za pomocą poniższego wzoru:
+        \[ \pi'(s) = argmax_a \sum_{s',r} p(s',r|s,a) [r + \gamma V(s')] \]
+        \item Jeżeli \( \pi' = \pi \), kończy się proces w przeciwnym wypadku ustaw \( \pi \leftarrow \pi' \) i ponów kroki 2-3.
     \end{itemize}
     \subsection{Metoda entropii krzyżowej w uczeniu przez wzmacnianie}
-    Entropia krzyżowa jest miarą różnicy pomiędzy dwoma rozkładami prawdopodobieństwa. Entropia krzyżowa w kontekście uczenia przez wzmacnianie
-    jest używana do oceny jak dobrze nowa polityka agenta \( \pi_{new}(a|s) \) zbliża się do idealnego rozkładu akcji, który ma na celu maksymalizację oczekiwanej skumulowanej nagrody.
-    Wzór na entropię krzyżową między dwoma rozkładami \( p(a) \) i \( q(a) \) wyraża się następująco:
+    Wzory i definicje użyte w tej sekcji zostały zaczerpnięte z książki „Deep Reinforcement Learning Hands-On.” autorstwa Maxima Lapana \cite{lapan2020deep}.
+    Entropia krzyżowa jest miarą różnicy pomiędzy dwoma rozkładami prawdopodobieństwa. W kontekście uczenia przez wzmacnianie bywa wykorzystywana do oceny jakości nowej polityki \( \pi_{new} (a|s) \) względem idealnego rozkładu akcji, który ma maksymalizować skumulowaną nagrodę. Definicja entropii krzyżowej pomiędzy rozkładami \( p(a) \) i \( q(a) \) ma postać:
     \[ H(p,q) = - \sum_{a \in A} p(a) log(q(a)) \]
     gdzie:
     \begin{itemize}
@@ -275,30 +248,25 @@
         \item \( q(a) \) - Jest rozkładem prawdopodobieństwa akcji \( a \) według nowej polityki \( \pi_{new} (a|s) \).
     \end{itemize} 
     \subsubsection{Twierdzenie o próbkowaniu istotnościowym}
-    Próbkowanie istotnościowe pozwala na przekształcenie rozkładu prawdopodobieństwa, aby oszacować wartość oczekiwaną funkcji \( f(x) \) przy
-    użyciu próbek pobranych z innego rozkładu prawdopodobieństwa. W kontekście uczenia przez wzmacnianie jest to przydatne w momencie gdy
-    próbki akcji są zbierane na podstawie starej polityki \( \pi_{old}(a|s) \), a chcemy oszacować wartości dla nowej polityki \( \pi_{new} (a|s) \).
+    Próbkowanie istotnościowe pozwala na wykorzystanie próbek pochodzących z pewnego rozkładu prawdopodobieństwa w celu oszacowania wartości oczekiwanej funkcji definiowanej względem innego rozkładu. W uczeniu przez wzmacnianie z próbkowaniem istotnościowym ma się do czynienia np. wtedy, gdy dane są zbierane na podstawie starej polityki \( \pi_{old}(a|s) \), zaś celem jest szacowanie wartości dla nowej polityki \( \pi_{new} (a|s) \). Zgodnie z twierdzeniem:
     \\ Twierdzenie o próbkowaniu istotnościowym:
     \[ E_{x \sim p(x)} [H(x)] = \int_{x} p(x)H(x) dx = \int_{x} q(x) \frac{p(x)}{q(x)} H(x) dx = E_{x \sim q(x)} [\frac{p(x)}{q(x)}H(x)]\] 
     gdzie:
     \begin{itemize}
         \item \( p(x) \) - Rozkład próbkowania (np. stara polityka)
         \item \( q(x) \) - Rozkład docelowy (np. nowa polityka)
-        \item \( H(x) \) - Funkcja entropi w stanie \( x \) zdefiniowana jako:
+        \item \( H(x) \) - Funkcja entropi w stanie \( x \) często definiowana jako:
         \[ H(\pi) = - \sum_{a \in A} \pi(a|s)log(\pi(a|s)) \]
     \end{itemize}
     \subsubsection{Dywergencja Kullbacka-Leiblera}
-    Pozawla ona obliczyć odległość między dwoma rozkładami prawdopodobieństwa \( p(x) \) i \( q(x) \). W kontekście uczenia przez wzmacjnanie jest ona używana
-    do oceny jak bardzo nowa polityka różni sie od starej polityki. 
-    \\ Definicja dywergencji Kullbacka-Leiblera:
+    Dywergencja Kullbacka-Leiblera (KL) mierzy odległość między dwoma rozkładami prawdopodobieństwa \( p(x) \) i \( q(x) \). W uczeniu przez wzmacnianie może służyć do kontrolowania, jak bardzo nowa polityka różni się od starej, co pomaga zapobiegać gwałtownym zmianom w trakcie treningu. Definicję KL przedstawia równanie:
     \[ KL(p(x) || q(x)) = \sum_{x} p(x) \frac{p(x)}{q(x)}\]
     W kontekście uczenia przez wzmacnianie:
     \[ KL(\pi_{old}(a|s) || \pi_{new}(a|s)) = \sum_{a} \pi_{old}(a|s) log(\frac{\pi_{old}(a|s)}{\pi_{new}(a|s)})\]
     Dywergencja Kullbacka-Leiblera w kontekście uczenia przez wzmacnianie jest używana do:
     \begin{itemize}
-        \item Regularizacji polityki - Ogranicza stopień smiany między starą a nową polityką, co skutecznie niweluję problem nagłych i dużych zmian,
-        które mogą mieć negatywny wpływ na proces uczenia.
-        \item Kontrola eksploracji - Służy do utrzymywania balansu między eksploracją nowych akcji a eksploracją znanych akcji.
+        \item Regularizacji polityki - Ogranicza stopień smiany między starą a nową polityką, co pomaga uniknąć niestabilnych lub niepożądanych zachowań podczas trenowania,
+        \item Kontrola eksploracji - Wspiera utrzymanie równowagi między eksploracją nowych akcji a wykorzystywaniem już poznanych strategii.
     \end{itemize}
     \section{Implementacjia wybranych algorytmów uczenia przez wzmacnianie}
     W dziedzinie uczenia przez wzmacnianie istnieje szeroki zakres różnych algorytmów, a ich wybór w dużej mierze

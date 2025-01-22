@@ -16,5 +16,366 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{mnih2015dqn}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=f7d23cfe4ca0e6bf7a8c251bfa78aca6}{%
+           family={Mnih},
+           familyi={M\bibinitperiod},
+           given={Volodymyr},
+           giveni={V\bibinitperiod}}}%
+        {{hash=481308b301166b521c74fde6566e97e6}{%
+           family={Kavukcuoglu},
+           familyi={K\bibinitperiod},
+           given={Koray},
+           giveni={K\bibinitperiod}}}%
+        {{hash=89dbd30410c2085cd059f32c57d4593e}{%
+           family={Silver},
+           familyi={S\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=dfca94b0427da7f9088af596e23b46c0}{%
+           family={Graves},
+           familyi={G\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+        {{hash=af540e84ef1ecdaa70b1f7c90f59fd7d}{%
+           family={Antonoglou},
+           familyi={A\bibinitperiod},
+           given={Ioannis},
+           giveni={I\bibinitperiod}}}%
+        {{hash=d7805381550fb5f8360345f7f72c0b49}{%
+           family={Wierstra},
+           familyi={W\bibinitperiod},
+           given={Daan},
+           giveni={D\bibinitperiod}}}%
+        {{hash=9449802bcb467309c0ebced658096818}{%
+           family={Riedmiller},
+           familyi={R\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{fullhash}{2860d669102abb5e113bf4232d6d5997}
+      \strng{fullhashraw}{2860d669102abb5e113bf4232d6d5997}
+      \strng{bibnamehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{authorbibnamehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{authornamehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{authorfullhash}{2860d669102abb5e113bf4232d6d5997}
+      \strng{authorfullhashraw}{2860d669102abb5e113bf4232d6d5997}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1312.5602}
+      \field{title}{Playing Atari with Deep Reinforcement Learning}
+      \field{year}{2013}
+    \endentry
+    \entry{mnih2016a3c}{article}{}{}
+      \name{author}{8}{}{%
+        {{hash=f7d23cfe4ca0e6bf7a8c251bfa78aca6}{%
+           family={Mnih},
+           familyi={M\bibinitperiod},
+           given={Volodymyr},
+           giveni={V\bibinitperiod}}}%
+        {{hash=46dfb5d78a5e42cab2579252501de60f}{%
+           family={Puigdomènech\bibnamedelima Badia},
+           familyi={P\bibinitperiod\bibinitdelim B\bibinitperiod},
+           given={Adrià},
+           giveni={A\bibinitperiod}}}%
+        {{hash=9e80f4779b032f68a6106e1424345450}{%
+           family={Mirza},
+           familyi={M\bibinitperiod},
+           given={Mehdi},
+           giveni={M\bibinitperiod}}}%
+        {{hash=dfca94b0427da7f9088af596e23b46c0}{%
+           family={Graves},
+           familyi={G\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b63b9b2d91f6ba1b1739563edc0432ab}{%
+           family={Harley},
+           familyi={H\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod}}}%
+        {{hash=2a321a868e44d49baf52b5e2d816fb71}{%
+           family={Lillicrap},
+           familyi={L\bibinitperiod},
+           given={Timothy\bibnamedelima P.},
+           giveni={T\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=89dbd30410c2085cd059f32c57d4593e}{%
+           family={Silver},
+           familyi={S\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=481308b301166b521c74fde6566e97e6}{%
+           family={Kavukcuoglu},
+           familyi={K\bibinitperiod},
+           given={Koray},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{fullhash}{dec1f17b246cbae5ae737283ba57bed7}
+      \strng{fullhashraw}{dec1f17b246cbae5ae737283ba57bed7}
+      \strng{bibnamehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{authorbibnamehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{authornamehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{authorfullhash}{dec1f17b246cbae5ae737283ba57bed7}
+      \strng{authorfullhashraw}{dec1f17b246cbae5ae737283ba57bed7}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1602.01783}
+      \field{title}{Asynchronous Methods for Deep Reinforcement Learning}
+      \field{year}{2016}
+    \endentry
+    \entry{samuel1959checkers}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=f197e5f4f74fbe553ab71da7807dca79}{%
+           family={Samuel},
+           familyi={S\bibinitperiod},
+           given={Arthur\bibnamedelima L.},
+           giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \strng{namehash}{f197e5f4f74fbe553ab71da7807dca79}
+      \strng{fullhash}{f197e5f4f74fbe553ab71da7807dca79}
+      \strng{fullhashraw}{f197e5f4f74fbe553ab71da7807dca79}
+      \strng{bibnamehash}{f197e5f4f74fbe553ab71da7807dca79}
+      \strng{authorbibnamehash}{f197e5f4f74fbe553ab71da7807dca79}
+      \strng{authornamehash}{f197e5f4f74fbe553ab71da7807dca79}
+      \strng{authorfullhash}{f197e5f4f74fbe553ab71da7807dca79}
+      \strng{authorfullhashraw}{f197e5f4f74fbe553ab71da7807dca79}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IBM Journal of Research and Development}
+      \field{title}{Some Studies in Machine Learning Using the Game of Checkers}
+      \field{year}{1959}
+    \endentry
+    \entry{mitchell1997machinelearning}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=d331eeb7f00e650950ccadcb9c47efec}{%
+           family={Mitchell},
+           familyi={M\bibinitperiod},
+           given={Tom\bibnamedelima M.},
+           giveni={T\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {McGraw-Hill}%
+      }
+      \strng{namehash}{d331eeb7f00e650950ccadcb9c47efec}
+      \strng{fullhash}{d331eeb7f00e650950ccadcb9c47efec}
+      \strng{fullhashraw}{d331eeb7f00e650950ccadcb9c47efec}
+      \strng{bibnamehash}{d331eeb7f00e650950ccadcb9c47efec}
+      \strng{authorbibnamehash}{d331eeb7f00e650950ccadcb9c47efec}
+      \strng{authornamehash}{d331eeb7f00e650950ccadcb9c47efec}
+      \strng{authorfullhash}{d331eeb7f00e650950ccadcb9c47efec}
+      \strng{authorfullhashraw}{d331eeb7f00e650950ccadcb9c47efec}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Machine Learning}
+      \field{year}{1997}
+    \endentry
+    \entry{HandsOnMachineLearning}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=e54e6c9ce5d233c7046a00f7b3faa6c0}{%
+           family={Géron},
+           familyi={G\bibinitperiod},
+           given={Aurélien},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {O'Reilly Media}%
+      }
+      \strng{namehash}{e54e6c9ce5d233c7046a00f7b3faa6c0}
+      \strng{fullhash}{e54e6c9ce5d233c7046a00f7b3faa6c0}
+      \strng{fullhashraw}{e54e6c9ce5d233c7046a00f7b3faa6c0}
+      \strng{bibnamehash}{e54e6c9ce5d233c7046a00f7b3faa6c0}
+      \strng{authorbibnamehash}{e54e6c9ce5d233c7046a00f7b3faa6c0}
+      \strng{authornamehash}{e54e6c9ce5d233c7046a00f7b3faa6c0}
+      \strng{authorfullhash}{e54e6c9ce5d233c7046a00f7b3faa6c0}
+      \strng{authorfullhashraw}{e54e6c9ce5d233c7046a00f7b3faa6c0}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow: Concepts, Tools, and Techniques to Build Intelligent Systems, 3rd Edition}
+      \field{year}{2022}
+    \endentry
+    \entry{mnih2015nature}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{11}{}{%
+        {{hash=f7d23cfe4ca0e6bf7a8c251bfa78aca6}{%
+           family={Mnih},
+           familyi={M\bibinitperiod},
+           given={Volodymyr},
+           giveni={V\bibinitperiod}}}%
+        {{hash=481308b301166b521c74fde6566e97e6}{%
+           family={Kavukcuoglu},
+           familyi={K\bibinitperiod},
+           given={Koray},
+           giveni={K\bibinitperiod}}}%
+        {{hash=89dbd30410c2085cd059f32c57d4593e}{%
+           family={Silver},
+           familyi={S\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=677dfee41a39b5ac7e138f5ce14467e9}{%
+           family={Rusu},
+           familyi={R\bibinitperiod},
+           given={Andrei\bibnamedelima A},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=1cbd91f7404b2298b46bb46c47c08251}{%
+           family={Veness},
+           familyi={V\bibinitperiod},
+           given={Joel},
+           giveni={J\bibinitperiod}}}%
+        {{hash=eae3aa0ab9cb8b33a1ade80739e79e57}{%
+           family={Bellemare},
+           familyi={B\bibinitperiod},
+           given={Marc\bibnamedelima G},
+           giveni={M\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=dfca94b0427da7f9088af596e23b46c0}{%
+           family={Graves},
+           familyi={G\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+        {{hash=9449802bcb467309c0ebced658096818}{%
+           family={Riedmiller},
+           familyi={R\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=be3d55306c5ab7ee716f96f137dddba6}{%
+           family={Fidjeland},
+           familyi={F\bibinitperiod},
+           given={Andreas\bibnamedelima K},
+           giveni={A\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=46cc21fb5dec973c05ceb0f321e02ca0}{%
+           family={Ostrovski},
+           familyi={O\bibinitperiod},
+           given={Georg},
+           giveni={G\bibinitperiod}}}%
+        {{hash=4e381e44037009b1cd834d794735c311}{%
+           family={Petersen},
+           familyi={P\bibinitperiod},
+           given={Stig},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{fullhash}{4a2cdd34e16e5cc63f02601d971332b6}
+      \strng{fullhashraw}{4a2cdd34e16e5cc63f02601d971332b6}
+      \strng{bibnamehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{authorbibnamehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{authornamehash}{aff24b211b34cdd515b2fd148ce0c920}
+      \strng{authorfullhash}{4a2cdd34e16e5cc63f02601d971332b6}
+      \strng{authorfullhashraw}{4a2cdd34e16e5cc63f02601d971332b6}
+      \field{extraname}{3}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{title}{Human-level control through deep reinforcement learning}
+      \field{year}{2015}
+    \endentry
+    \entry{sutton2018rl}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=eb920e5277d3d5fd0903f3cd41e11871}{%
+           family={Sutton},
+           familyi={S\bibinitperiod},
+           given={Richard\bibnamedelima S.},
+           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=32a0a208f8bcf56a13b0a8e618aa806a}{%
+           family={Barto},
+           familyi={B\bibinitperiod},
+           given={Andrew\bibnamedelima G.},
+           giveni={A\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {The MIT Press}%
+      }
+      \strng{namehash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{fullhash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{fullhashraw}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{bibnamehash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{authorbibnamehash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{authornamehash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{authorfullhash}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \strng{authorfullhashraw}{c6212f1a1407d96a3d9f4fefbb07eade}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Reinforcement Learning: An Introduction, Second Edition}
+      \field{year}{2018}
+    \endentry
+    \entry{lapan2020deep}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=ce3791d4efec6b5ed02ae4c24d61f4ca}{%
+           family={Lapan},
+           familyi={L\bibinitperiod},
+           given={Maxim},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Packt Publishing}%
+      }
+      \strng{namehash}{ce3791d4efec6b5ed02ae4c24d61f4ca}
+      \strng{fullhash}{ce3791d4efec6b5ed02ae4c24d61f4ca}
+      \strng{fullhashraw}{ce3791d4efec6b5ed02ae4c24d61f4ca}
+      \strng{bibnamehash}{ce3791d4efec6b5ed02ae4c24d61f4ca}
+      \strng{authorbibnamehash}{ce3791d4efec6b5ed02ae4c24d61f4ca}
+      \strng{authornamehash}{ce3791d4efec6b5ed02ae4c24d61f4ca}
+      \strng{authorfullhash}{ce3791d4efec6b5ed02ae4c24d61f4ca}
+      \strng{authorfullhashraw}{ce3791d4efec6b5ed02ae4c24d61f4ca}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Deep Reinforcement Learning Hands-On. Apply modern RL methods to practical problems of chatbots, robotics, discrete optimization, web automation, and more - Second Edition}
+      \field{year}{2020}
+    \endentry
+    \entry{wikipedia_reinforcement_learning}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=b6aea1a416c89509a7df1cbb69249cb6}{%
+           family={{Wikipedia contributors}},
+           familyi={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{b6aea1a416c89509a7df1cbb69249cb6}
+      \strng{fullhash}{b6aea1a416c89509a7df1cbb69249cb6}
+      \strng{fullhashraw}{b6aea1a416c89509a7df1cbb69249cb6}
+      \strng{bibnamehash}{b6aea1a416c89509a7df1cbb69249cb6}
+      \strng{authorbibnamehash}{b6aea1a416c89509a7df1cbb69249cb6}
+      \strng{authornamehash}{b6aea1a416c89509a7df1cbb69249cb6}
+      \strng{authorfullhash}{b6aea1a416c89509a7df1cbb69249cb6}
+      \strng{authorfullhashraw}{b6aea1a416c89509a7df1cbb69249cb6}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed: 2025-01-21}
+      \field{title}{Reinforcement learning}
+      \field{year}{2025}
+      \verb{urlraw}
+      \verb https://en.wikipedia.org/wiki/Reinforcement_learning
+      \endverb
+      \verb{url}
+      \verb https://en.wikipedia.org/wiki/Reinforcement_learning
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 

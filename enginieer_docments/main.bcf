@@ -172,7 +172,7 @@
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>sortingtemplatename</bcf:key>
-      <bcf:value>nty</bcf:value>
+      <bcf:value>none</bcf:value>
     </bcf:option>
     <bcf:option type="singlevalued">
       <bcf:key>sortsets</bcf:key>
@@ -2372,41 +2372,34 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">bibliography.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
+    <bcf:citekey order="1" intorder="1">mnih2015dqn</bcf:citekey>
+    <bcf:citekey order="2" intorder="1">mnih2016a3c</bcf:citekey>
+    <bcf:citekey order="3" intorder="1">samuel1959checkers</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">mitchell1997machinelearning</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">HandsOnMachineLearning</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">mnih2015nature</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">sutton2018rl</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">lapan2020deep</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">wikipedia_reinforcement_learning</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">sutton2018rl</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">sutton2018rl</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">sutton2018rl</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">lapan2020deep</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
-  <bcf:sortingtemplate name="nty">
+  <bcf:sortingtemplate name="none">
     <bcf:sort order="1">
-      <bcf:sortitem order="1">presort</bcf:sortitem>
+      <bcf:sortitem order="1">citeorder</bcf:sortitem>
     </bcf:sort>
-    <bcf:sort order="2" final="1">
-      <bcf:sortitem order="1">sortkey</bcf:sortitem>
-    </bcf:sort>
-    <bcf:sort order="3">
-      <bcf:sortitem order="1">sortname</bcf:sortitem>
-      <bcf:sortitem order="2">author</bcf:sortitem>
-      <bcf:sortitem order="3">editor</bcf:sortitem>
-      <bcf:sortitem order="4">translator</bcf:sortitem>
-      <bcf:sortitem order="5">sorttitle</bcf:sortitem>
-      <bcf:sortitem order="6">title</bcf:sortitem>
-    </bcf:sort>
-    <bcf:sort order="4">
-      <bcf:sortitem order="1">sorttitle</bcf:sortitem>
-      <bcf:sortitem order="2">title</bcf:sortitem>
-    </bcf:sort>
-    <bcf:sort order="5">
-      <bcf:sortitem order="1">sortyear</bcf:sortitem>
-      <bcf:sortitem order="2">year</bcf:sortitem>
-    </bcf:sort>
-    <bcf:sort order="6">
-      <bcf:sortitem order="1">volume</bcf:sortitem>
-      <bcf:sortitem literal="1" order="2">0</bcf:sortitem>
+    <bcf:sort order="2">
+      <bcf:sortitem order="1">intciteorder</bcf:sortitem>
     </bcf:sort>
   </bcf:sortingtemplate>
   <!-- DATALISTS -->
   <bcf:datalist section="0"
-                name="nty/global//global/global/global"
+                name="none/global//global/global/global"
                 type="entry"
-                sortingtemplatename="nty"
+                sortingtemplatename="none"
                 sortingnamekeytemplatename="global"
                 labelprefix=""
                 uniquenametemplatename="global"
